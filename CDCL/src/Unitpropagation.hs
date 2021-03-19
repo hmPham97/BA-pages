@@ -31,6 +31,6 @@ unitResolution (firstList : xs) variable = do
     let checked = checkInnerList firstList (-variable)
     if not checked then firstList : unitResolution xs variable else do 
         let list = filter (/= -variable) firstList
-        list : unitResolution xs variable
+        if not (null list) then list : unitResolution xs variable else unitResolution xs variable
 
 unitResolution x l = filter (not . null) x
