@@ -1,15 +1,16 @@
 module Algorithm (interpret, dpll) where
 
 import Unitpropagation
+import Types
 
 -- | Returns 1 and -1 currently
 -- | 1 equals resolved and -1 equals not resolved
-dpll :: [[Int]] -> [(Int, Int)] -> Int
+dpll :: ClauseList -> TupelList -> Int
 dpll d x = do 
     let f = unitProp d x 
     interpret d f
 
-interpret :: [[Int]] -> [(Int, Int)] -> Int
+interpret :: ClauseList -> TupelList -> Int
 interpret t@(formel : xs) interpretation = do
     --let f = unitProp t interpretation
     if not (null xs) then do
@@ -21,7 +22,7 @@ interpret t@(formel : xs) interpretation = do
 
 -- | Returns 1, 0 and -1
 -- | Interprets a single clause of a formula
-interpret' :: [Int] -> [(Int, Int)] -> Int 
+interpret' :: Clause -> TupelList -> Int 
 interpret' (formel : xs) interpretation = do
     let clauselValue = if formel < 0 then formel * (-1) else formel
     let tupelValue = searchTupel clauselValue interpretation
@@ -33,7 +34,7 @@ interpret' (formel : xs) interpretation = do
     
 
 -- | Get the set value from the tupellist.
-searchTupel :: Int -> [(Int, Int)] -> Int
+searchTupel :: Int -> TupelList -> Int
 searchTupel xval (xs : ys) 
     | fst xs == xval || fst xs * (-1) == xval = snd xs
     | not (null ys) = searchTupel xval ys 
