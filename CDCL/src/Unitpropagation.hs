@@ -1,9 +1,9 @@
 module Unitpropagation (unitProp) where
 
-import Types
+import           Types
 
-unitProp :: ClauseList -> TupelList  -> TupelList 
-unitProp clauseList setTupel = 
+unitProp :: ClauseList -> TupelList  -> TupelList
+unitProp clauseList setTupel =
     if null clauseList then setTupel else do --setTupel
         let preCheck = getUnitClause clauseList
         if null preCheck then setTupel else do
@@ -14,7 +14,7 @@ unitProp clauseList setTupel =
                 unitProp copy (setTupel ++ [calcTupel]) else [(-1,-1)]
 
 -- | checks if an unit clause exists in the given list of lists. if one exists return the list.
-getUnitClause :: ClauseList  -> Clause 
+getUnitClause :: ClauseList  -> Clause
 getUnitClause (clause : xs) = do
     let listLength = length clause
     if listLength == 1 then clause else getUnitClause xs
@@ -33,14 +33,14 @@ checkSetVariable (x:nxt) check = do
     val == check || val * (-1) == check|| not (null nxt) && checkSetVariable nxt check
 checkSetVariable _ _ = False
     --  null x = False
-    --  fst x * (-1) == check || fst x == check = True 
-    --  fst x * (-1) /= check || fst x /= check = not (null nxt) && checkSetVariable nxt check 
-    --  otherwise = False 
-     
+    --  fst x * (-1) == check || fst x == check = True
+    --  fst x * (-1) /= check || fst x /= check = not (null nxt) && checkSetVariable nxt check
+    --  otherwise = False
+
 -- | Remove clauses which have removableVar as variable.
-unitSubsumption :: ClauseList  -> Int -> ClauseList 
+unitSubsumption :: ClauseList  -> Int -> ClauseList
 unitSubsumption (firstList : xs) removableVar = do
-    let checked = checkInnerList firstList removableVar -- true if a set variable is found 
+    let checked = checkInnerList firstList removableVar -- true if a set variable is found
     let list = if not checked then firstList : unitSubsumption xs removableVar else unitSubsumption xs removableVar
     filter (not . null) list
 
@@ -52,7 +52,7 @@ checkInnerList list var = length (filter (== var) list) == 1
 
 -- | remove -variable of the variable which was set
 -- | cant remove variable if its the only one in list
-unitResolution :: ClauseList -> Int -> ClauseList 
+unitResolution :: ClauseList -> Int -> ClauseList
 unitResolution (firstList : xs) variable = do
     let checked = checkInnerList firstList (-variable)
     if not checked then firstList : unitResolution xs variable else do
