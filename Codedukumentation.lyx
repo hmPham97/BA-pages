@@ -1,0 +1,369 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\noindent
+
+\size larger
+Dokumentation für Code
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size large
+Types.hs
+\end_layout
+
+\begin_layout Standard
+\noindent
+Es existieren z.Z.
+ vier Datentypen.
+ Diese sind:
+\end_layout
+
+\begin_layout Standard
+\noindent
+Clause (Int Liste), ClauseList (Liste aus Clause), Tupel (Tupel aus zwei
+ Int) und TupelList (Liste von Tupel)
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size large
+Algorithm.hs
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{dpll}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Funktion benötigt zwei Parameter.
+ Diese sind ClauseList und TupelList.
+ Die gegebene ClauseList wird zuerst von der Funktion 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{unitProp}
+\end_layout
+
+\end_inset
+
+ aufgelöst und wird dann mit der Funktion 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{interpret}
+\end_layout
+
+\end_inset
+
+ dann entsprochen interpretiert.
+ Als Rückgabe kommt dann entweder 1 oder -1.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{interpret}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Interpretiert eine gegebene ClauseList mithilfe einer gegebenen TupelList.
+ Dabei wird rekursiv nach der Reihe eine Clause interpretiert, bis alle
+ Klauseln interpretiert sind oder eine Klausel zu 0 evaluiert wird.
+ 
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{searchTupel}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Gibt den Wert eines Tupelpaares zurück basiered auf einen gegebenen Integer
+ Wertes und der TupelList.
+ Dieser ist entweder 0 oder 1.
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size large
+Unitpropagation.hs
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{unitProp}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Führt das Unit-Propagation Verfahren durch.
+ Die Funktion erwartet eine ClauseList und eine TupelList, Gibt entweder
+ eine berechnete TupelList oder [(-1,-1)] zurück.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{getUnitClause}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Gibt eine Clause zurück, die nur eine Variable enthält oder eine leere Clause.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{setVariable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Setz einen Wert von 0 oder 1 in einem Tupel.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{checkSetVariable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Prüft ob ein Tupel mit einem gegebenem Integer schon in der TupelList existiert.
+ Gibt True zurück wenn dies der Fall ist, sonst False
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{unitSubsumption}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Löscht Klauseln aus ClauseList, wenn Klauseln gefunden werden, die Variablen
+ enthalten, welche bei einem eingesetzem Tupelwert zu 1 evaluiert werden.
+ Die bearbeitete ClauseList wird dann zurückgegeben.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{checkInnerList}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Überprüft ob eine Clause mit einem gegebenem Integer existiert, welche die
+ Länge 1 hat.
+ Falls eine Clause gefunden wird, wird True zurückgegeben.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{unitResolution}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Löscht Variablen aus den Clauseln, die zu 0 evaluiert werden.
+ Wenn die Variable innerhalb einer Unit Clause ist, wird diese nicht gelöscht.
+\end_layout
+
+\end_body
+\end_document

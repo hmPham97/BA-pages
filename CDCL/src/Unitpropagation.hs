@@ -1,6 +1,8 @@
-module Unitpropagation (unitProp) where
+module Unitpropagation (unitProp, checkSetVariable) where
 
-unitProp :: [[Int]] -> [(Int, Int)] -> [(Int, Int)]
+import           Types
+
+unitProp :: ClauseList -> TupelList -> TupelList
 unitProp clauseList setTupel
   | null clauseList  = setTupel
   | null preCheck    = setTupel
@@ -14,9 +16,8 @@ unitProp clauseList setTupel
           checkSetV  = checkSetVariable setTupel fstTuple
 
 -- | checks if an unit clause exists in the given list of lists. if one exists return the list.
-getUnitClause :: [[Int]] -> [Int]
-getUnitClause (clause : xs) =
-    let listLength = length clause in
+getUnitClause :: ClauseList  -> Clause
+getUnitClause (clause : xs) = let listLength = length clause in
     if listLength == 1 then clause else getUnitClause xs
 
 getUnitClause _ = []
@@ -28,8 +29,7 @@ setVariable clause = if head clause < 0 then (head clause, 0) else (head clause,
 -- | NOT CORRECTLY IMPLEMENTED
 -- | if true -> variable is already set, else it isnt set
 checkSetVariable :: TupelList  -> Int -> Bool
-checkSetVariable (x:nxt) check = do
-    let val = fst x
+checkSetVariable (x:nxt) check = let val = fst x in
     val == check || val * (-1) == check|| not (null nxt) && checkSetVariable nxt check
 checkSetVariable _ _ = False
     --  null x = False
