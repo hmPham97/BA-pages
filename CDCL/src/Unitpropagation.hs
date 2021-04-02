@@ -1,22 +1,22 @@
 module Unitpropagation (unitProp) where
 
-import           Types
-
-unitProp :: ClauseList -> TupelList  -> TupelList
-unitProp clauseList setTupel =
-    if null clauseList then setTupel else do --setTupel
-        let preCheck = getUnitClause clauseList
-        if null preCheck then setTupel else do
-            let calcTupel = setVariable preCheck
-            if not (checkSetVariable setTupel (fst calcTupel)) then do
-                let clauseCopy = unitSubsumption clauseList (fst calcTupel)
-                let copy = unitResolution clauseCopy (fst calcTupel)
-                unitProp copy (setTupel ++ [calcTupel]) else [(-1,-1)]
+unitProp :: [[Int]] -> [(Int, Int)] -> [(Int, Int)]
+unitProp clauseList setTupel
+  | null clauseList  = setTupel
+  | null preCheck    = setTupel
+  | not checkSetV    = unitProp copy (setTupel ++ [calcTupel])
+  | otherwise        = [(-1,-1)]
+    where preCheck   = getUnitClause clauseList
+          calcTupel  = setVariable preCheck
+          fstTuple   = fst calcTupel
+          clauseCopy = unitSubsumption clauseList fstTuple
+          copy       = unitResolution clauseCopy fstTuple
+          checkSetV  = checkSetVariable setTupel fstTuple
 
 -- | checks if an unit clause exists in the given list of lists. if one exists return the list.
-getUnitClause :: ClauseList  -> Clause
-getUnitClause (clause : xs) = do
-    let listLength = length clause
+getUnitClause :: [[Int]] -> [Int]
+getUnitClause (clause : xs) =
+    let listLength = length clause in
     if listLength == 1 then clause else getUnitClause xs
 
 getUnitClause _ = []
