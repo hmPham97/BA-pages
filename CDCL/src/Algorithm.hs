@@ -6,9 +6,8 @@ import           Unitpropagation (unitProp)
 -- | Returns 1 and -1 currently
 -- | 1 equals resolved and -1 equals not resolved
 dpll :: ClauseList -> TupelList -> Int
-dpll d x = do
-    let f = unitProp d x
-    interpret d f
+dpll d x = let f = unitProp d x
+    in interpret d f
 
 interpret :: ClauseList -> TupelList -> Int
 interpret t@(formel : xs) interpretation = do
