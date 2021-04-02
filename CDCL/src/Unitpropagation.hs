@@ -22,12 +22,12 @@ getUnitClause (clause : xs) =
 getUnitClause _ = []
 
 -- | call this method on unit clauses only. If the value is less then 0 set a 0 in the tuple, else set 1
-setVariable :: [Int] -> (Int, Int)
+setVariable :: Clause  -> Tupel
 setVariable clause = if head clause < 0 then (head clause, 0) else (head clause, 1)
 
 -- | NOT CORRECTLY IMPLEMENTED
 -- | if true -> variable is already set, else it isnt set
-checkSetVariable :: [(Int, Int)] -> Int -> Bool
+checkSetVariable :: TupelList  -> Int -> Bool
 checkSetVariable (x:nxt) check = do
     let val = fst x
     val == check || val * (-1) == check|| not (null nxt) && checkSetVariable nxt check
@@ -38,7 +38,7 @@ checkSetVariable _ _ = False
     --  otherwise = False
 
 -- | Remove clauses which have removableVar as variable.
-unitSubsumption :: [[Int]] -> Int -> [[Int]]
+unitSubsumption :: ClauseList  -> Int -> ClauseList
 unitSubsumption (firstList : xs) removableVar = do
     let checked = checkInnerList firstList removableVar -- true if a set variable is found
     let list = if not checked then firstList : unitSubsumption xs removableVar else unitSubsumption xs removableVar
@@ -47,12 +47,12 @@ unitSubsumption (firstList : xs) removableVar = do
 unitSubsumption _ _ = [[]]
 
 -- | checks the list if the variable is inside the list
-checkInnerList :: [Int] -> Int -> Bool
+checkInnerList :: Clause -> Int -> Bool
 checkInnerList list var = length (filter (== var) list) == 1
 
 -- | remove -variable of the variable which was set
 -- | cant remove variable if its the only one in list
-unitResolution :: [[Int]] -> Int -> [[Int]]
+unitResolution :: ClauseList -> Int -> ClauseList
 unitResolution (firstList : xs) variable = do
     let checked = checkInnerList firstList (-variable)
     if not checked then firstList : unitResolution xs variable else do
