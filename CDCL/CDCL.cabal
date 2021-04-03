@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 0b6367fba50c719ffbc67e2317ef1e5c6c7da47a9d24aa518f4c93a5032a0501
+-- hash: 0215f5ddf693fdf295652395390b5cbf8b90a6c0501e153dc2aa9b5aa5a52f7c
 
 name:           CDCL
 version:        0.1.0.0
@@ -54,11 +54,14 @@ test-suite CDCL-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      AlgorithmSpec
       Paths_CDCL
   hs-source-dirs:
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       CDCL
+    , QuickCheck
     , base >=4.7 && <5
+    , hspec
   default-language: Haskell2010
