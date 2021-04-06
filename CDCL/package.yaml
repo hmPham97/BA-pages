@@ -24,6 +24,9 @@ dependencies:
 
 library:
   source-dirs: src
+  when:
+  - condition: false
+    other-modules: Paths_CDCL
 
 executables:
   CDCL-exe:
@@ -35,6 +38,9 @@ executables:
     - -with-rtsopts=-N
     dependencies:
     - CDCL
+    when:
+    - condition: false
+      other-modules: Paths_CDCL
 
 tests:
   CDCL-test:
@@ -48,3 +54,6 @@ tests:
     - CDCL
     - hspec
     - QuickCheck
+    when:
+    - condition: false
+      other-modules: Paths_CDCL

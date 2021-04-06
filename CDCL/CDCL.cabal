@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 0215f5ddf693fdf295652395390b5cbf8b90a6c0501e153dc2aa9b5aa5a52f7c
+-- hash: 16bcbd2083ac83b134611876f65222762621cecbb662ce80452769ea8e1d2c54
 
 name:           CDCL
 version:        0.1.0.0
@@ -30,24 +30,26 @@ library
       Algorithm
       Types
       Unitpropagation
-  other-modules:
-      Paths_CDCL
   hs-source-dirs:
       src
   build-depends:
       base >=4.7 && <5
+  if false
+    other-modules:
+        Paths_CDCL
   default-language: Haskell2010
 
 executable CDCL-exe
   main-is: Main.hs
-  other-modules:
-      Paths_CDCL
   hs-source-dirs:
       app
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       CDCL
     , base >=4.7 && <5
+  if false
+    other-modules:
+        Paths_CDCL
   default-language: Haskell2010
 
 test-suite CDCL-test
@@ -55,7 +57,6 @@ test-suite CDCL-test
   main-is: Spec.hs
   other-modules:
       AlgorithmSpec
-      Paths_CDCL
   hs-source-dirs:
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
@@ -64,4 +65,7 @@ test-suite CDCL-test
     , QuickCheck
     , base >=4.7 && <5
     , hspec
+  if false
+    other-modules:
+        Paths_CDCL
   default-language: Haskell2010
