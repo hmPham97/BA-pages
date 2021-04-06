@@ -1,4 +1,4 @@
-module Types where
+module Types (Clause, ClauseList, Tupel, TupelList) where
 
 type Clause = [Int]
 type ClauseList = [Clause]

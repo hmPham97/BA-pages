@@ -1,6 +1,6 @@
 module Algorithm (interpret, dpll, searchTupel) where
 
-import           Types
+import           Types (Clause, ClauseList, Tupel, TupelList)
 import           Unitpropagation (unitProp)
 
 -- | Returns 1 and -1 currently

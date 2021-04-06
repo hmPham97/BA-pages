@@ -1,6 +1,6 @@
-module Unitpropagation (unitProp, checkSetVariable) where
+module Unitpropagation (unitProp, checkSetVariable, unitSubsumption, unitResolution) where
 
-import           Types
+import           Types (Clause, ClauseList, Tupel, TupelList)
 
 unitProp :: ClauseList -> TupelList -> TupelList
 unitProp clauseList setTupel
@@ -39,12 +39,17 @@ checkSetVariable _ _ = False
 
 -- | Remove clauses which have removableVar as variable.
 unitSubsumption :: ClauseList  -> Int -> ClauseList
-unitSubsumption (firstList : xs) removableVar = do
-    let checked = checkInnerList firstList removableVar -- true if a set variable is found
-    let list = if not checked then firstList : unitSubsumption xs removableVar else unitSubsumption xs removableVar
-    filter (not . null) list
+unitSubsumption (firstList : xs) removableVar = 
+    let checked = checkInnerList firstList removableVar in -- true if a set variable is found
+    if not checked then filter (not . null) (firstList : unitSubsumption xs removableVar) else filter (not . null) (unitSubsumption xs removableVar)
 
 unitSubsumption _ _ = [[]]
+
+-- unitSubsumption before
+-- unitSubsumption (firstList : xs) removableVar = do
+--     let checked = checkInnerList firstList removableVar -- true if a set variable is found
+--     let list = if not checked then firstList : unitSubsumption xs removableVar else unitSubsumption xs removableVar
+--     filter (not . null) list
 
 -- | checks the list if the variable is inside the list
 checkInnerList :: Clause -> Int -> Bool
@@ -53,11 +58,17 @@ checkInnerList list var = length (filter (== var) list) == 1
 -- | remove -variable of the variable which was set
 -- | cant remove variable if its the only one in list
 unitResolution :: ClauseList -> Int -> ClauseList
-unitResolution (firstList : xs) variable = do
-    let checked = checkInnerList firstList (-variable)
-    if not checked then firstList : unitResolution xs variable else do
-        let list = if length firstList /= 1 then filter (/= -variable) firstList else firstList
+unitResolution (firstList : xs) variable = 
+    let checked = checkInnerList firstList (-variable) in
+    if not checked then firstList : unitResolution xs variable else 
+        let list = if length firstList /= 1 then filter (/= -variable) firstList else firstList in
         if not (null list) then list : unitResolution xs variable else unitResolution xs variable
+
+-- unitResolution (firstList : xs) variable = do
+--     let checked = checkInnerList firstList (-variable)
+--     if not checked then firstList : unitResolution xs variable else do
+--         let list = if length firstList /= 1 then filter (/= -variable) firstList else firstList
+--         if not (null list) then list : unitResolution xs variable else unitResolution xs variable
 
 unitResolution x l = filter (not . null) x
 
