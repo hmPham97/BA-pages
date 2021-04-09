@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 16bcbd2083ac83b134611876f65222762621cecbb662ce80452769ea8e1d2c54
+-- hash: c1d4a43baf53b21eed3154654267621d82daef7628848948234e9523f075c173
 
 name:           CDCL
 version:        0.1.0.0
@@ -30,10 +30,12 @@ library
       Algorithm
       Types
       Unitpropagation
+      UPcdcl
   hs-source-dirs:
       src
   build-depends:
       base >=4.7 && <5
+    , containers
   if false
     other-modules:
         Paths_CDCL
@@ -47,6 +49,7 @@ executable CDCL-exe
   build-depends:
       CDCL
     , base >=4.7 && <5
+    , containers
   if false
     other-modules:
         Paths_CDCL
@@ -64,6 +67,7 @@ test-suite CDCL-test
       CDCL
     , QuickCheck
     , base >=4.7 && <5
+    , containers
     , hspec
   if false
     other-modules:

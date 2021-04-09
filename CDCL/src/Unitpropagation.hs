@@ -1,19 +1,23 @@
-module Unitpropagation (unitProp, checkSetVariable, unitSubsumption, unitResolution) where
+module Unitpropagation (unitProp, checkEmptyClause, getUnitClause, setVariable, unitSubsumption, checkSetVariable, unitResolution, checkInnerList) where
 
 import           Types (Clause, ClauseList, Tupel, TupelList)
 
-unitProp :: ClauseList -> TupelList -> TupelList
+unitProp :: ClauseList -> TupelList -> (ClauseList, TupelList)
 unitProp clauseList setTupel
-  | null clauseList  = setTupel
-  | null preCheck    = setTupel
+  | null clauseList  = (clauseList,setTupel)
+  | null preCheck    = (clauseList,setTupel)
+  | check1 /= check2 = (clauseList,[(-1,-1)])
   | not checkSetV    = unitProp copy (setTupel ++ [calcTupel])
-  | otherwise        = [(-1,-1)]
+  | otherwise        = (clauseList,[(-1,-1)])
     where preCheck   = getUnitClause clauseList
           calcTupel  = setVariable preCheck
           fstTuple   = fst calcTupel
-          clauseCopy = unitSubsumption clauseList fstTuple
-          copy       = unitResolution clauseCopy fstTuple
+          clauseCopy = unitSubsumption clauseList calcTupel
+          check1     = checkEmptyClause clauseCopy
+          copy       = unitResolution clauseCopy calcTupel
+          check2     = checkEmptyClause copy
           checkSetV  = checkSetVariable setTupel fstTuple
+
 
 -- | checks if an unit clause exists in the given list of lists. if one exists return the list.
 getUnitClause :: ClauseList  -> Clause
@@ -24,7 +28,7 @@ getUnitClause _ = []
 
 -- | call this method on unit clauses only. If the value is less then 0 set a 0 in the tuple, else set 1
 setVariable :: Clause  -> Tupel
-setVariable clause = if head clause < 0 then (head clause, 0) else (head clause, 1)
+setVariable clause = if head clause < 0 then (-(head clause), 0) else (head clause, 1)
 
 -- | NOT CORRECTLY IMPLEMENTED
 -- | if true -> variable is already set, else it isnt set
@@ -32,46 +36,48 @@ checkSetVariable :: TupelList  -> Int -> Bool
 checkSetVariable (x:nxt) check = let val = fst x in
     val == check || val * (-1) == check|| not (null nxt) && checkSetVariable nxt check
 checkSetVariable _ _ = False
-    --  null x = False
-    --  fst x * (-1) == check || fst x == check = True
-    --  fst x * (-1) /= check || fst x /= check = not (null nxt) && checkSetVariable nxt check
-    --  otherwise = False
 
 -- | Remove clauses which have removableVar as variable.
-unitSubsumption :: ClauseList  -> Int -> ClauseList
-unitSubsumption (firstList : xs) removableVar = 
-    let checked = checkInnerList firstList removableVar in -- true if a set variable is found
-    if not checked then filter (not . null) (firstList : unitSubsumption xs removableVar) else filter (not . null) (unitSubsumption xs removableVar)
+unitSubsumption :: ClauseList  -> Tupel -> ClauseList
+unitSubsumption (firstList : xs) tuple
+    | not checked = filter (not . null) (firstList : unitSubsumption xs tuple)
+    | otherwise = filter (not . null) (unitSubsumption xs tuple)
+    where val = if snd tuple == 1 then fst tuple else -(fst tuple)
+          checked = checkInnerList firstList val
 
 unitSubsumption _ _ = [[]]
 
--- unitSubsumption before
--- unitSubsumption (firstList : xs) removableVar = do
---     let checked = checkInnerList firstList removableVar -- true if a set variable is found
---     let list = if not checked then firstList : unitSubsumption xs removableVar else unitSubsumption xs removableVar
---     filter (not . null) list
 
 -- | checks the list if the variable is inside the list
 checkInnerList :: Clause -> Int -> Bool
-checkInnerList list var = length (filter (== var) list) == 1
+checkInnerList list var
+    | length (filter (== var) list) == 1 = True
+    | otherwise = False
 
 -- | remove -variable of the variable which was set
 -- | cant remove variable if its the only one in list
-unitResolution :: ClauseList -> Int -> ClauseList
-unitResolution (firstList : xs) variable = 
-    let checked = checkInnerList firstList (-variable) in
-    if not checked then firstList : unitResolution xs variable else 
-        let list = if length firstList /= 1 then filter (/= -variable) firstList else firstList in
-        if not (null list) then list : unitResolution xs variable else unitResolution xs variable
+unitResolution :: ClauseList -> Tupel  -> ClauseList
+unitResolution (firstList : xs) tuple
+    | not checked = firstList : unitResolution xs tuple
+    | otherwise = let list = filter (/= -val) firstList in
+            list : unitResolution xs tuple
+    where val = if snd tuple == 0 then (- (fst tuple)) else fst tuple
+          checked = checkInnerList firstList val
 
--- unitResolution (firstList : xs) variable = do
---     let checked = checkInnerList firstList (-variable)
---     if not checked then firstList : unitResolution xs variable else do
---         let list = if length firstList /= 1 then filter (/= -variable) firstList else firstList
---         if not (null list) then list : unitResolution xs variable else unitResolution xs variable
-
-unitResolution x l = filter (not . null) x
+unitResolution x l = x --filter (not . null) x
 
 -- | possibly not needed since its not part of unitpropagation
 checkConflict :: [(Int, Int)] -> [(Int,Int)]
 checkConflict l = l
+
+-- | this is implemented wrong. can use interpret to check if empty clause.
+-- | muss mithilfe von tupel schauen ob empty clause gefunden wird.
+-- | bsp: [[1]] [(1,0)] -> Empty Clause
+checkEmptyClause :: ClauseList -> Bool
+checkEmptyClause (xs : ys)
+    | null xs = True
+    | not (null ys) = checkEmptyClause ys
+    | otherwise = False
+checkEmptyClause xs
+    | null xs = True
+    | otherwise = False
