@@ -1,31 +1,44 @@
 module Algorithm (interpret, dpll, searchTupel, cdcl, cdcl', calculateClauseList) where
 
 import           Types (Clause, ClauseList, Level, Tupel, TupelList)
-import           Unitpropagation (checkEmptyClause, checkSetVariable, unitProp,
+import           Unitpropagation (checkSetVariable,
                      unitResolution, unitSubsumption)
 import           UPcdcl (unitPropagation)
 -- | Returns 1 and -1 currently
 -- | 1 equals resolved and -1 equals not resolved
 dpll :: ClauseList -> TupelList -> Int
-dpll d x = let clauseTupel = unitProp d x
-    in if checkEmptyClause (fst clauseTupel) && not (checkTupleForError (snd clauseTupel)) then interpret d (snd clauseTupel) else -1
+dpll d x = let clauseTupel = unitPropagation d x
+    in if interpret d (snd clauseTupel) /= 1 then (-1) else 1
+   -- in if checkEmptyClause (fst clauseTupel) && not (checkTupleForError (snd clauseTupel)) then interpret d (snd clauseTupel) else -1
 
 cdcl :: ClauseList-> TupelList -> Int
-cdcl clist = cdcl' 0 clist clist -- Eta reduction. To call this do for example startCdcl [[1]] []
+cdcl clist = cdcl' 1 clist clist -- Eta reduction. To call this do for example Cdcl [[1]] []
 
+-- | Implementation not done
 cdcl' :: Level -> ClauseList -> ClauseList -> TupelList -> Int
-cdcl' lvl clistOG clist tlist = let res = unitPropagation clist tlist in
-    if interpret clistOG (snd res) == 0 then -- checkEmptyClause needs to be changed. eventuell einfach interpret auf 0 checken?
-        let empty = clist in -- function which calculates empty clause
-            let analyzelv = lvl in -- function to analyze conflict
-                -- backtrack-algorithm. will caculate new tlist or mapped tupleList
-                cdcl' analyzelv clistOG clist tlist -- replace tlist with the backtrack algorithm
-    else if interpret clistOG (snd res) == 1 then 1 else
-        let newLvl = lvl + 1 in
-            cdcl' newLvl clistOG (calculateClauseList (fst res) decided) decided
-            where decided = [(2,1)] -- decided needs to become a proper function
+cdcl' lvl clistOG clist tlist 
+    | interpreted == 0 = let empty = clist in
+        let analyzelv = lvl in
+            cdcl' analyzelv clistOG clist tlist
+    | interpreted == 1 = 1
+    | otherwise = let newLvl = lvl + 1 in
+        cdcl' newLvl clistOG (calculateClauseList (fst res) decided) decided
+    where res = unitPropagation clist tlist
+          interpreted = interpret clistOG (snd res)
+          decided = [(2,1)]
 
+    -- if interpret clistOG (snd res) == 0 then -- checkEmptyClause needs to be changed. eventuell einfach interpret auf 0 checken?
+    --     let empty = clist in -- function which calculates empty clause
+    --         let analyzelv = lvl in -- function to analyze conflict
+    --             -- backtrack-algorithm. will caculate new tlist or mapped tupleList
+    --             cdcl' analyzelv clistOG clist tlist -- replace tlist with the backtrack algorithm
+    -- else if interpret clistOG (snd res) == 1 then 1 else
+    --     let newLvl = lvl + 1 in
+    --         cdcl' newLvl clistOG (calculateClauseList (fst res) decided) decided
+    --         where decided = [(2,1)] -- decided needs to become a proper function
 
+-- | calculates the clauselist which will be given to unitpropagation. 
+-- | returns when everything of tupellist was calculated
 calculateClauseList :: ClauseList -> TupelList -> ClauseList
 calculateClauseList cl tlist@(xs : ys)
     | null xs = cl
@@ -41,7 +54,8 @@ calculateClauseList cl tlist@(xs : ys)
 interpret :: ClauseList -> TupelList -> Int
 interpret t@(formel : xs) interpretation -- = do
     | null interpretation = -1
-    | not (null xs) = if interpret' formel interpretation  False == 0 then 0 else interpret xs interpretation
+    | not (null xs) = let value = interpret' formel interpretation False in
+        if value /= 1 then value else interpret xs interpretation
     | otherwise = interpret' formel interpretation False
 
 -- | Returns 1, 0 and -1
@@ -62,20 +76,11 @@ interpret' (formel : xs) interpretation x-- = do
 -- | Get the set value from the tupellist.
 searchTupel :: Int -> TupelList -> Int
 searchTupel xval (xs : ys)
-    | fst xs == xval || fst xs * (-1) == xval = snd xs
+    | fst xs == xval = snd xs
     | not (null ys) = searchTupel xval ys
     | otherwise = -1
-searchTupel xval x = if not (null x) then do
-    if fst (head x) == xval then snd (head x) else -1
-    else -1
+searchTupel _ _ = -1
+-- searchTupel xval x = if not (null x) then do
+--     if fst (head x) == xval then snd (head x) else -1
+--     else -1
 
--- | checks if tuple with -1 in snd is found
--- | return True if -1 is found in snd. else return false
-checkTupleForError :: TupelList -> Bool
-checkTupleForError (xs : ys)
-    | snd xs == -1 = True
-    | not (null ys) = checkTupleForError ys
-    | otherwise = False
-checkTupleForError x
-    | snd (head x) == -1 = True
-    | otherwise = False

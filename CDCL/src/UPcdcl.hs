@@ -1,7 +1,7 @@
 module UPcdcl (unitPropagation) where
 
 import           Types (ClauseList, TupelList)
-import           Unitpropagation (checkEmptyClause, getUnitClause, setVariable,
+import           Unitpropagation (getUnitClause, setVariable,
                      unitResolution, unitSubsumption)
 
 
