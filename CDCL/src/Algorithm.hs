@@ -19,8 +19,10 @@ cdcl' :: Level -> ClauseList -> ClauseList -> TupelList -> Int
 cdcl' lvl clistOG clist tlist 
     | interpreted == 0 = let empty = clist in
         let analyzelv = lvl in
-            cdcl' analyzelv clistOG clist tlist
+            error "not implemented"
+            --cdcl' analyzelv clistOG clist tlist
     | interpreted == 1 = 1
+    | lvl > 4 = error "stop"
     | otherwise = let newLvl = lvl + 1 in
         cdcl' newLvl clistOG (calculateClauseList (fst res) decided) decided
     where res = unitPropagation clist tlist

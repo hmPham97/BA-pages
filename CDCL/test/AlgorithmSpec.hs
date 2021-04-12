@@ -1,11 +1,12 @@
 module AlgorithmSpec where
-import Algorithm (dpll, interpret, searchTupel)
+import Algorithm (dpll, interpret, searchTupel, cdcl)
 import Test.Hspec
 import Test.QuickCheck
+import Control.Exception (evaluate)
 
 spec :: Spec 
 spec =
-    describe "dpll" $ do
+    describe "testing" $ do
         it "dpll test should return 1" $
             dpll [[1]] [] `shouldBe` 1
         it "dpll test should return -1" $
@@ -20,4 +21,11 @@ spec =
             searchTupel 3 [(1,0),(2,1),(3,1),(4,1)] `shouldBe` 1
         it "searchTupel should return 0" $
             searchTupel 1 [(1,0),(2,1),(3,1),(4,1)] `shouldBe` 0
-        
+        it "cdcl should return 1" $
+            cdcl [[1,2]] [] `shouldBe` 1
+        it "cdcl should return 1" $
+            cdcl [[1,2,3,4],[-2],[2,3],[-4,-3]] [] `shouldBe` 1
+        it "cdcl should throw error not implemented" $ do
+            evaluate(cdcl [[1],[-1]] []) `shouldThrow` anyException
+        it "cdcl should throw error stop" $ do
+            evaluate(cdcl [[1,23]] []) `shouldThrow` anyException       
