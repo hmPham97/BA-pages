@@ -39,9 +39,3 @@ unitResolution (firstList : xs) tuple
           checked = val `elem` firstList -- checks if val is inside list
 
 unitResolution _ _ = [[]]
--- unitResolution x tuple 
---     | null x || not checked = x
---     | otherwise = [filter (/= val) (head x)] 
---     where val = if snd tuple == 0 then  fst tuple else (-(fst tuple))
---           checked = checkInnerList (head x) val
-

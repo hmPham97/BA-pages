@@ -1,22 +1,40 @@
+{-|
+Module      :   Algorithm
+Description :   General algorithms for DPLL and CDCL Algorithm.
+                Includes interpreting clauses, clauseLists,
+                tuple values and calculating ClauseList.
+Copyright   :   (c) Thanh Nam Pham, 2021
+License     :   
+Maintainer  :   
+Stability   :   
+Portability :   
+-}
+
 module Algorithm (interpret, dpll, searchTupel, cdcl, cdcl', calculateClauseList) where
 
-import           Types (Clause, ClauseList, Level, Tupel, TupelList)
-import           Unitpropagation (checkSetVariable,
-                     unitResolution, unitSubsumption)
+import           Data.IntMap.Strict (IntMap)
+import qualified Data.IntMap.Strict as IntMap
+import           Decisionalgorithm (getShortestClause, initialActivity,
+                     updateActivity)
+import           Types (ActivityMap, Clause, ClauseList, Level, Tupel,
+                     TupelList)
+import           Unitpropagation (checkSetVariable, unitResolution,
+                     unitSubsumption)
 import           UPcdcl (unitPropagation)
 -- | Returns 1 and -1 currently
--- | 1 equals resolved and -1 equals not resolved
+--   1 equals resolved and -1 equals not resolved
 dpll :: ClauseList -> TupelList -> Int
 dpll d x = let clauseTupel = unitPropagation d x
     in if interpret d (snd clauseTupel) /= 1 then (-1) else 1
    -- in if checkEmptyClause (fst clauseTupel) && not (checkTupleForError (snd clauseTupel)) then interpret d (snd clauseTupel) else -1
 
-cdcl :: ClauseList-> TupelList -> Int
-cdcl clist = cdcl' 1 clist clist -- Eta reduction. To call this do for example Cdcl [[1]] []
+cdcl :: ActivityMap -> ClauseList-> TupelList -> Int
+cdcl aMap clist = let aMap' = initialActivity clist (IntMap.fromList []) in
+    cdcl' aMap' 1 clist clist -- Eta reduction. To call this do for example Cdcl [[1]] []
 
 -- | Implementation not done
-cdcl' :: Level -> ClauseList -> ClauseList -> TupelList -> Int
-cdcl' lvl clistOG clist tlist 
+cdcl' :: ActivityMap -> Level -> ClauseList -> ClauseList -> TupelList -> Int
+cdcl' aMap lvl clistOG clist tlist
     | interpreted == 0 = let empty = clist in
         let analyzelv = lvl in
             error "not implemented"
@@ -24,9 +42,10 @@ cdcl' lvl clistOG clist tlist
     | interpreted == 1 = 1
     | lvl > 4 = error "stop"
     | otherwise = let newLvl = lvl + 1 in
-        cdcl' newLvl clistOG (calculateClauseList (fst res) decided) decided
+        cdcl' aMap newLvl clistOG (calculateClauseList (fst res) decided) decided
     where res = unitPropagation clist tlist
           interpreted = interpret clistOG (snd res)
+          shortestClause = getShortestClause clist
           decided = [(2,1)]
 
     -- if interpret clistOG (snd res) == 0 then -- checkEmptyClause needs to be changed. eventuell einfach interpret auf 0 checken?
@@ -39,8 +58,8 @@ cdcl' lvl clistOG clist tlist
     --         cdcl' newLvl clistOG (calculateClauseList (fst res) decided) decided
     --         where decided = [(2,1)] -- decided needs to become a proper function
 
--- | calculates the clauselist which will be given to unitpropagation. 
--- | returns when everything of tupellist was calculated
+-- | calculates the clauselist which will be given to unitpropagation.
+--   returns when everything of tupellist was calculated
 calculateClauseList :: ClauseList -> TupelList -> ClauseList
 calculateClauseList cl tlist@(xs : ys)
     | null xs = cl
@@ -52,7 +71,7 @@ calculateClauseList cl tlist@(xs : ys)
     --if checkEmptyClause clist then 1 else
 
 -- | Bsp: [[2,1,3],[-1]] [(1,0),(3,0),(2,0)] -> 0. CONFLICT
--- | Bsp: [[2,1,3]][(1,0),(2,0)] -> -1. Etwas wurde noch nicht belegt o. etwas wurde nicht positiv.
+--   Bsp: [[2,1,3]][(1,0),(2,0)] -> -1. Etwas wurde noch nicht belegt o. etwas wurde nicht positiv.
 interpret :: ClauseList -> TupelList -> Int
 interpret t@(formel : xs) interpretation -- = do
     | null interpretation = -1
@@ -61,8 +80,8 @@ interpret t@(formel : xs) interpretation -- = do
     | otherwise = interpret' formel interpretation False
 
 -- | Returns 1, 0 and -1
--- | Interprets a single clause of a formula
--- | Empty Clause if whole clause interprets to 0. if -1 appears it means the clause isnt finished from interpreting
+--   Interprets a single clause of a formula
+--   Empty Clause if whole clause interprets to 0. if -1 appears it means the clause isnt finished from interpreting
 interpret' :: Clause -> TupelList -> Bool -> Int
 interpret' (formel : xs) interpretation x-- = do
     | tupelValue == -1 && null xs = -1

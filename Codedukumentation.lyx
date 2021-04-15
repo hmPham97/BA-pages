@@ -158,6 +158,23 @@ underline{interpret}
 
  dann entsprochen interpretiert.
  Als Rückgabe kommt dann entweder 1 oder -1.
+ 
+\end_layout
+
+\begin_layout Standard
+Ergebnisse:
+\end_layout
+
+\begin_layout Standard
+Eventuell vielleicht auch TupelListe als Ergebnisse mitliefern?
+\end_layout
+
+\begin_layout Standard
+-1 = UNSAT
+\end_layout
+
+\begin_layout Standard
+1 = SAT
 \end_layout
 
 \begin_layout Standard
@@ -183,6 +200,22 @@ Interpretiert eine gegebene ClauseList mithilfe einer gegebenen TupelList.
  Dabei wird rekursiv nach der Reihe eine Clause interpretiert, bis alle
  Klauseln interpretiert sind oder eine Klausel zu 0 evaluiert wird.
  
+\end_layout
+
+\begin_layout Standard
+Ergebnisse:
+\end_layout
+
+\begin_layout Standard
+-1 -> Klausel kann nicht fertig interpretiert werden.
+\end_layout
+
+\begin_layout Standard
+0 -> Konflikt
+\end_layout
+
+\begin_layout Standard
+1 -> SAT
 \end_layout
 
 \begin_layout Standard
@@ -217,6 +250,7 @@ Unitpropagation.hs
 \end_layout
 
 \begin_layout Standard
+\noindent
 \begin_inset ERT
 status open
 
@@ -233,12 +267,15 @@ underline{unitProp}
 \end_layout
 
 \begin_layout Standard
+\noindent
 Führt das Unit-Propagation Verfahren durch.
  Die Funktion erwartet eine ClauseList und eine TupelList, Gibt entweder
- eine berechnete TupelList oder [(-1,-1)] zurück.
+ eine berechnete TupelList und der berechneten ClauseList zurück oder [(-1,-1)]
+ zurück.
 \end_layout
 
 \begin_layout Standard
+\noindent
 \begin_inset ERT
 status open
 
@@ -255,10 +292,12 @@ underline{getUnitClause}
 \end_layout
 
 \begin_layout Standard
+\noindent
 Gibt eine Clause zurück, die nur eine Variable enthält oder eine leere Clause.
 \end_layout
 
 \begin_layout Standard
+\noindent
 \begin_inset ERT
 status open
 
@@ -275,11 +314,13 @@ underline{setVariable}
 \end_layout
 
 \begin_layout Standard
+\noindent
 Setz einen Wert von 0 oder 1 in einem Tupel.
  
 \end_layout
 
 \begin_layout Standard
+\noindent
 \begin_inset ERT
 status open
 
@@ -296,11 +337,13 @@ underline{checkSetVariable}
 \end_layout
 
 \begin_layout Standard
+\noindent
 Prüft ob ein Tupel mit einem gegebenem Integer schon in der TupelList existiert.
  Gibt True zurück wenn dies der Fall ist, sonst False
 \end_layout
 
 \begin_layout Standard
+\noindent
 \begin_inset ERT
 status open
 
@@ -317,12 +360,14 @@ underline{unitSubsumption}
 \end_layout
 
 \begin_layout Standard
+\noindent
 Löscht Klauseln aus ClauseList, wenn Klauseln gefunden werden, die Variablen
  enthalten, welche bei einem eingesetzem Tupelwert zu 1 evaluiert werden.
  Die bearbeitete ClauseList wird dann zurückgegeben.
 \end_layout
 
 \begin_layout Standard
+\noindent
 \begin_inset ERT
 status open
 
@@ -339,12 +384,14 @@ underline{checkInnerList}
 \end_layout
 
 \begin_layout Standard
+\noindent
 Überprüft ob eine Clause mit einem gegebenem Integer existiert, welche die
  Länge 1 hat.
  Falls eine Clause gefunden wird, wird True zurückgegeben.
 \end_layout
 
 \begin_layout Standard
+\noindent
 \begin_inset ERT
 status open
 
@@ -361,6 +408,7 @@ underline{unitResolution}
 \end_layout
 
 \begin_layout Standard
+\noindent
 Löscht Variablen aus den Clauseln, die zu 0 evaluiert werden.
  Wenn die Variable innerhalb einer Unit Clause ist, wird diese nicht gelöscht.
 \end_layout
