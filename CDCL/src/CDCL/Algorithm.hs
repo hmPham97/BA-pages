@@ -1,28 +1,31 @@
-{-|
-Module      :   Algorithm
-Description :   General algorithms for DPLL and CDCL Algorithm.
-                Includes interpreting clauses, clauseLists,
-                tuple values and calculating ClauseList.
-Copyright   :   (c) Thanh Nam Pham, 2021
-License     :   
-Maintainer  :   
-Stability   :   
-Portability :   
--}
+---------------------------------------------------------------------
+-- |
+-- Module      :   CDCL.Algorithm
+-- Description :   General algorithms for DPLL and CDCL Algorithm.
+--                 Includes interpreting clauses, clauseLists,
+--                 tuple values and calculating ClauseList.
+-- Copyright   :   (c) Thanh Nam Pham, 2021
+-- License     :   
+-- Maintainer  :   
+-- Stability   :   
+-- Portability :   
+-- 
+---------------------------------------------------------------------
 
-module Algorithm (interpret, dpll, searchTupel, cdcl, cdcl', calculateClauseList) where
+
+module CDCL.Algorithm (interpret, dpll, searchTupel, cdcl, cdcl', calculateClauseList) where
 
 import           Data.IntMap.Strict (IntMap)
 import qualified Data.IntMap.Strict as IntMap
-import           Decisionalgorithm (getShortestClause, initialActivity,
+import           CDCL.Decisionalgorithm (getShortestClause, initialActivity,
                      updateActivity)
-import           Types (ActivityMap, Clause, ClauseList, Level, Tupel,
+import           CDCL.Types (ActivityMap, Clause, ClauseList, Level, Tupel,
                      TupelList)
-import           Unitpropagation (checkSetVariable, unitResolution,
+import           CDCL.Unitpropagation (checkSetVariable, unitResolution,
                      unitSubsumption)
-import           UPcdcl (unitPropagation)
+import           CDCL.UPcdcl (unitPropagation)
 -- | Returns 1 and -1 currently
---   1 equals resolved and -1 equals not resolved
+--      1 equals resolved and -1 equals not resolved
 dpll :: ClauseList -> TupelList -> Int
 dpll d x = let clauseTupel = unitPropagation d x
     in if interpret d (snd clauseTupel) /= 1 then (-1) else 1

@@ -1,6 +1,17 @@
-module Unitpropagation (getUnitClause, setVariable, unitSubsumption, checkSetVariable, unitResolution) where
+---------------------------------------------------------------------
+-- |
+-- Module      :   CDCL.Unitpropagation
+-- Description :   Contains necessary logic for unitpropagation
+-- Copyright   :   (c) Thanh Nam Pham, 2021
+-- License     :   
+-- Maintainer  :   
+-- Stability   :   
+-- Portability :   
+-- 
+---------------------------------------------------------------------
+module CDCL.Unitpropagation (getUnitClause, setVariable, unitSubsumption, checkSetVariable, unitResolution) where
 
-import           Types (Clause, ClauseList, Tupel, TupelList)
+import           CDCL.Types (Clause, ClauseList, Tupel, TupelList)
 
 -- | checks if an unit clause exists in the given list of lists. if one exists return the list.
 getUnitClause :: ClauseList  -> Clause

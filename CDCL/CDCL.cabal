@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 06f4efd4f761354dc053cd5074d40d0a8bb9602cbdbe99526e93f565f9373c96
+-- hash: e86b4d000056656877be0b9ea7d6707a6934ffd9f837a846d4764158c1678ff3
 
 name:           CDCL
 version:        0.1.0.0
@@ -27,11 +27,11 @@ source-repository head
 
 library
   exposed-modules:
-      Algorithm
-      Decisionalgorithm
-      Types
-      Unitpropagation
-      UPcdcl
+      CDCL.Algorithm
+      CDCL.Decisionalgorithm
+      CDCL.Types
+      CDCL.Unitpropagation
+      CDCL.UPcdcl
   hs-source-dirs:
       src
   build-depends:

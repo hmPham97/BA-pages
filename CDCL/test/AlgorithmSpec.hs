@@ -1,5 +1,5 @@
 module AlgorithmSpec where
-import           Algorithm (cdcl, dpll, interpret, searchTupel)
+import           CDCL.Algorithm (cdcl, dpll, interpret, searchTupel)
 import           Control.Exception (evaluate)
 import           Data.IntMap.Strict (IntMap)
 import qualified Data.IntMap.Strict as IntMap

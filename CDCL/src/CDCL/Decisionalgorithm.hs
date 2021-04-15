@@ -1,9 +1,20 @@
-module Decisionalgorithm (getShortestClause, initialActivity, updateActivity, act, getHighestActivity, getHighestActivity') where
+---------------------------------------------------------------------
+-- |
+-- Module      :   CDCL.Decisionalgorithm
+-- Description :   Contains logic related to the decision algorithm
+-- Copyright   :   (c) Thanh Nam Pham, 2021
+-- License     :   
+-- Maintainer  :   
+-- Stability   :   
+-- Portability :   
+--
+---------------------------------------------------------------------
+module CDCL.Decisionalgorithm (getShortestClause, initialActivity, updateActivity, act, getHighestActivity, getHighestActivity') where
 
 import           Data.IntMap.Strict (IntMap)
 import qualified Data.IntMap.Strict as IntMap
 import           Data.Maybe
-import           Types (ActivityMap, Clause, ClauseList, Tupel,
+import           CDCL.Types (ActivityMap, Clause, ClauseList, Tupel,
                      VariableActivity)
 
 filterK val = IntMap.filterWithKey (\x _ -> x == val)
