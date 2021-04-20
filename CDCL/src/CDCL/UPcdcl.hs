@@ -3,17 +3,17 @@
 -- Module      :   CDCL.Algorithm
 -- Description :   Contains main logic for unitpropagation.
 -- Copyright   :   (c) Thanh Nam Pham, 2021
--- License     :   
--- Maintainer  :   
--- Stability   :   
--- Portability :   
--- 
+-- License     :
+-- Maintainer  :
+-- Stability   :
+-- Portability :
+--
 ---------------------------------------------------------------------
 module CDCL.UPcdcl (unitPropagation) where
 
 import           CDCL.Types (ClauseList, TupelList)
-import           CDCL.Unitpropagation (getUnitClause, setVariable, unitResolution,
-                     unitSubsumption)
+import           CDCL.Unitpropagation (getUnitClause, setVariable,
+                     unitResolution, unitSubsumption)
 
 
 unitPropagation :: ClauseList -> TupelList -> (ClauseList , TupelList)

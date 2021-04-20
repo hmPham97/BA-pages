@@ -3,27 +3,41 @@
 -- Module      :   CDCL.Types
 -- Description :   Contains type declaration for CDCL Package
 -- Copyright   :   (c) Thanh Nam Pham, 2021
--- License     :   
--- Maintainer  :   
--- Stability   :   
--- Portability :   
--- 
+-- License     :
+-- Maintainer  :
+-- Stability   :
+-- Portability :
+--
 ---------------------------------------------------------------------
-module CDCL.Types (Clause, ClauseList, Tupel, TupelList, Level, Activity, ActivityMap, VariableActivity) where
+module CDCL.Types where
 
-import           Data.IntMap.Strict (IntMap)
-import qualified Data.IntMap.Strict as IntMap
+import           Data.Map.Strict (Map)
+import qualified Data.Map.Strict as Map
 
-type Variable = Int
+data DPLLResult
+    =
+        DResolved
+    |
+        DNotResolved
+    deriving(Eq, Ord, Show)
+
+data CDCLResult
+    =
+        SAT TupelList
+    |
+        UNSAT
+    deriving(Eq, Ord, Show)
+
+type Variable = Integer
 type Clause = [Variable]
 type ClauseList = [Clause]
 
-type Tupel = (Int, Int)
+type Tupel = (Integer, Integer)
 type TupelList = [Tupel]
 
-type Level = Int
-type MappedTupleList = IntMap.IntMap TupelList
+type Level = Integer
+type MappedTupleList = Map.Map Integer TupelList
 
-type Activity = Int
-type ActivityMap = IntMap.IntMap Activity
+type Activity = Integer
+type ActivityMap = Map.Map Integer Activity
 type VariableActivity = (Variable, Activity)

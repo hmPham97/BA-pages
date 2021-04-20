@@ -3,11 +3,11 @@
 -- Module      :   CDCL.Unitpropagation
 -- Description :   Contains necessary logic for unitpropagation
 -- Copyright   :   (c) Thanh Nam Pham, 2021
--- License     :   
--- Maintainer  :   
--- Stability   :   
--- Portability :   
--- 
+-- License     :
+-- Maintainer  :
+-- Stability   :
+-- Portability :
+--
 ---------------------------------------------------------------------
 module CDCL.Unitpropagation (getUnitClause, setVariable, unitSubsumption, checkSetVariable, unitResolution) where
 
@@ -25,7 +25,7 @@ setVariable :: Clause  -> Tupel
 setVariable clause = if head clause < 0 then (-(head clause), 0) else (head clause, 1)
 
 -- | if true -> variable is already set, else it isnt set
-checkSetVariable :: TupelList  -> Int -> Bool
+checkSetVariable :: TupelList  -> Integer -> Bool
 checkSetVariable (x:nxt) check = let val = fst x in
     val == check || (not (null nxt) && checkSetVariable nxt check)
 checkSetVariable _ _ = False

@@ -3,21 +3,23 @@
 -- Module      :   CDCL.Decisionalgorithm
 -- Description :   Contains logic related to the decision algorithm
 -- Copyright   :   (c) Thanh Nam Pham, 2021
--- License     :   
--- Maintainer  :   
--- Stability   :   
--- Portability :   
+-- License     :
+-- Maintainer  :
+-- Stability   :
+-- Portability :
 --
 ---------------------------------------------------------------------
-module CDCL.Decisionalgorithm (getShortestClause, initialActivity, updateActivity, act, getHighestActivity, getHighestActivity') where
+module CDCL.Decisionalgorithm (getShortestClause, initialActivity, updateActivity, act,
+    getHighestActivity, getHighestActivity', setVariableViaActivity,
+    getShortestClauseViaActivity) where
 
-import           Data.IntMap.Strict (IntMap)
-import qualified Data.IntMap.Strict as IntMap
-import           Data.Maybe
 import           CDCL.Types (ActivityMap, Clause, ClauseList, Tupel,
                      VariableActivity)
+import           Data.Map.Strict (Map)
+import qualified Data.Map.Strict as Map
+import           Data.Maybe
 
-filterK val = IntMap.filterWithKey (\x _ -> x == val)
+filterK val = Map.filterWithKey (\x _ -> x == val)
 
 decideVariable :: ClauseList -> ActivityMap -> Tupel
 decideVariable cL = decideAlg (head cL)
@@ -25,7 +27,7 @@ decideVariable cL = decideAlg (head cL)
 decideAlg :: Clause -> ActivityMap -> Tupel
 decideAlg cl aMap = (2,1)
 
-getShortestClause :: ClauseList -> ClauseList -> [Clause]
+getShortestClause :: ClauseList -> ClauseList -> ClauseList
 getShortestClause (xs : ys) cur
     | null xs && not (null cur) = cur
     | null curSize && not (null xs) && not (null ys)= getShortestClause ys [xs]
@@ -39,7 +41,7 @@ getShortestClause [] cur = cur
 
 
 act :: ClauseList -> ActivityMap
-act cList = initialActivity cList (IntMap.fromList [])
+act cList = initialActivity cList Map.empty
 
 -- | calculate the ActivityMap.
 --   example: initialActivity [[1,2,3,4],[3,4]] (IntMap.fromList [])
@@ -57,16 +59,17 @@ initialActivity x aList = updateActivity (head x) aList
 updateActivity :: Clause -> ActivityMap -> ActivityMap
 updateActivity [] aMap = aMap
 updateActivity clause@(xs : ys) aMap
-    | not (null activity) && null ys= IntMap.adjust (1 +) xs aMap
-    | not (null activity) = let updatedMap = IntMap.adjust (1 +) xs aMap in
+    | not (null activity) && null ys= Map.adjust (1 +) xValue aMap
+    | not (null activity) = let updatedMap = Map.adjust (1 +) xValue aMap in
         updateActivity ys updatedMap
     -- --let actInt = (snd activity) + 1 in
-    |  null activity = let updatedMap = IntMap.insert xs 1 aMap in
+    |  null activity = let updatedMap = Map.insert xValue 1 aMap in
          updateActivity ys updatedMap
     | not (null ys) = updateActivity ys aMap
-    where activity = filterK xs aMap
+    where xValue = if xs < 0 then (-xs) else xs
+          activity = filterK xValue aMap
 
--- | example : getHighestActivity [[-1,3,5],[3,7]] (IntMap.fromList [(1,5),(3,6),(5,2),(7,7)]) 0
+-- | example : getHighestActivity [[-1,3,5],[3,7]] (Map.fromList [(1,5),(3,6),(5,2),(7,7)]) (0,0)
 getHighestActivity :: ClauseList -> ActivityMap -> VariableActivity -> VariableActivity
 getHighestActivity cList@(xs : ys) aMap val
     | snd val == 0 && null ys = highestValInClause
@@ -76,7 +79,8 @@ getHighestActivity cList@(xs : ys) aMap val
 getHighestActivity _ _ val = val
 
 -- | return the highest activity in a clause.
---   example getHighestActivity' [-1,3,5] (IntMap.fromList [(1,5),(3,6),(5,2)]) (0,0)
+--   example getHighestActivity' [-1,3,5] (Map.fromList [(1,5),(3,6),(5,2)]) (0,0)
+-- getHighestActivity' [-1,2] (Map.fromList [(1,1),(2,1)]) (0,0)
 --   returns (3,6)
 getHighestActivity' :: Clause -> ActivityMap -> VariableActivity -> VariableActivity
 getHighestActivity' cl@(xs : ys) aMap val
@@ -86,5 +90,17 @@ getHighestActivity' cl@(xs : ys) aMap val
     | otherwise = getHighestActivity' ys aMap val
     where x = if xs < 0 then (-xs) else xs
           activity = filterK x aMap
-          actVal = activity IntMap.!? x
+          actVal = activity Map.!? x
 getHighestActivity' [] aMap x = x
+
+setVariableViaActivity :: Clause -> VariableActivity -> Tupel
+setVariableViaActivity [] _ = (-1,-1)
+setVariableViaActivity (xs : ys) vAct
+    | xs == fst vAct = if xs < 0 then (-xs, 1) else (xs, 0)
+    | not (null ys) = setVariableViaActivity ys vAct
+
+getShortestClauseViaActivity :: ClauseList -> VariableActivity -> Maybe Clause
+getShortestClauseViaActivity (xs : ys) vAct
+    | fst vAct `elem` xs  = Just xs
+    | otherwise = getShortestClauseViaActivity ys vAct
+getShortestClauseViaActivity [] vAct = Nothing

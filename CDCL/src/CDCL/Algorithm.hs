@@ -5,51 +5,59 @@
 --                 Includes interpreting clauses, clauseLists,
 --                 tuple values and calculating ClauseList.
 -- Copyright   :   (c) Thanh Nam Pham, 2021
--- License     :   
--- Maintainer  :   
--- Stability   :   
--- Portability :   
--- 
+-- License     :
+-- Maintainer  :
+-- Stability   :
+-- Portability :
+--
 ---------------------------------------------------------------------
 
 
 module CDCL.Algorithm (interpret, dpll, searchTupel, cdcl, cdcl', calculateClauseList) where
 
-import           Data.IntMap.Strict (IntMap)
-import qualified Data.IntMap.Strict as IntMap
-import           CDCL.Decisionalgorithm (getShortestClause, initialActivity,
-                     updateActivity)
-import           CDCL.Types (ActivityMap, Clause, ClauseList, Level, Tupel,
-                     TupelList)
+import           CDCL.Decisionalgorithm (getHighestActivity,
+                     getHighestActivity', getShortestClause,
+                     getShortestClauseViaActivity, initialActivity,
+                     setVariableViaActivity, updateActivity)
+import           CDCL.Types (ActivityMap, CDCLResult (..), Clause, ClauseList,
+                     DPLLResult (..), Level, Tupel, TupelList)
 import           CDCL.Unitpropagation (checkSetVariable, unitResolution,
                      unitSubsumption)
 import           CDCL.UPcdcl (unitPropagation)
+import           Data.List
+import           Data.Map.Strict (Map)
+import qualified Data.Map.Strict as Map
+import           Data.Maybe
 -- | Returns 1 and -1 currently
 --      1 equals resolved and -1 equals not resolved
-dpll :: ClauseList -> TupelList -> Int
+dpll :: ClauseList -> TupelList -> DPLLResult
 dpll d x = let clauseTupel = unitPropagation d x
-    in if interpret d (snd clauseTupel) /= 1 then (-1) else 1
+    in if interpret d (snd clauseTupel) /= 1 then DNotResolved else DResolved
    -- in if checkEmptyClause (fst clauseTupel) && not (checkTupleForError (snd clauseTupel)) then interpret d (snd clauseTupel) else -1
 
-cdcl :: ActivityMap -> ClauseList-> TupelList -> Int
-cdcl aMap clist = let aMap' = initialActivity clist (IntMap.fromList []) in
-    cdcl' aMap' 1 clist clist -- Eta reduction. To call this do for example Cdcl [[1]] []
+cdcl :: ClauseList-> TupelList -> CDCLResult
+cdcl clist = let aMap = initialActivity clist Map.empty in
+    cdcl' aMap 1 clist clist -- Eta reduction. To call this do for example Cdcl [[1]] []
 
 -- | Implementation not done
-cdcl' :: ActivityMap -> Level -> ClauseList -> ClauseList -> TupelList -> Int
+cdcl' :: ActivityMap -> Level -> ClauseList -> ClauseList -> TupelList -> CDCLResult
 cdcl' aMap lvl clistOG clist tlist
     | interpreted == 0 = let empty = clist in
         let analyzelv = lvl in
             error "not implemented"
             --cdcl' analyzelv clistOG clist tlist
-    | interpreted == 1 = 1
-    | lvl > 4 = error "stop"
-    | otherwise = let newLvl = lvl + 1 in
-        cdcl' aMap newLvl clistOG (calculateClauseList (fst res) decided) decided
+    | interpreted == 1 = SAT tupleRes
+    | lvl > 10 = error "stop"
+    | otherwise = let newLvl = lvl + 1 in -- komme hierein
+        cdcl' aMap newLvl clistOG (calculateClauseList (fst res) list) list
     where res = unitPropagation clist tlist
-          interpreted = interpret clistOG (snd res)
-          shortestClause = getShortestClause clist
-          decided = [(2,1)]
+          tupleRes = snd res
+          interpreted = interpret clistOG tupleRes
+          shortestClauses = getShortestClause (fst res) []
+          highestActivity = getHighestActivity shortestClauses aMap (0,0)
+          shortestCl = getShortestClauseViaActivity shortestClauses highestActivity
+          decided = [setVariableViaActivity (fromMaybe [] shortestCl) highestActivity]
+          list = nub (tlist ++ decided ++ tupleRes)
 
     -- if interpret clistOG (snd res) == 0 then -- checkEmptyClause needs to be changed. eventuell einfach interpret auf 0 checken?
     --     let empty = clist in -- function which calculates empty clause
@@ -75,7 +83,7 @@ calculateClauseList cl tlist@(xs : ys)
 
 -- | Bsp: [[2,1,3],[-1]] [(1,0),(3,0),(2,0)] -> 0. CONFLICT
 --   Bsp: [[2,1,3]][(1,0),(2,0)] -> -1. Etwas wurde noch nicht belegt o. etwas wurde nicht positiv.
-interpret :: ClauseList -> TupelList -> Int
+interpret :: ClauseList -> TupelList -> Integer
 interpret t@(formel : xs) interpretation -- = do
     | null interpretation = -1
     | not (null xs) = let value = interpret' formel interpretation False in
@@ -85,7 +93,7 @@ interpret t@(formel : xs) interpretation -- = do
 -- | Returns 1, 0 and -1
 --   Interprets a single clause of a formula
 --   Empty Clause if whole clause interprets to 0. if -1 appears it means the clause isnt finished from interpreting
-interpret' :: Clause -> TupelList -> Bool -> Int
+interpret' :: Clause -> TupelList -> Bool -> Integer
 interpret' (formel : xs) interpretation x-- = do
     | tupelValue == -1 && null xs = -1
     | tupelValue == -1 && not (null xs) = interpret' xs interpretation True
@@ -98,7 +106,7 @@ interpret' (formel : xs) interpretation x-- = do
 
 
 -- | Get the set value from the tupellist.
-searchTupel :: Int -> TupelList -> Int
+searchTupel :: Integer -> TupelList -> Integer
 searchTupel xval (xs : ys)
     | fst xs == xval = snd xs
     | not (null ys) = searchTupel xval ys
