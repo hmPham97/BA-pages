@@ -112,7 +112,4 @@ searchTupel xval (xs : ys)
     | not (null ys) = searchTupel xval ys
     | otherwise = -1
 searchTupel _ _ = -1
--- searchTupel xval x = if not (null x) then do
---     if fst (head x) == xval then snd (head x) else -1
---     else -1
 

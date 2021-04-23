@@ -9,7 +9,7 @@
 -- Portability :
 --
 ---------------------------------------------------------------------
-module CDCL.Decisionalgorithm (getShortestClause, initialActivity, updateActivity, act,
+module CDCL.Decisionalgorithm (getShortestClause, initialActivity, updateActivity,
     getHighestActivity, getHighestActivity', setVariableViaActivity,
     getShortestClauseViaActivity) where
 
@@ -21,27 +21,20 @@ import           Data.Maybe
 
 filterK val = Map.filterWithKey (\x _ -> x == val)
 
-decideVariable :: ClauseList -> ActivityMap -> Tupel
-decideVariable cL = decideAlg (head cL)
-
-decideAlg :: Clause -> ActivityMap -> Tupel
-decideAlg cl aMap = (2,1)
-
+-- | Get the shortest clauses within the given clauseList.
+--   Returns either empty list or a clauseList with equally long clauses.
+--   E.g. getShortestClause [[3,33],[4,5,4],[3,4],[52,12]] [] 
+--   will return [[3,33],[3,4],[52,12]]
 getShortestClause :: ClauseList -> ClauseList -> ClauseList
 getShortestClause (xs : ys) cur
-    | null xs && not (null cur) = cur
-    | null curSize && not (null xs) && not (null ys)= getShortestClause ys [xs]
-    | null curSize = [xs]
-    | length xs == curLen && null ys = xs : cur
-    | length xs > curLen && null ys= cur
-    | otherwise = filter ((< length xs) .  length) (getShortestClause ys (xs : cur))
-    where curSize = filter ((<= length xs) . length) cur
+    | null curSize && not (null xs) = getShortestClause shorterYs [xs]
+    | length xs == curLen = getShortestClause shorterYs (xs : cur)
+    | length xs > curLen = getShortestClause shorterYs cur
+    --  otherwise = filter ((< length xs) .  length) (getShortestClause ys (xs : cur)) Fall sollte nicht mehr notwendig sein 
+    where curSize = filter ((<= length xs) . length) cur 
           curLen = length (head curSize)
+          shorterYs = filter ((<= length xs) . length) ys
 getShortestClause [] cur = cur
-
-
-act :: ClauseList -> ActivityMap
-act cList = initialActivity cList Map.empty
 
 -- | calculate the ActivityMap.
 --   example: initialActivity [[1,2,3,4],[3,4]] (IntMap.fromList [])
@@ -93,14 +86,22 @@ getHighestActivity' cl@(xs : ys) aMap val
           actVal = activity Map.!? x
 getHighestActivity' [] aMap x = x
 
+-- | Set the Tupelvalue based on the Variable. 
+--   If the Variable with the highest activity has a minus prefix the tupel value will
+--   be set to 1 with the variable getting a positive prefix in the tupel. 
+--   Else the tupel will be set to the variable with a 0 as second value.
 setVariableViaActivity :: Clause -> VariableActivity -> Tupel
-setVariableViaActivity [] _ = (-1,-1)
 setVariableViaActivity (xs : ys) vAct
-    | xs == fst vAct = if xs < 0 then (-xs, 1) else (xs, 0)
+    | xs == fst vAct || (-xs) == fst vAct = if xs < 0 then (-xs, 1) else (xs, 0)
     | not (null ys) = setVariableViaActivity ys vAct
+setVariableViaActivity [] _ = (-1,-1)
 
+-- | Get the shortest clause which contains the highest activity. 
+--   Do this based on the give ClauseList and VariableActivity. Return
+--   Maybe Clause or Nothing.
 getShortestClauseViaActivity :: ClauseList -> VariableActivity -> Maybe Clause
 getShortestClauseViaActivity (xs : ys) vAct
-    | fst vAct `elem` xs  = Just xs
+    | firstVal `elem` xs || (-firstVal) `elem` xs = Just xs
     | otherwise = getShortestClauseViaActivity ys vAct
+    where firstVal = fst vAct
 getShortestClauseViaActivity [] vAct = Nothing
