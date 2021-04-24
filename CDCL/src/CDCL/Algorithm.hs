@@ -35,13 +35,20 @@ dpll d x = let clauseTupel = unitPropagation d x
     in if interpret d (snd clauseTupel) /= 1 then DNotResolved else DResolved
    -- in if checkEmptyClause (fst clauseTupel) && not (checkTupleForError (snd clauseTupel)) then interpret d (snd clauseTupel) else -1
 
-cdcl :: ClauseList-> TupelList -> CDCLResult
+-- | This function will start the CDCL Function.
+--   To call this function do for example:
+--   cdcl [[1,2,3],[2,5]]
+--   The function will return the result of the cdcl' function.
+cdcl :: ClauseList -> CDCLResult
 cdcl clist = let aMap = initialActivity clist Map.empty in
-    cdcl' aMap 1 clist clist -- Eta reduction. To call this do for example Cdcl [[1]] []
+    cdcl' aMap 1 [] clist clist -- Eta reduction. To call this do for example Cdcl [[1]] []
 
 -- | Implementation not done
-cdcl' :: ActivityMap -> Level -> ClauseList -> ClauseList -> TupelList -> CDCLResult
-cdcl' aMap lvl clistOG clist tlist
+--   Function recursively calls itself until either following result happens
+--   interpreted = 1 -> SAT TupelList
+--   interpreted = 0 and lvl = 0 -> UNSAT
+cdcl' :: ActivityMap -> Level -> TupelList -> ClauseList -> ClauseList -> CDCLResult
+cdcl' aMap lvl tlist clistOG clist
     | interpreted == 0 = let empty = clist in
         let analyzelv = lvl in
             error "not implemented"
@@ -49,14 +56,14 @@ cdcl' aMap lvl clistOG clist tlist
     | interpreted == 1 = SAT tupleRes
     | lvl > 10 = error "stop"
     | otherwise = let newLvl = lvl + 1 in -- komme hierein
-        cdcl' aMap newLvl clistOG (calculateClauseList (fst res) list) list
+        cdcl' aMap newLvl list clistOG (calculateClauseList (fst res) list)
     where res = unitPropagation clist tlist
           tupleRes = snd res
           interpreted = interpret clistOG tupleRes
           shortestClauses = getShortestClause (fst res) []
           highestActivity = getHighestActivity shortestClauses aMap (0,0)
           shortestCl = getShortestClauseViaActivity shortestClauses highestActivity
-          decided = [setVariableViaActivity (fromMaybe [] shortestCl) highestActivity]
+          decided = [setVariableViaActivity (fromMaybe [] shortestCl) highestActivity] -- Need change here
           list = nub (tlist ++ decided ++ tupleRes)
 
     -- if interpret clistOG (snd res) == 0 then -- checkEmptyClause needs to be changed. eventuell einfach interpret auf 0 checken?

@@ -15,7 +15,8 @@ import           CDCL.Types (ClauseList, TupelList)
 import           CDCL.Unitpropagation (getUnitClause, setVariable,
                      unitResolution, unitSubsumption)
 
-
+-- | Mainlogic of the unitpropagation. It calls every important function
+--   necessary for the CDCL Function.
 unitPropagation :: ClauseList -> TupelList -> (ClauseList , TupelList)
 unitPropagation clist tlist
     | null clist || null unitClause = (clist, tlist)

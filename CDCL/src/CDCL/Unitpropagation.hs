@@ -22,7 +22,7 @@ getUnitClause _ = []
 
 -- | call this method on unit clauses only. If the value is less then 0 set a 0 in the tuple, else set 1
 setVariable :: Clause  -> Tupel
-setVariable clause = if head clause < 0 then (-(head clause), 0) else (head clause, 1)
+setVariable clause = if head clause < 0 then (-(head clause), 0) else (head clause, 1) -- Need change here
 
 -- | if true -> variable is already set, else it isnt set
 checkSetVariable :: TupelList  -> Integer -> Bool
