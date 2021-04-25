@@ -20,9 +20,9 @@ import           CDCL.Decisionalgorithm (getHighestActivity,
                      getShortestClauseViaActivity, initialActivity,
                      setVariableViaActivity, updateActivity)
 import           CDCL.Types (ActivityMap, CDCLResult (..), Clause, ClauseList,
-                     DPLLResult (..), Level, Tupel, TupelList)
-import           CDCL.Unitpropagation (checkSetVariable, unitResolution,
-                     unitSubsumption)
+                     DPLLResult (..), Level, MappedTupleList, Tupel, TupelList, TriTuple)
+import           CDCL.Unitpropagation (checkSetVariable, pushToMappedTupleList,
+                     unitResolution, unitSubsumption)
 import           CDCL.UPcdcl (unitPropagation)
 import           Data.List
 import           Data.Map.Strict (Map)
@@ -31,8 +31,8 @@ import           Data.Maybe
 -- | Returns 1 and -1 currently
 --      1 equals resolved and -1 equals not resolved
 dpll :: ClauseList -> TupelList -> DPLLResult
-dpll d x = let clauseTupel = unitPropagation d x
-    in if interpret d (snd clauseTupel) /= 1 then DNotResolved else DResolved
+dpll d x = let clauseTupel = unitPropagation d x 1 Map.empty
+    in if interpret d (getSecondElem clauseTupel) /= 1 then DNotResolved else DResolved
    -- in if checkEmptyClause (fst clauseTupel) && not (checkTupleForError (snd clauseTupel)) then interpret d (snd clauseTupel) else -1
 
 -- | This function will start the CDCL Function.
@@ -41,30 +41,32 @@ dpll d x = let clauseTupel = unitPropagation d x
 --   The function will return the result of the cdcl' function.
 cdcl :: ClauseList -> CDCLResult
 cdcl clist = let aMap = initialActivity clist Map.empty in
-    cdcl' aMap 1 [] clist clist -- Eta reduction. To call this do for example Cdcl [[1]] []
+    cdcl' aMap 1 [] Map.empty clist clist -- Eta reduction. To call this do for example Cdcl [[1]] []
 
 -- | Implementation not done
 --   Function recursively calls itself until either following result happens
 --   interpreted = 1 -> SAT TupelList
 --   interpreted = 0 and lvl = 0 -> UNSAT
-cdcl' :: ActivityMap -> Level -> TupelList -> ClauseList -> ClauseList -> CDCLResult
-cdcl' aMap lvl tlist clistOG clist
+cdcl' :: ActivityMap -> Level -> TupelList -> MappedTupleList -> ClauseList -> ClauseList -> CDCLResult
+cdcl' aMap lvl tlist mappedTL clistOG clist
     | interpreted == 0 = let empty = clist in
         let analyzelv = lvl in
             error "not implemented"
             --cdcl' analyzelv clistOG clist tlist
-    | interpreted == 1 = SAT tupleRes
+    | interpreted == 1 = SAT tupleRes updatedMap
     | lvl > 10 = error "stop"
-    | otherwise = let newLvl = lvl + 1 in -- komme hierein
-        cdcl' aMap newLvl list clistOG (calculateClauseList (fst res) list)
-    where res = unitPropagation clist tlist
-          tupleRes = snd res
+    | otherwise = cdcl' aMap newLvl list updateMapViaDecision clistOG (calculateClauseList (getFirstElem res) list)
+    where res = unitPropagation clist tlist lvl mappedTL
+          tupleRes = getSecondElem res
+          updatedMap = getThirdElem res
           interpreted = interpret clistOG tupleRes
-          shortestClauses = getShortestClause (fst res) []
+          newLvl = lvl + 1
+          shortestClauses = getShortestClause (getFirstElem res) []
           highestActivity = getHighestActivity shortestClauses aMap (0,0)
           shortestCl = getShortestClauseViaActivity shortestClauses highestActivity
-          decided = [setVariableViaActivity (fromMaybe [] shortestCl) highestActivity] -- Need change here
-          list = nub (tlist ++ decided ++ tupleRes)
+          decided = setVariableViaActivity (fromMaybe [] shortestCl) highestActivity -- Need change here
+          updateMapViaDecision = pushToMappedTupleList mappedTL lvl decided
+          list = nub (tlist ++ [decided] ++ tupleRes)
 
     -- if interpret clistOG (snd res) == 0 then -- checkEmptyClause needs to be changed. eventuell einfach interpret auf 0 checken?
     --     let empty = clist in -- function which calculates empty clause
@@ -120,3 +122,14 @@ searchTupel xval (xs : ys)
     | otherwise = -1
 searchTupel _ _ = -1
 
+-- | returns the clauseList from unitPropagation
+getFirstElem :: TriTuple -> ClauseList
+getFirstElem (x, _, _) = x
+
+-- | returns the TupelList from unitPropagation
+getSecondElem ::  TriTuple -> TupelList
+getSecondElem (_, x, _) = x
+
+-- | returns the MappedTupleList from unitPropagation
+getThirdElem :: TriTuple -> MappedTupleList
+getThirdElem (_, _, x) = x
