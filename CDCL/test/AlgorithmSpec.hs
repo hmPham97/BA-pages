@@ -1,6 +1,6 @@
 module AlgorithmSpec where
-import           CDCL.Algorithm (cdcl, dpll, interpret, searchTupel)
-import           CDCL.Types (CDCLResult (..), DPLLResult (..), Variable(..), 
+import           CDCL.Algorithm (cdcl, interpret, searchTupel)
+import           CDCL.Types (CDCLResult (..), Variable(..), 
                  Activity(..), Level(..), BoolVal(..), transformClauseList)
 import           Control.Exception (evaluate)
 import           Data.Map.Strict (Map)
@@ -11,10 +11,6 @@ import           Test.QuickCheck
 spec :: Spec
 spec =
     describe "testing" $ do
-        it "dpll test should return DResolved" $
-            dpll [[1]] [] `shouldBe` DResolved
-        it "dpll test should return DNotResolved" $
-            dpll [[1],[-1]] [] `shouldBe` DNotResolved
         it "interpret should return 1" $
             interpret (transformClauseList[[1,2,-3],[-2],[4,5]] []) [(Variable 1,BFalse),(Variable 2,BFalse),(Variable 3,BFalse),(Variable 4,BFalse),(Variable 5,BTrue)] `shouldBe` 1
         it "interpret should return -1" $
