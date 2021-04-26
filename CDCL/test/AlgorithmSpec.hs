@@ -25,8 +25,8 @@ spec =
         it "searchTupel should return 0" $
             searchTupel 1 [(1,0),(2,1),(3,1),(4,1)] `shouldBe` 0
         it "cdcl should return SAT [(2,1)]" $
-            cdcl [[1,2]] [] `shouldBe` SAT [(1,0),(2,1)]
+            cdcl [[1,2]] `shouldBe` SAT [(1,0),(2,1)]
         it "cdcl should return SAT [(2,0),(3,1),(4,0)]" $
-            cdcl [[1,2,3,4],[-2],[2,3],[-4,-3]] [] `shouldBe` SAT [(2,0),(3,1),(4,0)]
+            cdcl [[1,2,3,4],[-2],[2,3],[-4,-3]] `shouldBe` SAT [(2,0),(3,1),(4,0)]
         it "cdcl should throw error not implemented" $ do
-            evaluate(cdcl [[1],[-1]] []) `shouldThrow` anyException
+            evaluate(cdcl [[1],[-1]]) `shouldThrow` anyException
