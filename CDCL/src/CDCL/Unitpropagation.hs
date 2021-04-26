@@ -3,7 +3,7 @@
 -- Module      :   CDCL.Unitpropagation
 -- Description :   Contains necessary logic for unitpropagation
 -- Copyright   :   (c) Thanh Nam Pham, 2021
--- License     :
+-- License     :   Apache 2.0
 -- Maintainer  :
 -- Stability   :
 -- Portability :
@@ -12,7 +12,7 @@
 module CDCL.Unitpropagation (getUnitClause, setVariable, unitSubsumption, checkSetVariable, unitResolution, pushToMappedTupleList) where
 
 import           CDCL.Types (Clause, ClauseList, Level, MappedTupleList, Tupel,
-                     TupelList)
+                     TupelList, BoolVal(..), getVariableValue, negateVariableValue)
 import           Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
 import           Data.Maybe
@@ -26,7 +26,8 @@ getUnitClause _ = []
 
 -- | call this method on unit clauses only. If the value is less then 0 set a 0 in the tuple, else set 1
 setVariable :: Clause  -> Tupel
-setVariable clause = if head clause < 0 then (-(head clause), 0) else (head clause, 1) -- Need change here
+setVariable clause = if getVariableValue (head clause) < 0 
+    then (negateVariableValue (head clause), BFalse) else (head clause, BTrue) -- Need change here
 
 -- | Method for updating MappedTupleList.
 --   If Variable was already set return map.
@@ -44,7 +45,7 @@ pushToMappedTupleList maptl lvl tupel
 -- | if true -> variable is already set, else it isnt set
 checkSetVariable :: TupelList  -> Integer -> Bool
 checkSetVariable (x:nxt) check = let val = fst x in
-    val == check || (not (null nxt) && checkSetVariable nxt check)
+    getVariableValue val == check || (not (null nxt) && checkSetVariable nxt check)
 checkSetVariable _ _ = False
 
 -- | Remove clauses which have removableVar as variable.
@@ -52,7 +53,7 @@ unitSubsumption :: ClauseList  -> Tupel -> ClauseList
 unitSubsumption (firstList : xs) tuple
     | not checked = filter (not . null) (firstList : unitSubsumption xs tuple)
     | otherwise = filter (not . null) (unitSubsumption xs tuple)
-    where val = if snd tuple == 1 then fst tuple else -(fst tuple)
+    where val = if snd tuple == BTrue then fst tuple else negateVariableValue (fst tuple)
           checked = val `elem` firstList -- checks if val is inside list
 
 unitSubsumption _ _ = [[]]
@@ -63,7 +64,7 @@ unitResolution (firstList : xs) tuple
     | not checked = filter (not . null) (firstList : unitResolution xs tuple)
     | otherwise = let list = filter (/= val) firstList in
         filter (not . null) (list : unitResolution xs tuple)
-    where val = if snd tuple == 0 then fst tuple else (-(fst tuple))
+    where val = if snd tuple == BFalse then fst tuple else negateVariableValue (fst tuple)
           checked = val `elem` firstList -- checks if val is inside list
 
 unitResolution _ _ = [[]]

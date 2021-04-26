@@ -3,7 +3,7 @@
 -- Module      :   CDCL.Algorithm
 -- Description :   Contains main logic for unitpropagation.
 -- Copyright   :   (c) Thanh Nam Pham, 2021
--- License     :
+-- License     :   Apache 2.0
 -- Maintainer  :
 -- Stability   :
 -- Portability :

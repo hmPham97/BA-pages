@@ -3,7 +3,7 @@
 -- Module      :   CDCL.Decisionalgorithm
 -- Description :   Contains logic related to the decision algorithm
 -- Copyright   :   (c) Thanh Nam Pham, 2021
--- License     :
+-- License     :   Apache 2.0
 -- Maintainer  :
 -- Stability   :
 -- Portability :
@@ -14,7 +14,8 @@ module CDCL.Decisionalgorithm (getShortestClause, initialActivity, updateActivit
     getShortestClauseViaActivity) where
 
 import           CDCL.Types (ActivityMap, Clause, ClauseList, Tupel,
-                     VariableActivity)
+                     VariableActivity, Variable(..), Activity(..), BoolVal(..),
+                     getVariableValue, negateVariableValue, getActivityValue, increaseActivity)
 import           Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
 import           Data.Maybe
@@ -53,24 +54,26 @@ initialActivity x aList = updateActivity (head x) aList
 updateActivity :: Clause -> ActivityMap -> ActivityMap
 updateActivity [] aMap = aMap
 updateActivity clause@(xs : ys) aMap
-    | not (null activity) && null ys= Map.adjust (1 +) xValue aMap
-    | not (null activity) = let updatedMap = Map.adjust (1 +) xValue aMap in
+    | not (null activityMap) && null ys= Map.adjust increaseActivity xValue aMap
+    | not (null activityMap) = let updatedMap = Map.adjust increaseActivity xValue aMap in
         updateActivity ys updatedMap
     -- --let actInt = (snd activity) + 1 in
-    |  null activity = let updatedMap = Map.insert xValue 1 aMap in
+    |  null activityMap = let updatedMap = Map.insert xValue (Activity 1) aMap in
          updateActivity ys updatedMap
     | not (null ys) = updateActivity ys aMap
-    where xValue = if xs < 0 then (-xs) else xs
-          activity = filterK xValue aMap
+    where xValue = if getVariableValue xs < 0 then negateVariableValue xs else xs
+          activityMap = filterK xValue aMap
+          activity = Map.lookup xValue activityMap
+          actval = fromMaybe (Activity (-1)) activity          
 
 -- | Return the highest Activity which can be found in the ClauseList. Calls itself recursively
 --   until every clauses was calculated.
 --   example : getHighestActivity [[-1,3,5],[3,7]] (Map.fromList [(1,5),(3,6),(5,2),(7,7)]) (0,0)
 getHighestActivity :: ClauseList -> ActivityMap -> VariableActivity -> VariableActivity
 getHighestActivity cList@(xs : ys) aMap val
-    | snd val == 0 && null ys = highestValInClause
+    | getActivityValue (snd val) == 0 && null ys = highestValInClause
   --  | val == 0 && not (null ys) = getHighestActivity ys aMap highestValInClause
-    | snd val < snd highestValInClause = getHighestActivity ys aMap highestValInClause
+    | getActivityValue (snd val) < getActivityValue (snd highestValInClause) = getHighestActivity ys aMap highestValInClause
     where highestValInClause = getHighestActivity' xs aMap val
 getHighestActivity _ _ val = val
 
@@ -80,11 +83,11 @@ getHighestActivity _ _ val = val
 --   returns (3,6)
 getHighestActivity' :: Clause -> ActivityMap -> VariableActivity -> VariableActivity
 getHighestActivity' cl@(xs : ys) aMap val
-    | actVal > Just (snd val) && null ys = (x, fromMaybe (fst val) actVal)
+    | actVal > Just (snd val) && null ys = (x, fromMaybe (snd val) actVal)
     | actVal > Just (snd val) = case actVal of
         Just act -> getHighestActivity' ys aMap (x, act)
     | otherwise = getHighestActivity' ys aMap val
-    where x = if xs < 0 then (-xs) else xs
+    where x = if getVariableValue xs < 0 then negateVariableValue xs else xs
           activity = filterK x aMap
           actVal = activity Map.!? x
 getHighestActivity' [] aMap x = x
@@ -95,16 +98,17 @@ getHighestActivity' [] aMap x = x
 --   Else the tupel will be set to the variable with a 0 as second value.
 setVariableViaActivity :: Clause -> VariableActivity -> Tupel
 setVariableViaActivity (xs : ys) vAct
-    | xs == fst vAct || (-xs) == fst vAct = if xs < 0 then (-xs, 1) else (xs, 0)
+    | xs == fst vAct || (-getVariableValue xs) == getVariableValue (fst vAct) = if varValue < 0 then (negateVariableValue xs, BTrue) else (xs, BFalse)
     | not (null ys) = setVariableViaActivity ys vAct
-setVariableViaActivity [] _ = (-1,-1)
+    where varValue = getVariableValue xs
+setVariableViaActivity [] _ = (Variable (-1), BNothing)
 
 -- | Get the shortest clause which contains the highest activity.
 --   Do this based on the give ClauseList and VariableActivity. Return
 --   Maybe Clause or Nothing.
 getShortestClauseViaActivity :: ClauseList -> VariableActivity -> Maybe Clause
 getShortestClauseViaActivity (xs : ys) vAct
-    | firstVal `elem` xs || (-firstVal) `elem` xs = Just xs
+    | firstVal `elem` xs || negateVariableValue firstVal `elem` xs = Just xs
     | otherwise = getShortestClauseViaActivity ys vAct
     where firstVal = fst vAct
 getShortestClauseViaActivity [] vAct = Nothing
