@@ -3,7 +3,7 @@
 -- Module      :   CDCL.Types
 -- Description :   Contains type declaration for CDCL Package
 -- Copyright   :   (c) Thanh Nam Pham, 2021
--- License     :   Apache 2.0
+-- License     :   Apache-2.0
 -- Maintainer  :
 -- Stability   :
 -- Portability :

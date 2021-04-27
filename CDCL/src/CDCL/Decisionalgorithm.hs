@@ -3,7 +3,7 @@
 -- Module      :   CDCL.Decisionalgorithm
 -- Description :   Contains logic related to the decision algorithm
 -- Copyright   :   (c) Thanh Nam Pham, 2021
--- License     :   Apache 2.0
+-- License     :   Apache-2.0
 -- Maintainer  :
 -- Stability   :
 -- Portability :

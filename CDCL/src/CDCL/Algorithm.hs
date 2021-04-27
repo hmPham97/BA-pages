@@ -2,7 +2,7 @@
 -- |
 -- Module      :   CDCL.Algorithm
 -- Copyright   :   (c) Thanh Nam Pham, 2021
--- License     :   Apache 2.0
+-- License     :   Apache-2.0
 -- Maintainer  :
 -- Stability   :
 -- Portability :
