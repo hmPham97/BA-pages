@@ -22,7 +22,7 @@ import           CDCL.Decisionalalgorithm (getHighestActivity,
 import qualified CDCL.Decisionalalgorithm as Decisionalalgorithm
 
 import           CDCL.Types (ActivityMap, CDCLResult (..), Clause, ClauseList, Variable(..),
-                     Level(..), MappedTupleList, Tupel, TupelList, TriTuple,
+                     Level(..), MappedTupleList, Tupel, TupelClauseList, TriTuple,
                      Activity(..), BoolVal(..), InterpretResult (..), increaseLvl, 
                      getVariableValue, negateVariableValue, transformClauseList, 
                      getNOK, getEmptyClause)
@@ -50,15 +50,15 @@ cdcl clist = cdcl' aMap (Level 0) [] Map.empty transformedList transformedList
 
 -- | Implementation not done
 --   Function recursively calls itself until either following result happens
---   interpreted = 1 -> SAT TupelList
+--   interpreted = 1 -> SAT TupelClauseList
 --   interpreted = 0 and lvl = 0 -> UNSAT
-cdcl' :: ActivityMap -> Level -> TupelList -> MappedTupleList -> ClauseList -> ClauseList -> CDCLResult
+cdcl' :: ActivityMap -> Level -> TupelClauseList -> MappedTupleList -> ClauseList -> ClauseList -> CDCLResult
 cdcl' aMap (Level lvl)  tlist mappedTL clistOG clist
     | getNOK interpreted = let empty = getEmptyClause interpreted in
         let analyzelv = lvl in
             error "not implemented"
             --cdcl' analyzelv clistOG clist tlist
-    | interpreted == OK = SAT tupleRes updatedMap
+    | interpreted == OK = SAT (map fst tupleRes) updatedMap
     | Level lvl > Level 10 = error "stop"
     | otherwise = cdcl' aMap newLvl list updateMapViaDecision clistOG (calculateClauseList (getFirstElem res) list)
     where res = unitPropagation clist tlist (Level lvl) mappedTL
@@ -85,8 +85,8 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG clist
     --         where decided = [(2,1)] -- decided needs to become a proper function
 
 -- | calculates the clauselist which will be given to unitpropagation.
---   returns when everything of tupellist was calculated
-calculateClauseList :: ClauseList -> TupelList -> ClauseList
+--   returns when everything of tupelClauselist was calculated
+calculateClauseList :: ClauseList -> TupelClauseList -> ClauseList
 calculateClauseList cl tlist@(xs : ys)
     | null xs = cl
     | null ys = reso
@@ -98,19 +98,19 @@ calculateClauseList cl tlist@(xs : ys)
 
 -- | Bsp: [[2,1,3],[-1]] [(1,0),(3,0),(2,0)] -> 0. CONFLICT
 --   Bsp: [[2,1,3]][(1,0),(2,0)] -> -1. Etwas wurde noch nicht belegt o. etwas wurde nicht positiv.
-interpret :: ClauseList -> TupelList -> InterpretResult 
+interpret :: ClauseList -> TupelClauseList -> InterpretResult 
 interpret t@(formel : xs) interpretation -- = do
     | null interpretation || interpreted == UNRESOLVED = UNRESOLVED 
-    | getNOK interpreted = NOK formel
+    | getNOK interpreted = NOK (snd formel)
     | not (null xs) = interpret xs interpretation
         --if value == UNRESOLVED then value else if value /= OK then NOK formel else interpret xs interpretation
-    | otherwise = interpret' formel interpretation False
-    where interpreted = interpret' formel interpretation False
+    | otherwise = interpret' (snd formel) interpretation False
+    where interpreted = interpret' (snd formel) interpretation False
 
 -- | Returns 1, 0 and -1
 --   Interprets a single clause of a formula
 --   Empty Clause if whole clause interprets to 0. if -1 appears it means the clause isnt finished from interpreting
-interpret' :: Clause -> TupelList -> Bool -> InterpretResult 
+interpret' :: Clause -> TupelClauseList -> Bool -> InterpretResult 
 interpret' (formel : xs) interpretation boolValue-- = do
     | tupelValue == BNothing   && null xs = UNRESOLVED 
     | tupelValue == BNothing  && not (null xs) = interpret' xs interpretation True
@@ -123,8 +123,8 @@ interpret' (formel : xs) interpretation boolValue-- = do
               tupelValue = searchTupel (getVariableValue varValue) interpretation
 
 
--- | Get the set value from the tupellist.
-searchTupel :: Integer -> TupelList -> BoolVal
+-- | Get the set value from the tupelClauselist.
+searchTupel :: Integer -> TupelClauseList -> BoolVal
 searchTupel xval (xs : ys)
     | getVariableValue (fst (fst xs)) == xval = snd (fst xs)
     | not (null ys) = searchTupel xval ys
@@ -137,8 +137,8 @@ searchTupel _ _ = BNothing
 getFirstElem :: TriTuple -> ClauseList
 getFirstElem (x, _, _) = x
 
--- | returns the TupelList from unitPropagation
-getSecondElem ::  TriTuple -> TupelList
+-- | returns the TupelClauseList from unitPropagation
+getSecondElem ::  TriTuple -> TupelClauseList
 getSecondElem (_, x, _) = x
 
 -- | returns the MappedTupleList from unitPropagation

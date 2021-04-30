@@ -22,7 +22,11 @@ data CDCLResult
     |
         -- | Formula not resolved
         UNSAT
-    deriving(Eq, Ord, Show)
+    deriving(Eq, Ord)
+
+instance Show CDCLResult where
+    show (SAT tl mtl) = "SAT " ++ show tl ++ "\n\n" ++ show mtl ++ "\n"
+    show UNSAT = "UNSAT"
 
 data Reason = 
         Decision
@@ -66,22 +70,27 @@ newtype Activity = Activity Integer
 -- | Clause defined as a List of Variables
 type Clause = [Variable]
 
+-- | Tupel of 2 Clauses
+--   First clause in tuple is reduced via Unitresolution
+--   Second clause is the clause in its original form
 type ReducedClauseAndOGClause = (Clause, Clause)
 
--- | ClauseList defined as a List of Clauses
-type ClauseList = [Clause]
+-- | ClauseList defined as a List of ReducedClauseAndOGClause
+type ClauseList = [ReducedClauseAndOGClause]
 
 -- | Tupel is defined as a Tupel of (Variables, Integer).
 --   Integers in this case are only 0 or 1 valuewise.
 type Tupel = (Variable, BoolVal)
 
+type TupelList = [Tupel]
+
 type TupelClause = (Tupel, Reason)
 
 -- | TupelList is a list of Tupels
-type TupelList = [TupelClause]
+type TupelClauseList = [TupelClause]
 
 -- | Defined as Map.Map Integer TupelList
-type MappedTupleList = Map.Map Level TupelList
+type MappedTupleList = Map.Map Level TupelClauseList
 
 -- | Shows how often a variable is found in the formulas
 -- | Defined as Map.Map Variable Activity
@@ -93,7 +102,7 @@ type VariableActivity = (Variable, Activity)
 
 -- | Defined by using three Types.
 --   These are ClauseList, TupelList and MappedTupleList
-type TriTuple = (ClauseList , TupelList, MappedTupleList)
+type TriTuple = (ClauseList , TupelClauseList, MappedTupleList)
 
 increaseLvl :: Level -> Level
 increaseLvl (Level i) = Level (i + 1)
@@ -118,9 +127,9 @@ transformClauseList (xs : ys) cList
     | null ys = cList ++ [transformClause xs []]
     | otherwise = transformClauseList ys [transformClause xs []] ++ cList
 
-transformClause :: [Integer] -> Clause -> Clause
+transformClause :: [Integer] -> Clause -> ReducedClauseAndOGClause
 transformClause (xs : ys) varList
-    | null ys = varList ++ [Variable xs]
+    | null ys = (varList ++ [Variable xs], varList ++ [Variable xs])
     | otherwise = transformClause ys (varList ++ [Variable xs])
 
 getNOK :: InterpretResult -> Bool 

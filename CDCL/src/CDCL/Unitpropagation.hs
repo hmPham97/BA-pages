@@ -12,8 +12,8 @@
 module CDCL.Unitpropagation (getUnitClause, setVariable, unitSubsumption, checkSetVariable, 
     unitResolution, pushToMappedTupleList) where
 
-import           CDCL.Types (Clause, ClauseList, Level, MappedTupleList, Tupel, TupelClause,
-                     TupelList, BoolVal(..), Reason(..), getVariableValue, negateVariableValue)
+import           CDCL.Types (Clause, ClauseList, Level, MappedTupleList, Tupel, TupelClause, ReducedClauseAndOGClause,
+                     TupelClauseList, BoolVal(..), Reason(..), getVariableValue, negateVariableValue)
 import qualified CDCL.Types as TypesC
 
 import           Data.Map.Strict (Map)
@@ -21,11 +21,11 @@ import qualified Data.Map.Strict as Map
 import           Data.Maybe
 
 -- | checks if an unit clause exists in the given list of lists. if one exists return the list.
-getUnitClause :: ClauseList  -> Clause
-getUnitClause (clause : xs) = let listLength = length clause in
+getUnitClause :: ClauseList  -> ReducedClauseAndOGClause 
+getUnitClause (clause : xs) = let listLength = length (fst clause) in
     if listLength == 1 then clause else getUnitClause xs
 
-getUnitClause _ = []
+getUnitClause _ = ([],[])
 
 -- | call this method on unit clauses only. If the value is less then 0 set a 0 in the tuple, else set 1
 setVariable :: Clause  -> Tupel
@@ -46,7 +46,7 @@ pushToMappedTupleList maptl lvl tupel reason
           m x = Just (fromMaybe [] f ++ [(tupel, reason)])
 
 -- | if true -> variable is already set, else it isnt set
-checkSetVariable :: TupelList  -> Integer -> Bool
+checkSetVariable :: TupelClauseList  -> Integer -> Bool
 checkSetVariable (x:nxt) check = let val = fst x in
     getVariableValue (fst val) == check || (not (null nxt) && checkSetVariable nxt check)
 checkSetVariable _ _ = False
@@ -57,17 +57,17 @@ unitSubsumption (firstList : xs) tuple
     | not checked = filter (not . null) (firstList : unitSubsumption xs tuple)
     | otherwise = filter (not . null) (unitSubsumption xs tuple)
     where val = if snd (fst tuple) == BTrue then fst (fst tuple) else negateVariableValue (fst (fst tuple))
-          checked = val `elem` firstList -- checks if val is inside list
+          checked = val `elem` fst firstList -- checks if val is inside list
 
-unitSubsumption _ _ = [[]]
+unitSubsumption _ _ = []
 
 -- | remove -variable of the variable which was set
 unitResolution :: ClauseList -> TupelClause -> ClauseList
 unitResolution (firstList : xs) tuple
     | not checked = filter (not . null) (firstList : unitResolution xs tuple)
-    | otherwise = let list = filter (/= val) firstList in
-        filter (not . null) (list : unitResolution xs tuple)
+    | otherwise = let list = filter (/= val) (fst firstList) in
+        filter (not . null) ((list,snd firstList) : unitResolution xs tuple)
     where val = if snd (fst tuple) == BFalse then fst (fst tuple) else negateVariableValue (fst (fst tuple))
-          checked = val `elem` firstList -- checks if val is inside list
+          checked = val `elem` fst firstList -- checks if val is inside list
 
-unitResolution _ _ = [[]]
+unitResolution _ _ = []
