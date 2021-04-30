@@ -9,13 +9,14 @@
 -- Portability :
 --
 ---------------------------------------------------------------------
-module CDCL.Decisionalgorithm (getShortestClause, initialActivity, updateActivity,
+module CDCL.Decisionalalgorithm (getShortestClause, initialActivity, updateActivity,
     getHighestActivity, getHighestActivity', setVariableViaActivity,
     getShortestClauseViaActivity) where
 
-import           CDCL.Types (ActivityMap, Clause, ClauseList, Tupel,
-                     VariableActivity, Variable(..), Activity(..), BoolVal(..),
+import           CDCL.Types (ActivityMap, Clause, ClauseList, Tupel, TupelClause,
+                     VariableActivity, Variable(..), Activity(..), BoolVal(..), Reason (..),
                      getVariableValue, negateVariableValue, getActivityValue, increaseActivity)
+import qualified CDCL.Types as TypeC
 import           Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
 import           Data.Maybe
@@ -96,12 +97,12 @@ getHighestActivity' [] aMap x = x
 --   If the Variable with the highest activity has a minus prefix the tupel value will
 --   be set to 1 with the variable getting a positive prefix in the tupel.
 --   Else the tupel will be set to the variable with a 0 as second value.
-setVariableViaActivity :: Clause -> VariableActivity -> Tupel
+setVariableViaActivity :: Clause -> VariableActivity -> TupelClause
 setVariableViaActivity (xs : ys) vAct
-    | xs == fst vAct || (-getVariableValue xs) == getVariableValue (fst vAct) = if varValue < 0 then (negateVariableValue xs, BTrue) else (xs, BFalse)
-    | not (null ys) = setVariableViaActivity ys vAct
+    | xs == fst vAct || (-getVariableValue xs) == getVariableValue (fst vAct) = if varValue < 0 then ((negateVariableValue xs, BTrue), Decision) else ((xs, BFalse), Decision)
+    | not (null ys) = setVariableViaActivity (ys ++ [xs])  vAct
     where varValue = getVariableValue xs
-setVariableViaActivity [] _ = (Variable (-1), BNothing)
+setVariableViaActivity [] _ = ((Variable (-1), BNothing), Reason [Variable (-1)])
 
 -- | Get the shortest clause which contains the highest activity.
 --   Do this based on the give ClauseList and VariableActivity. Return

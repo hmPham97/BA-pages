@@ -15,17 +15,25 @@
 
 module CDCL.Algorithm (interpret, searchTupel, cdcl, cdcl', calculateClauseList) where
 
-import           CDCL.Decisionalgorithm (getHighestActivity,
+import           CDCL.Decisionalalgorithm (getHighestActivity,
                      getHighestActivity', getShortestClause,
                      getShortestClauseViaActivity, initialActivity,
                      setVariableViaActivity, updateActivity)
+import qualified CDCL.Decisionalalgorithm as Decisionalalgorithm
+
 import           CDCL.Types (ActivityMap, CDCLResult (..), Clause, ClauseList, Variable(..),
                      Level(..), MappedTupleList, Tupel, TupelList, TriTuple,
-                     Activity(..), BoolVal(..), increaseLvl, getVariableValue, 
-                     negateVariableValue, transformClauseList)
+                     Activity(..), BoolVal(..), InterpretResult (..), increaseLvl, 
+                     getVariableValue, negateVariableValue, transformClauseList, 
+                     getNOK, getEmptyClause)
+import qualified CDCL.Types as TypeC
+
 import           CDCL.Unitpropagation (checkSetVariable, pushToMappedTupleList,
                      unitResolution, unitSubsumption)
+import qualified CDCL.Unitpropagation as Unitpropagation
+
 import           CDCL.UPcdcl (unitPropagation)
+import qualified CDCL.UPcdcl as UPcdcl
 import           Data.List
 import           Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
@@ -46,11 +54,11 @@ cdcl clist = cdcl' aMap (Level 0) [] Map.empty transformedList transformedList
 --   interpreted = 0 and lvl = 0 -> UNSAT
 cdcl' :: ActivityMap -> Level -> TupelList -> MappedTupleList -> ClauseList -> ClauseList -> CDCLResult
 cdcl' aMap (Level lvl)  tlist mappedTL clistOG clist
-    | interpreted == 0 = let empty = clist in
+    | getNOK interpreted = let empty = getEmptyClause interpreted in
         let analyzelv = lvl in
             error "not implemented"
             --cdcl' analyzelv clistOG clist tlist
-    | interpreted == 1 = SAT tupleRes updatedMap
+    | interpreted == OK = SAT tupleRes updatedMap
     | Level lvl > Level 10 = error "stop"
     | otherwise = cdcl' aMap newLvl list updateMapViaDecision clistOG (calculateClauseList (getFirstElem res) list)
     where res = unitPropagation clist tlist (Level lvl) mappedTL
@@ -61,8 +69,9 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG clist
           shortestClauses = getShortestClause (getFirstElem res) []
           highestActivity = getHighestActivity shortestClauses aMap (Variable 0, Activity 0)
           shortestCl = getShortestClauseViaActivity shortestClauses highestActivity
-          decided = setVariableViaActivity (fromMaybe [] shortestCl) highestActivity -- Need change here
-          updateMapViaDecision = pushToMappedTupleList mappedTL newLvl decided
+          assuredShortestClause = fromMaybe [] shortestCl
+          decided = setVariableViaActivity assuredShortestClause highestActivity -- Need change here
+          updateMapViaDecision = uncurry (pushToMappedTupleList updatedMap newLvl) decided
           list = nub (tlist ++ [decided] ++ tupleRes)
 
     -- if interpret clistOG (snd res) == 0 then -- checkEmptyClause needs to be changed. eventuell einfach interpret auf 0 checken?
@@ -89,24 +98,26 @@ calculateClauseList cl tlist@(xs : ys)
 
 -- | Bsp: [[2,1,3],[-1]] [(1,0),(3,0),(2,0)] -> 0. CONFLICT
 --   Bsp: [[2,1,3]][(1,0),(2,0)] -> -1. Etwas wurde noch nicht belegt o. etwas wurde nicht positiv.
-interpret :: ClauseList -> TupelList -> Integer
+interpret :: ClauseList -> TupelList -> InterpretResult 
 interpret t@(formel : xs) interpretation -- = do
-    | null interpretation = -1
-    | not (null xs) = let value = interpret' formel interpretation False in
-        if value /= 1 then value else interpret xs interpretation
+    | null interpretation || interpreted == UNRESOLVED = UNRESOLVED 
+    | getNOK interpreted = NOK formel
+    | not (null xs) = interpret xs interpretation
+        --if value == UNRESOLVED then value else if value /= OK then NOK formel else interpret xs interpretation
     | otherwise = interpret' formel interpretation False
+    where interpreted = interpret' formel interpretation False
 
 -- | Returns 1, 0 and -1
 --   Interprets a single clause of a formula
 --   Empty Clause if whole clause interprets to 0. if -1 appears it means the clause isnt finished from interpreting
-interpret' :: Clause -> TupelList -> Bool -> Integer
-interpret' (formel : xs) interpretation x-- = do
-    | tupelValue == BNothing   && null xs = -1
+interpret' :: Clause -> TupelList -> Bool -> InterpretResult 
+interpret' (formel : xs) interpretation boolValue-- = do
+    | tupelValue == BNothing   && null xs = UNRESOLVED 
     | tupelValue == BNothing  && not (null xs) = interpret' xs interpretation True
-    | (formelValue >= 0 && tupelValue == BTrue) || (formelValue < 0 && tupelValue == BFalse) = 1
-    | ((formelValue >= 0 && tupelValue == BFalse) || (formelValue < 0 && tupelValue == BTrue))  && null xs && not x= 0
-    | x && null xs = -1
-    | otherwise = interpret' xs interpretation x
+    | (formelValue >= 0 && tupelValue == BTrue) || (formelValue < 0 && tupelValue == BFalse) = OK
+    | ((formelValue >= 0 && tupelValue == BFalse) || (formelValue < 0 && tupelValue == BTrue))  && null xs && not boolValue= NOK  (formel :  xs)
+    | boolValue && null xs = UNRESOLVED 
+    | otherwise = interpret' xs interpretation boolValue
         where formelValue = getVariableValue formel
               varValue = if formelValue < 0 then negateVariableValue formel else formel
               tupelValue = searchTupel (getVariableValue varValue) interpretation
@@ -115,7 +126,7 @@ interpret' (formel : xs) interpretation x-- = do
 -- | Get the set value from the tupellist.
 searchTupel :: Integer -> TupelList -> BoolVal
 searchTupel xval (xs : ys)
-    | getVariableValue (fst xs) == xval = snd xs
+    | getVariableValue (fst (fst xs)) == xval = snd (fst xs)
     | not (null ys) = searchTupel xval ys
     | otherwise = BNothing  
     where var val = fst xs

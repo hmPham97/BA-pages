@@ -24,19 +24,11 @@ data CDCLResult
         UNSAT
     deriving(Eq, Ord, Show)
 
--- | Variable defined as Integer
-newtype Variable = Variable Integer
+data Reason = 
+        Decision
+    |
+        Reason Clause
     deriving (Show, Eq, Ord)
-
--- | Clause defined as a List of Variables
-type Clause = [Variable]
-
--- | ClauseList defined as a List of Clauses
-type ClauseList = [Clause]
-
--- | Tupel is defined as a Tupel of (Variables, Integer).
---   Integers in this case are only 0 or 1 valuewise.
-type Tupel = (Variable, BoolVal)
 
 -- | Found as second value in Tupel
 data BoolVal = 
@@ -50,20 +42,46 @@ data BoolVal =
         BNothing
     deriving (Show, Eq, Ord)
 
--- | TupelList is a list of Tupels
-type TupelList = [Tupel]
+data InterpretResult =
+        OK
+    |
+        NOK Clause
+    |
+        UNRESOLVED
+    deriving (Show, Eq, Ord)
+
+-- | Variable defined as Integer
+newtype Variable = Variable Integer
+    deriving (Show, Eq, Ord)
 
 -- | Level is associated with the decision level.
 --   Defined as an Integer
 newtype Level = Level Integer
     deriving (Show, Eq, Ord)
 
--- | Defined as Map.Map Integer TupelList
-type MappedTupleList = Map.Map Level TupelList
-
 -- | Activity defined as Integer
 newtype Activity = Activity Integer
     deriving (Show, Eq, Ord)
+
+-- | Clause defined as a List of Variables
+type Clause = [Variable]
+
+type ReducedClauseAndOGClause = (Clause, Clause)
+
+-- | ClauseList defined as a List of Clauses
+type ClauseList = [Clause]
+
+-- | Tupel is defined as a Tupel of (Variables, Integer).
+--   Integers in this case are only 0 or 1 valuewise.
+type Tupel = (Variable, BoolVal)
+
+type TupelClause = (Tupel, Reason)
+
+-- | TupelList is a list of Tupels
+type TupelList = [TupelClause]
+
+-- | Defined as Map.Map Integer TupelList
+type MappedTupleList = Map.Map Level TupelList
 
 -- | Shows how often a variable is found in the formulas
 -- | Defined as Map.Map Variable Activity
@@ -105,3 +123,9 @@ transformClause (xs : ys) varList
     | null ys = varList ++ [Variable xs]
     | otherwise = transformClause ys (varList ++ [Variable xs])
 
+getNOK :: InterpretResult -> Bool 
+getNOK (NOK _) = True 
+getNOK _ = False 
+
+getEmptyClause :: InterpretResult -> Clause
+getEmptyClause (NOK x) = x
