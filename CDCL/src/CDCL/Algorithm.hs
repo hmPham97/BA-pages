@@ -54,9 +54,10 @@ cdcl clist = cdcl' aMap (Level 0) [] Map.empty transformedList transformedList
 --   interpreted = 0 and lvl = 0 -> UNSAT
 cdcl' :: ActivityMap -> Level -> TupelClauseList -> MappedTupleList -> ClauseList -> ClauseList -> CDCLResult
 cdcl' aMap (Level lvl)  tlist mappedTL clistOG clist
-    | getNOK interpreted = let empty = getEmptyClause interpreted in
-        let analyzelv = lvl in
-            error "not implemented"
+    | getNOK interpreted = 
+        let empty = getEmptyClause interpreted in
+            let analyzelv = lvl in
+                error "not implemented"
             --cdcl' analyzelv clistOG clist tlist
     | interpreted == OK = SAT (map fst tupleRes) updatedMap
     | Level lvl > Level 10 = error "stop"
