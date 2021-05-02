@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: c0242dfbbbeace4a44f75b1edffe633423f1dba6701b053e15ab71d059ad1cbf
+-- hash: 605e854033fb08b9c42b2a51cb8fc9b7a16aa3f8350193555f35c3c4c5971930
 
 name:           CDCL
 version:        0.1.0.0
@@ -32,8 +32,6 @@ library
       CDCL.Types
       CDCL.Unitpropagation
       CDCL.UPcdcl
-      Main
-      Try
   hs-source-dirs:
       src
   build-depends:
