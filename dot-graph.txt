@@ -1,0 +1,17 @@
+digraph G {
+
+  subgraph cluster_0 {
+      style=filled;
+      color=lightgrey;
+      node [style=filled,color=white];
+      unitProp -> getUnitClause -> setVariable -> unitSubsumption -> 
+      unitResolution -> checkSetVariable -> unitProp;
+      checkSetVariable -> interpret -> interpret1
+      label = "unitPropagation";
+  }
+
+  start -> unitProp
+  interpret1 -> "0";
+  interpret1 -> "1";
+  interpret1 -> "-1";
+}
