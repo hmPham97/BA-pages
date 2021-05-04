@@ -45,9 +45,9 @@ getShortestClause [] cur = cur
 initialActivity :: ClauseList -> ActivityMap -> ActivityMap
 initialActivity cList@(xs : ys) aList
     | not (null ys) = let updatedMap = initialActivity ys aList in
-        updateActivity xs updatedMap
-    | otherwise = updateActivity xs aList
-initialActivity x aList = updateActivity (head x) aList
+        updateActivity (fst xs) updatedMap
+    | otherwise = updateActivity (fst xs) aList
+initialActivity x aList = updateActivity (fst (head x)) aList
 
 -- | updates the activitymap.
 --   example : updateActivity [1,2] (IntMap.fromList [(1,1),(2,1),(3,2),(4,2)])
@@ -75,7 +75,7 @@ getHighestActivity cList@(xs : ys) aMap val
     | getActivityValue (snd val) == 0 && null ys = highestValInClause
   --  | val == 0 && not (null ys) = getHighestActivity ys aMap highestValInClause
     | getActivityValue (snd val) < getActivityValue (snd highestValInClause) = getHighestActivity ys aMap highestValInClause
-    where highestValInClause = getHighestActivity' xs aMap val
+    where highestValInClause = getHighestActivity' (fst xs) aMap val
 getHighestActivity _ _ val = val
 
 -- | return the highest activity in a clause.
@@ -109,7 +109,7 @@ setVariableViaActivity [] _ = ((Variable (-1), BNothing), Reason [Variable (-1)]
 --   Maybe Clause or Nothing.
 getShortestClauseViaActivity :: ClauseList -> VariableActivity -> Maybe Clause
 getShortestClauseViaActivity (xs : ys) vAct
-    | firstVal `elem` xs || negateVariableValue firstVal `elem` xs = Just xs
+    | firstVal `elem` fst xs || negateVariableValue firstVal `elem` fst xs = Just (fst xs)
     | otherwise = getShortestClauseViaActivity ys vAct
     where firstVal = fst vAct
 getShortestClauseViaActivity [] vAct = Nothing
