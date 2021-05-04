@@ -9,19 +9,34 @@
 -- Portability :
 --
 ---------------------------------------------------------------------
-module CDCL.Unitpropagation (getUnitClause, setVariable, unitSubsumption, checkSetVariable, 
-    unitResolution, pushToMappedTupleList) where
+module CDCL.Unitpropagation (getUnitClause, setVariable, unitSubsumption,
+    unitResolution, unitPropagation) where
 
-import           CDCL.Types (Clause, ClauseList, Level, MappedTupleList, Tupel, TupelClause, ReducedClauseAndOGClause,
-                     TupelClauseList, BoolVal(..), Reason(..), getVariableValue, negateVariableValue)
+import           CDCL.Types (BoolVal (..), Clause, ClauseList, Level,
+                     MappedTupleList, Reason (..), ReducedClauseAndOGClause,
+                     TriTuple, Tupel, TupelClause, TupelClauseList,
+                     getVariableValue, negateVariableValue)
 import qualified CDCL.Types as TypesC
+
+import           CDCL.MapLogic (pushToMappedTupleList)
 
 import           Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
-import           Data.Maybe
+
+unitPropagation :: ClauseList -> TupelClauseList -> Level -> MappedTupleList -> TriTuple
+unitPropagation clist tlist lvl mapped
+    | null clist || null (fst unitClause) = (clist, tlist, mapped)
+    | otherwise = unitPropagation resolutionC (tlist ++ [(calcTuple, ogClause)]) lvl updatedMap
+    where unitClause = getUnitClause clist
+          calcTuple = setVariable (fst unitClause)
+          fstTuple = fst calcTuple
+          ogClause = Reason (snd unitClause)
+          updatedMap = pushToMappedTupleList mapped lvl calcTuple ogClause
+          subsumptionC = unitSubsumption clist (calcTuple, ogClause)
+          resolutionC = unitResolution subsumptionC (calcTuple, ogClause)
 
 -- | checks if an unit clause exists in the given list of lists. if one exists return the list.
-getUnitClause :: ClauseList  -> ReducedClauseAndOGClause 
+getUnitClause :: ClauseList  -> ReducedClauseAndOGClause
 getUnitClause (clause : xs) = let listLength = length (fst clause) in
     if listLength == 1 then clause else getUnitClause xs
 
@@ -29,27 +44,8 @@ getUnitClause _ = ([],[])
 
 -- | call this method on unit clauses only. If the value is less then 0 set a 0 in the tuple, else set 1
 setVariable :: Clause  -> Tupel
-setVariable clause = if getVariableValue (head clause) < 0 
+setVariable clause = if getVariableValue (head clause) < 0
     then (negateVariableValue (head clause), BFalse) else (head clause, BTrue) -- Need change here
-
--- | Method for updating MappedTupleList.
---   If Variable was already set return map.
---   If Variable was not set and lvl has no list -> insert the TupelList
---   If Variable was not set but lvl has already a list -> update the TupelList
-pushToMappedTupleList :: MappedTupleList -> Level -> Tupel -> Reason -> MappedTupleList
-pushToMappedTupleList maptl lvl tupel reason
-    | Data.Maybe.isJust f && null check = Map.update m lvl maptl
-    | Data.Maybe.isNothing f = Map.insert lvl [(tupel, reason)] maptl
-    | otherwise = maptl
-    where f = Map.lookup lvl maptl
-          check = filter (((== fst tupel) . fst).fst) (fromMaybe [] f)
-          m x = Just (fromMaybe [] f ++ [(tupel, reason)])
-
--- | if true -> variable is already set, else it isnt set
-checkSetVariable :: TupelClauseList  -> Integer -> Bool
-checkSetVariable (x:nxt) check = let val = fst x in
-    getVariableValue (fst val) == check || (not (null nxt) && checkSetVariable nxt check)
-checkSetVariable _ _ = False
 
 -- | Remove clauses which have removableVar as variable.
 unitSubsumption :: ClauseList  -> TupelClause -> ClauseList
