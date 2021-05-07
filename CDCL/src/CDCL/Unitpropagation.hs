@@ -14,7 +14,7 @@ module CDCL.Unitpropagation (getUnitClause, setVariable, unitSubsumption,
 
 import           CDCL.Types (BoolVal (..), Clause, ClauseList, Level,
                      MappedTupleList, Reason (..), ReducedClauseAndOGClause,
-                     TriTuple, Tupel, TupelClause, TupelClauseList,
+                     TriTuple, Tuple, TupleClause, TupleClauseList,
                      getVariableValue, negateVariableValue)
 import qualified CDCL.Types as TypesC
 
@@ -23,7 +23,7 @@ import           CDCL.MapLogic (pushToMappedTupleList)
 import           Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
 
-unitPropagation :: ClauseList -> TupelClauseList -> Level -> MappedTupleList -> TriTuple
+unitPropagation :: ClauseList -> TupleClauseList -> Level -> MappedTupleList -> TriTuple
 unitPropagation clist tlist lvl mapped
     | null clist || null (fst unitClause) = (clist, tlist, mapped)
     | otherwise = unitPropagation resolutionC (tlist ++ [(calcTuple, ogClause)]) lvl updatedMap
@@ -43,12 +43,12 @@ getUnitClause (clause : xs) = let listLength = length (fst clause) in
 getUnitClause _ = ([],[])
 
 -- | call this method on unit clauses only. If the value is less then 0 set a 0 in the tuple, else set 1
-setVariable :: Clause  -> Tupel
+setVariable :: Clause  -> Tuple
 setVariable clause = if getVariableValue (head clause) < 0
     then (negateVariableValue (head clause), BFalse) else (head clause, BTrue) -- Need change here
 
 -- | Remove clauses which have removableVar as variable.
-unitSubsumption :: ClauseList  -> TupelClause -> ClauseList
+unitSubsumption :: ClauseList  -> TupleClause -> ClauseList
 unitSubsumption (firstList : xs) tuple
     | not checked = filter (not . null) (firstList : unitSubsumption xs tuple)
     | otherwise = filter (not . null) (unitSubsumption xs tuple)
@@ -58,7 +58,7 @@ unitSubsumption (firstList : xs) tuple
 unitSubsumption _ _ = []
 
 -- | remove -variable of the variable which was set
-unitResolution :: ClauseList -> TupelClause -> ClauseList
+unitResolution :: ClauseList -> TupleClause -> ClauseList
 unitResolution (firstList : xs) tuple
     | not checked = filter (not . null) (firstList : unitResolution xs tuple)
     | otherwise = let list = filter (/= val) (fst firstList) in

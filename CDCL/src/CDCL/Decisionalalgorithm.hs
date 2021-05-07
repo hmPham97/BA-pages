@@ -13,7 +13,7 @@ module CDCL.Decisionalalgorithm (getShortestClause, initialActivity, updateActiv
     getHighestActivity, getHighestActivity', setVariableViaActivity,
     getShortestClauseViaActivity) where
 
-import           CDCL.Types (ActivityMap, Clause, ClauseList, Tupel, TupelClause,
+import           CDCL.Types (ActivityMap, Clause, ClauseList, Tuple, TupleClause,
                      VariableActivity, Variable(..), Activity(..), BoolVal(..), Reason (..),
                      getVariableValue, negateVariableValue, getActivityValue, increaseActivity)
 import qualified CDCL.Types as TypeC
@@ -25,17 +25,19 @@ filterK val = Map.filterWithKey (\x _ -> x == val)
 
 -- | Get the shortest clauses within the given clauseList.
 --   Returns either empty list or a clauseList with equally long clauses.
---   E.g. getShortestClause [[3,33],[4,5,4],[3,4],[52,12]] []
---   will return [[3,33],[3,4],[52,12]]
+--   E.g. getShortestClause [([Variable 1, Variable 2], [Variable 1, Variable 2]), ([Variable 2], [Variable 2])] []
+--   will return [([Variable 2], [Variable 2])]
+-- getShortestClause [([Variable 1], [Variable  1]), ([Variable 2, Variable 3], [Variable 2, Variable 3])] []
 getShortestClause :: ClauseList -> ClauseList -> ClauseList
 getShortestClause (xs : ys) cur
-    | null curSize && not (null xs) = getShortestClause shorterYs [xs]
-    | length xs == curLen = getShortestClause shorterYs (cur ++ [xs])
-    | length xs > curLen = getShortestClause shorterYs cur
+    | null curSize || xsLen < curLen  = getShortestClause shorterYs [xs]
+    | xsLen == curLen = getShortestClause shorterYs (cur ++ [xs])
+    | xsLen > curLen = getShortestClause shorterYs cur
     --  otherwise = filter ((< length xs) .  length) (getShortestClause ys (xs : cur)) Fall sollte nicht mehr notwendig sein
-    where curSize = filter ((<= length xs) . length) cur
-          curLen = length (head curSize)
-          shorterYs = filter ((<= length xs) . length) ys
+    where xsLen = length (fst xs)
+          curSize = filter (\x -> length (fst x) <= xsLen) cur
+          curLen = if null curSize then xsLen else length (fst (head curSize))
+          shorterYs = filter (\x -> length (fst x) <= curLen) ys
 getShortestClause [] cur = cur
 
 -- | calculate the ActivityMap. calls itself recursively until every clause
@@ -97,7 +99,7 @@ getHighestActivity' [] aMap x = x
 --   If the Variable with the highest activity has a minus prefix the tupel value will
 --   be set to 1 with the variable getting a positive prefix in the tupel.
 --   Else the tupel will be set to the variable with a 0 as second value.
-setVariableViaActivity :: Clause -> VariableActivity -> TupelClause
+setVariableViaActivity :: Clause -> VariableActivity -> TupleClause
 setVariableViaActivity (xs : ys) vAct
     | xs == fst vAct || (-getVariableValue xs) == getVariableValue (fst vAct) = if varValue < 0 then ((negateVariableValue xs, BTrue), Decision) else ((xs, BFalse), Decision)
     | not (null ys) = setVariableViaActivity (ys ++ [xs])  vAct

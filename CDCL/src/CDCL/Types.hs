@@ -80,7 +80,7 @@ newtype Activity = Activity Integer
 -- | Clause defined as a List of Variables
 type Clause = [Variable]
 
--- | Tupel of 2 Clauses
+-- | Tuple of 2 Clauses
 --   First clause in tuple is reduced via Unitresolution
 --   Second clause is the clause in its original form
 type ReducedClauseAndOGClause = (Clause, Clause)
@@ -88,33 +88,33 @@ type ReducedClauseAndOGClause = (Clause, Clause)
 -- | ClauseList defined as a List of ReducedClauseAndOGClause
 type ClauseList = [ReducedClauseAndOGClause]
 
--- | Tupel is defined as a Tupel of (Variables, Integer).
+-- | Tuple is defined as a Tuple of (Variables, Integer).
 --   Integers in this case are only 0 or 1 valuewise.
-type Tupel = (Variable, BoolVal)
+type Tuple = (Variable, BoolVal)
 
 -- | List containing Tupels.
-type TupelList = [Tupel]
+type TupelList = [Tuple]
 
--- | A tuple of Tupel and Reason
-type TupelClause = (Tupel, Reason)
+-- | A tuple of Tuple and Reason
+type TupleClause = (Tuple, Reason)
 
 -- | TupelList is a list of Tupels
-type TupelClauseList = [TupelClause]
+type TupleClauseList = [TupleClause]
 
 -- | Defined as Map.Map Integer TupelList
-type MappedTupleList = Map.Map Level TupelClauseList
+type MappedTupleList = Map.Map Level TupleClauseList
 
 -- | Shows how often a variable is found in the formulas
 -- | Defined as Map.Map Variable Activity
 type ActivityMap = Map.Map Variable Activity
 
--- | Is a single Tupel containing the variable and activty
+-- | Is a single Tuple containing the variable and activty
 --   Defined as (Variable, Activty)
 type VariableActivity = (Variable, Activity)
 
 -- | Defined by using three Types.
---   These are ClauseList, TupelList and MappedTupleList
-type TriTuple = (ClauseList , TupelClauseList, MappedTupleList)
+--   These are ClauseList, TupelClauseList and MappedTupleList
+type TriTuple = (ClauseList , TupleClauseList, MappedTupleList)
 
 -- | Increase the given level by one
 increaseLvl :: Level -> Level
@@ -154,6 +154,8 @@ transformClauseList (xs : ys) cList
     | null ys = cList ++ [transformClause xs []]
     | otherwise = transformClauseList ys [transformClause xs []] ++ cList
 
+--transformBack :: Clause -> 
+
 -- | Transforms a list of Integers into a ReducedClauseAndOGClause
 transformClause :: [Integer] -> Clause -> ReducedClauseAndOGClause
 transformClause (xs : ys) varList
@@ -169,3 +171,6 @@ getNOK _ = False
 -- | Returns the Clause which caused the NOK in InterpretResult
 getEmptyClause :: InterpretResult -> Clause
 getEmptyClause (NOK x) = x
+
+getReason :: Reason -> Clause
+getReason (Reason r) = r

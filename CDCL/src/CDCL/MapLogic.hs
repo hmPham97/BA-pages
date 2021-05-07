@@ -11,9 +11,9 @@
 ---------------------------------------------------------------------
 module CDCL.MapLogic (pushToMappedTupleList) where
 
-import           CDCL.Types (BoolVal (..), Clause, ClauseList, Level,
+import           CDCL.Types (BoolVal (..), Clause, ClauseList, Level(..),
                      MappedTupleList, Reason (..), ReducedClauseAndOGClause,
-                     TriTuple, Tupel, TupelClause, TupelClauseList,
+                     TriTuple, Tuple, TupleClause, TupleClauseList,
                      getVariableValue, negateVariableValue)
 import qualified CDCL.Types as TypesC
 
@@ -25,7 +25,7 @@ import           Data.Maybe
 --   If Variable was already set return map.
 --   If Variable was not set and lvl has no list -> insert the TupelList
 --   If Variable was not set but lvl has already a list -> update the TupelList
-pushToMappedTupleList :: MappedTupleList -> Level -> Tupel -> Reason -> MappedTupleList
+pushToMappedTupleList :: MappedTupleList -> Level -> Tuple -> Reason -> MappedTupleList
 pushToMappedTupleList maptl lvl tupel reason
     | Data.Maybe.isJust f && null check = Map.update m lvl maptl
     | Data.Maybe.isNothing f = Map.insert lvl [(tupel, reason)] maptl
@@ -33,3 +33,6 @@ pushToMappedTupleList maptl lvl tupel reason
     where f = Map.lookup lvl maptl
           check = filter (((== fst tupel) . fst).fst) (fromMaybe [] f)
           m x = Just (fromMaybe [] f ++ [(tupel, reason)])
+
+deleteLvl :: MappedTupleList -> Level -> MappedTupleList 
+deleteLvl mtl lvl = Map.delete lvl mtl
