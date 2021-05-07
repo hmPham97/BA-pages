@@ -46,7 +46,7 @@ import           Data.Maybe
 --   The function will return the result of the cdcl' function.
 cdcl :: [[Integer]] -> CDCLResult
 cdcl clist = cdcl' aMap (Level 0) [] Map.empty transformedList transformedList
-    where transformedList = transformClauseList clist []
+    where transformedList = transformClauseList clist 
           aMap = initialActivity transformedList Map.empty
 
 -- | Implementation not done
