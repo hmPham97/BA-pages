@@ -15,8 +15,7 @@
 
 module CDCL.Algorithm (cdcl, searchTuple, interpret) where
 
-import           CDCL.Decisionalalgorithm (getHighestActivity,
-                     getHighestActivity', getShortestClause,
+import           CDCL.Decisionalalgorithm (getHighestActivity, getShortestClause,
                      getShortestClauseViaActivity, initialActivity,
                      setVariableViaActivity, updateActivity)
 
