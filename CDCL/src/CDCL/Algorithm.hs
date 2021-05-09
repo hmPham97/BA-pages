@@ -15,9 +15,9 @@
 
 module CDCL.Algorithm (cdcl, searchTuple, interpret) where
 
-import           CDCL.Decisionalalgorithm (getHighestActivity, getShortestClause,
-                     getShortestClauseViaActivity, initialActivity,
-                     setVariableViaActivity, updateActivity)
+import           CDCL.Decisionalalgorithm (getHighestActivity,
+                     getShortestClause, getShortestClauseViaActivity,
+                     initialActivity, setVariableViaActivity, updateActivity)
 
 import           CDCL.Types (Activity (..), ActivityMap, BoolVal (..),
                      CDCLResult (..), Clause, ClauseList, InterpretResult (..),
@@ -32,7 +32,7 @@ import           CDCL.Unitpropagation (unitPropagation, unitResolution,
 
 import           CDCL.MapLogic (pushToMappedTupleList)
 
-import CDCL.Conflict (analyzeConflict)
+import           CDCL.Conflict (analyzeConflict)
 
 import           Data.List
 import           Data.Map.Strict (Map)
@@ -45,7 +45,7 @@ import           Data.Maybe
 --   The function will return the result of the cdcl' function.
 cdcl :: [[Integer]] -> CDCLResult
 cdcl clist = cdcl' aMap (Level 0) [] Map.empty transformedList transformedList
-    where transformedList = transformClauseList clist 
+    where transformedList = transformClauseList clist
           aMap = initialActivity transformedList Map.empty
 
 -- | Implementation not done
@@ -57,7 +57,7 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG clist
     | getNOK interpreted =
         let empty = getEmptyClause interpreted in
             let analyzelv = analyzeConflict (Level lvl) empty mappedTL clistOG in
-                if fst analyzelv == Level (-1) then UNSAT 
+                if fst analyzelv == Level (-1) then UNSAT
                 else error "not implemented"--cdcl' aMap (Level (lvl -1)) tlist mappedTL clistOG (snd analyzelv)
             --cdcl' analyzelv clistOG clist tlist
     | interpreted == OK = SAT (map fst tupleRes) updatedMap

@@ -11,7 +11,7 @@
 ---------------------------------------------------------------------
 module CDCL.MapLogic (pushToMappedTupleList) where
 
-import           CDCL.Types (BoolVal (..), Clause, ClauseList, Level(..),
+import           CDCL.Types (BoolVal (..), Clause, ClauseList, Level (..),
                      MappedTupleList, Reason (..), ReducedClauseAndOGClause,
                      TriTuple, Tuple, TupleClause, TupleClauseList,
                      getVariableValue, negateVariableValue)
@@ -34,5 +34,5 @@ pushToMappedTupleList maptl lvl tupel reason
           check = filter (((== fst tupel) . fst).fst) (fromMaybe [] f)
           m x = Just (fromMaybe [] f ++ [(tupel, reason)])
 
-deleteLvl :: MappedTupleList -> Level -> MappedTupleList 
+deleteLvl :: MappedTupleList -> Level -> MappedTupleList
 deleteLvl mtl lvl = Map.delete lvl mtl

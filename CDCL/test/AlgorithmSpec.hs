@@ -13,15 +13,15 @@ spec :: Spec
 spec =
     describe "testing" $ do
         it "interpret should return 1" $
-            interpret (transformClauseList[[1,2,-3],[-2],[4,5]] [])
+            interpret (transformClauseList[[1,2,-3],[-2],[4,5]])
             [((Variable 1,BFalse), Decision),((Variable 2,BFalse), Reason [Variable (-2)]),
             ((Variable 3,BFalse), Reason [Variable 1, Variable 2, Variable (-3)] ),
             ((Variable 4,BFalse), Decision),((Variable 5,BTrue), Reason [Variable 4, Variable 5])]
             `shouldBe` OK
         it "interpret should return -1" $
-            interpret (transformClauseList[[1],[-1]] []) [((Variable (-1),BNothing), Reason [Variable (-1)])] `shouldBe` UNRESOLVED
+            interpret (transformClauseList[[1],[-1]]) [((Variable (-1),BNothing), Reason [Variable (-1)])] `shouldBe` UNRESOLVED
         it "interpret should return 0" $
-            interpret (transformClauseList [[1,2,3,4],[-2,-3],[-4,-1]] [])
+            interpret (transformClauseList [[1,2,3,4],[-2,-3],[-4,-1]])
             [((Variable 1,BFalse), Reason [Variable (-4), Variable (-1)]), ((Variable 2,BTrue), Decision),
             ((Variable 3,BTrue), Reason [Variable (-2), Variable (-3)]),
             ((Variable 4,BTrue), Decision)] `shouldBe` NOK [Variable (-2), Variable (-3)]

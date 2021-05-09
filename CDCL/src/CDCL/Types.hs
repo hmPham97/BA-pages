@@ -150,11 +150,11 @@ divideActivity (Activity i) = Activity (i `div` 2)
 
 -- | Transforms a given List of Integerlists into a ClauseList.
 transformClauseList :: [[Integer]] -> ClauseList
-transformClauseList (xs : ys) 
+transformClauseList (xs : ys)
     | null ys = [transformClause xs []]
-    | otherwise = transformClause xs [] : transformClauseList ys 
+    | otherwise = transformClause xs [] : transformClauseList ys
 
---transformBack :: Clause -> 
+--transformBack :: Clause ->
 
 -- | Transforms a list of Integers into a ReducedClauseAndOGClause
 transformClause :: [Integer] -> Clause -> ReducedClauseAndOGClause
