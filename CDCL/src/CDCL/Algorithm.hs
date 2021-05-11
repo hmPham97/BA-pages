@@ -16,8 +16,8 @@
 module CDCL.Algorithm (cdcl, searchTuple, interpret) where
 
 import           CDCL.Decisionalalgorithm (getHighestActivity,
-                     getShortestClause, getShortestClauseViaActivity,
-                     initialActivity, setVariableViaActivity, updateActivity)
+                     getShortestClauseViaActivity, initialActivity,
+                     setVariableViaActivity, updateActivity)
 
 import           CDCL.Types (Activity (..), ActivityMap, BoolVal (..),
                      CDCLResult (..), Clause, ClauseList, InterpretResult (..),
@@ -42,6 +42,7 @@ import           Data.Maybe
 -- | This function will start the CDCL Function.
 --   To call this function do for example:
 --   cdcl [[1,2,3],[2,5]]
+--   cdcl [[1,2,3,4], [2,4], [4,5],[3,6,7],[3,9,1],[3,8,10]]
 --   The function will return the result of the cdcl' function.
 cdcl :: [[Integer]] -> CDCLResult
 cdcl clist = cdcl' aMap (Level 0) [] Map.empty transformedList transformedList
@@ -68,11 +69,12 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG clist
           updatedMap = getThirdElem res
           interpreted = interpret clistOG tupleRes
           newLvl = increaseLvl (Level lvl)
-          shortestClauses = getShortestClause (getFirstElem res) []
-          highestActivity = getHighestActivity shortestClauses aMap (Variable 0, Activity 0)
-          shortestCl = getShortestClauseViaActivity shortestClauses highestActivity
-          assuredShortestClause = fromMaybe [] shortestCl
-          decided = setVariableViaActivity assuredShortestClause highestActivity -- Need change here
+          highestActivity = getHighestActivity (getFirstElem res) aMap [(Variable 0, Activity 0)]
+          shortestCl = getShortestClauseViaActivity (getFirstElem res) [] highestActivity
+          firstShortestCl = head shortestCl
+          assuredShortestClause = fst firstShortestCl
+          firstHighestActivityInClause = getHighestActivity [firstShortestCl] aMap [(Variable 0, Activity 0)]
+          decided = setVariableViaActivity assuredShortestClause (head firstHighestActivityInClause) -- Need change here? it takes first highest found VariableActivity in the clause.
           updateMapViaDecision = uncurry (pushToMappedTupleList updatedMap newLvl) decided
           list = nub (tlist ++ [decided] ++ tupleRes)
 

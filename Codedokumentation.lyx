@@ -964,29 +964,6 @@ status open
 
 
 \backslash
-underline{getShortestClause}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\noindent
-Die Funktion erwartet zwei ClauseLists als Übergabewerte.
- Die kürzesten Klauseln werden in einer ClauseList zurückgegeben.
-\end_layout
-
-\begin_layout Standard
-\noindent
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
 underline{initialActivity}
 \end_layout
 
