@@ -13,18 +13,18 @@
 ---------------------------------------------------------------------
 
 
-module CDCL.Algorithm (cdcl, searchTuple, interpret) where
+module CDCL.Algorithm where
 
 import           CDCL.Decisionalalgorithm (getHighestActivity,
-                     getShortestClauseViaActivity, initialActivity,
-                     setVariableViaActivity, updateActivity)
+                     getShortestClauseViaActivity, halveActivityMap,
+                     initialActivity, setVariableViaActivity, updateActivity)
 
 import           CDCL.Types (Activity (..), ActivityMap, BoolVal (..),
                      CDCLResult (..), Clause, ClauseList, InterpretResult (..),
-                     Level (..), MappedTupleList, TriTuple, Tuple,
-                     TupleClauseList, Variable (..), getEmptyClause, getNOK,
-                     getVariableValue, increaseLvl, negateVariableValue,
-                     transformClauseList)
+                     Level (..), MappedTupleList, Period (..), TriTuple, Tuple,
+                     TupleClauseList, Variable (..), decreasePeriod,
+                     getEmptyClause, getNOK, getVariableValue, increaseLvl,
+                     negateVariableValue, transformClauseList)
 import qualified CDCL.Types as TypeC
 
 import           CDCL.Unitpropagation (unitPropagation, unitResolution,
@@ -39,13 +39,16 @@ import           Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
 import           Data.Maybe
 
+hardCoded = Period 10
+
 -- | This function will start the CDCL Function.
 --   To call this function do for example:
 --   cdcl [[1,2,3],[2,5]]
 --   cdcl [[1,2,3,4], [2,4], [4,5],[3,6,7],[3,9,1],[3,8,10]]
 --   The function will return the result of the cdcl' function.
+--   cdcl [[-2,-3],[-2,3]]  funktioniert noch nicht.
 cdcl :: [[Integer]] -> CDCLResult
-cdcl clist = cdcl' aMap (Level 0) [] Map.empty transformedList transformedList
+cdcl clist = cdcl' aMap (Level 0) [] Map.empty transformedList transformedList hardCoded --hardCoded
     where transformedList = transformClauseList clist
           aMap = initialActivity transformedList Map.empty
 
@@ -53,36 +56,42 @@ cdcl clist = cdcl' aMap (Level 0) [] Map.empty transformedList transformedList
 --   Function recursively calls itself until either following result happens
 --   interpreted = 1 -> SAT TupleClauseList
 --   interpreted = 0 and lvl = 0 -> UNSAT
-cdcl' :: ActivityMap -> Level -> TupleClauseList -> MappedTupleList -> ClauseList -> ClauseList -> CDCLResult
-cdcl' aMap (Level lvl)  tlist mappedTL clistOG clist
+cdcl' :: ActivityMap -> Level -> TupleClauseList -> MappedTupleList -> ClauseList -> ClauseList -> Period -> CDCLResult
+cdcl' aMap (Level lvl)  tlist mappedTL clistOG clist period
     | getNOK interpreted =
         let empty = getEmptyClause interpreted in
-            let analyzelv = analyzeConflict (Level lvl) empty mappedTL clistOG in
-                if fst analyzelv == Level (-1) then UNSAT
-                else error "not implemented"--cdcl' aMap (Level (lvl -1)) tlist mappedTL clistOG (snd analyzelv)
-            --cdcl' analyzelv clistOG clist tlist
+            let analyzed = analyzeConflict (Level lvl) empty updatedMap clistOG halvedActivity in
+                if firstElemAnalyze analyzed == Level (-1) then UNSAT
+                else cdcl' (fourthElemAnalyze analyzed) (firstElemAnalyze analyzed) (concat (thirdElemAnalyze analyzed)) (thirdElemAnalyze analyzed)
+                (transformClauseList [[1]]) (sndElemAnalyze analyzed) periodUpdate2
     | interpreted == OK = SAT (map fst tupleRes) updatedMap
-    | Level lvl > Level 10 = error "stop"
-    | otherwise = cdcl' aMap newLvl list updateMapViaDecision clistOG (calculateClauseList (getFirstElem res) list)
+    | otherwise = cdcl' halvedActivity newLvl list updateMapViaDecision clistOG (calculateClauseList (getFirstElem res) list) periodUpdate2 --periodUpdate2
     where res = unitPropagation clist tlist (Level lvl) mappedTL
           tupleRes = getSecondElem res
           updatedMap = getThirdElem res
           interpreted = interpret clistOG tupleRes
+
+          periodUpdate = decreasePeriod period
+          halvedActivity = if periodUpdate == Period 0 then halveActivityMap aMap (Map.keys aMap) else aMap
+          periodUpdate2 = if periodUpdate == Period 0 then hardCoded else periodUpdate
+
           newLvl = increaseLvl (Level lvl)
-          highestActivity = getHighestActivity (getFirstElem res) aMap [(Variable 0, Activity 0)]
+          highestActivity = getHighestActivity (getFirstElem res) aMap [(Variable 0, Activity (-1))]
           shortestCl = getShortestClauseViaActivity (getFirstElem res) [] highestActivity
           firstShortestCl = head shortestCl
+
           assuredShortestClause = fst firstShortestCl
           firstHighestActivityInClause = getHighestActivity [firstShortestCl] aMap [(Variable 0, Activity 0)]
           decided = setVariableViaActivity assuredShortestClause (head firstHighestActivityInClause) -- Need change here? it takes first highest found VariableActivity in the clause.
           updateMapViaDecision = uncurry (pushToMappedTupleList updatedMap newLvl) decided
           list = nub (tlist ++ [decided] ++ tupleRes)
 
+
     -- if interpret clistOG (snd res) == 0 then -- checkEmptyClause needs to be changed. eventuell einfach interpret auf 0 checken?
     --     let empty = clist in -- function which calculates empty clause
-    --         let analyzelv = lvl in -- function to analyze conflict
+    --         let analyzed = lvl in -- function to analyze conflict
     --             -- backtrack-algorithm. will caculate new tlist or mapped tupleList
-    --             cdcl' analyzelv clistOG clist tlist -- replace tlist with the backtrack algorithm
+    --             cdcl' analyzed clistOG clist tlist -- replace tlist with the backtrack algorithm
     -- else if interpret clistOG (snd res) == 1 then 1 else
     --     let newLvl = lvl + 1 in
     --         cdcl' newLvl clistOG (calculateClauseList (fst res) decided) decided
@@ -147,3 +156,15 @@ getSecondElem (_, x, _) = x
 -- | returns the MappedTupleList from unitPropagation
 getThirdElem :: TriTuple -> MappedTupleList
 getThirdElem (_, _, x) = x
+
+firstElemAnalyze :: (Level, ClauseList, MappedTupleList, ActivityMap) -> Level
+firstElemAnalyze (x, _, _, _) = x
+
+sndElemAnalyze :: (Level, ClauseList, MappedTupleList, ActivityMap) -> ClauseList
+sndElemAnalyze (_, x, _, _) = x
+
+thirdElemAnalyze :: (Level, ClauseList, MappedTupleList, ActivityMap) -> MappedTupleList
+thirdElemAnalyze (_, _, x, _) = x
+
+fourthElemAnalyze :: (Level, ClauseList, MappedTupleList, ActivityMap) -> ActivityMap
+fourthElemAnalyze (_, _, _, x) = x

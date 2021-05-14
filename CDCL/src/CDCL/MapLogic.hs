@@ -9,7 +9,7 @@
 -- = Description
 -- Contains functions for changing MappedTupleList.
 ---------------------------------------------------------------------
-module CDCL.MapLogic (pushToMappedTupleList) where
+module CDCL.MapLogic (pushToMappedTupleList, deleteLvl) where
 
 import           CDCL.Types (BoolVal (..), Clause, ClauseList, Level (..),
                      MappedTupleList, Reason (..), ReducedClauseAndOGClause,

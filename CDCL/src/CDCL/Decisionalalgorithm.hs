@@ -9,13 +9,14 @@
 -- Portability :
 --
 ---------------------------------------------------------------------
-module CDCL.Decisionalalgorithm (initialActivity, updateActivity,
+module CDCL.Decisionalalgorithm (initialActivity, updateActivity, halveActivityMap,
     getHighestActivity, setVariableViaActivity, getShortestClauseViaActivity) where
 
 import           CDCL.Types (Activity (..), ActivityMap, BoolVal (..), Clause,
                      ClauseList, Reason (..), Tuple, TupleClause,
-                     Variable (..), VariableActivity, getActivityValue,
-                     getVariableValue, increaseActivity, negateVariableValue)
+                     Variable (..), VariableActivity, divideActivity,
+                     getActivityValue, getVariableValue, increaseActivity,
+                     negateVariableValue)
 import qualified CDCL.Types as TypeC
 import           Data.List
 import           Data.Map.Strict (Map)
@@ -52,6 +53,14 @@ updateActivity clause@(xs : ys) aMap
           activityMap = filterK xValue aMap
           activity = Map.lookup xValue activityMap
           actval = fromMaybe (Activity (-1)) activity
+
+-- | periodically call this function to half the activities in the map.
+halveActivityMap :: ActivityMap -> [Variable] -> ActivityMap
+halveActivityMap = foldl (flip (Map.adjust divideActivity))
+-- above code does following thing:
+-- halveActivityMap aMap (xs : ys) = let updateMap = Map.adjust divideActivity xs aMap
+--     in halveActivityMap updateMap ys
+-- halveActivityMap aMap [] = aMap
 
 -- | Return the highest Activity which can be found in the ClauseList. Calls itself recursively
 --   until every clauses was calculated.

@@ -1,5 +1,6 @@
 module AlgorithmSpec where
 import           CDCL.Algorithm (cdcl, interpret, searchTuple)
+import           CDCL.Conflict (calcReason)
 import           CDCL.Types (Activity (..), BoolVal (..), CDCLResult (..),
                      InterpretResult (..), Level (..), Reason (..), Tuple,
                      Variable (..), transformClauseList)
@@ -34,5 +35,9 @@ spec =
         it "cdcl should return SAT [(2,0),(3,1),(4,0)] (fromList [(Level 1,[(Variable 1,0),(Variable 2,1)])])" $
             cdcl [[1,2,3,4],[-2],[2,3],[-4,-3]] `shouldBe` SAT [(Variable 2,BFalse),(Variable 3,BTrue),(Variable 4,BFalse)]
             (Map.fromList [(Level 0, [((Variable 2,BFalse), Reason [Variable (-2)]),((Variable 3,BTrue),Reason [Variable 2,Variable 3]), ((Variable 4,BFalse), Reason [Variable (-4), Variable (-3)])])])
-        it "cdcl should return UNSAT" $ do
+        it "cdcl should return UNSAT" $
             cdcl [[1],[-1]] `shouldBe` UNSAT
+        it "calcReason should return [Variable 1]" $
+            calcReason (Level 1) [Variable 1, Variable 2] (Map.fromList[(Level 1, [((Variable 1, BFalse), Decision), ((Variable 2, BFalse), Reason [Variable 1, Variable (-2)])])]) `shouldBe` [Variable 1]
+        it "cdcl should return SAT [Variable 1]" $
+            cdcl [[1,2],[1,-2]] `shouldBe` SAT [(Variable 1,BTrue)] (Map.fromList [(Level 1, [((Variable 1,BTrue), Reason [Variable 1])])])

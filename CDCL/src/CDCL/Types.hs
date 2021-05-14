@@ -77,6 +77,10 @@ newtype Level = Level Integer
 newtype Activity = Activity Integer
     deriving (Show, Eq, Ord)
 
+-- | Period. If Period is 0 half the current activitymap
+newtype Period = Period Integer
+    deriving (Eq)
+
 -- | Clause defined as a List of Variables
 type Clause = [Variable]
 
@@ -98,7 +102,7 @@ type TupelList = [Tuple]
 -- | A tuple of Tuple and Reason
 type TupleClause = (Tuple, Reason)
 
--- | TupelList is a list of Tupels
+-- | TupleClauseList is a list of TupleClause
 type TupleClauseList = [TupleClause]
 
 -- | Defined as Map.Map Integer TupelList
@@ -174,3 +178,6 @@ getEmptyClause (NOK x) = x
 
 getReason :: Reason -> Clause
 getReason (Reason r) = r
+
+decreasePeriod :: Period -> Period
+decreasePeriod (Period r) = Period (r - 1)
