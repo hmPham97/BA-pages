@@ -6,3 +6,4 @@ stylish-haskell -i .\\src\\CDCL\\MapLogic.hs
 stylish-haskell -i .\\src\\CDCL\\Conflict.hs
 stylish-haskell -i .\\src\\CDCL\\CDCLFilereader.hs
 stylish-haskell -i .\\test\\AlgorithmSpec.hs
+stylish-haskell -i .\\app\\Main.hs

@@ -1,8 +1,12 @@
 module Main where
 
-import System.IO  
-import Control.Monad
-import CDCL.CDCLFilereader (readCdclFile)
+import           CDCL.CDCLFilereader (readCdclFile)
+import           Control.Monad
+import           Data.Char
+import           System.IO
 
 main :: IO()
-main = do readCdclFile "test.cnf"
+main = do
+        h <- getLine
+        readCdclFile h
+        -- do readCdclFile "test.cnf" 

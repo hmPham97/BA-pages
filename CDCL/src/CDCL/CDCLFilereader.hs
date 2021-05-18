@@ -1,14 +1,16 @@
 module CDCL.CDCLFilereader (readCdclFile) where
 
 import           CDCL.Algorithm (cdcl)
-import           CDCL.Types (CDCLResult (..))
+import           CDCL.Types (CDCLResult (..), ClauseList)
 import           Control.Monad
 import           System.IO
 
 readCdclFile :: String -> IO ()
 readCdclFile path = do
+    putStrLn ("Reading file " ++ path)
+    putStrLn ""
     handle <- openFile path ReadMode
-    f <- loopCheck handle
+    f <- loopCheck handle []
     case f of
         Nothing -> putStrLn "error"
         Just s -> print s
@@ -20,32 +22,39 @@ checkComment c = c == 'c'
 checkCNFStart :: Char -> Bool
 checkCNFStart c = c == 'p'
 
-loopCheck :: Handle -> IO (Maybe CDCLResult)
-loopCheck handle = do
+loopCheck :: Handle -> [[Integer]] -> IO (Maybe CDCLResult)
+loopCheck handle clist = do
     f <- hGetChar handle
     if checkCNFStart f then
         do
             m <- hGetLine handle
-            content <- hGetContents handle
-            let res = createClauseList content
-            pure (Just res)
+            loopCheck' handle clist
     else do
         m <- hGetLine handle
-        loopCheck handle
+        loopCheck handle clist
 
-createClauseList :: String -> CDCLResult
-createClauseList s
-    | not (null cl) = cdcl cl
-    | otherwise = error "error in file"
-    where m = words s
-          cl = filter (not . null) (createClauseList' m [[]])
+loopCheck' :: Handle -> [[Integer]] -> IO (Maybe CDCLResult)
+loopCheck' handle clist = do
+    end <- hIsEOF handle
+    if end then
+        pure (Just (cdcl clist))
+    else do
+        firstChar <- hGetChar handle
+        if checkComment firstChar then
+            do
+                remove <- hGetLine handle
+                loopCheck' handle clist
+        else do
+            content <- hGetLine handle
+            let word = words (firstChar : content)
+            let list = createIntegerList word []
+            loopCheck' handle (clist ++ [list])
 
-createClauseList' :: [String] -> [[Integer]] -> [[Integer]]
-createClauseList' (xString : ysString) intList
-    | m == 0 = createClauseList' ysString (intList ++ [[]])
-    | otherwise = createClauseList' ysString (f ++ [lastList])
+createIntegerList :: [String] -> [Integer] -> [Integer]
+createIntegerList (xString : ysString) intList
+    | m == 0 = intList
+    | otherwise = createIntegerList ysString lastList
     where m = read xString :: Integer
-          f = init intList
-          lastList = last intList ++ [m]
+          lastList = intList ++ [m]
 
-createClauseList' [] ys = ys
+createIntegerList [] ys = ys
