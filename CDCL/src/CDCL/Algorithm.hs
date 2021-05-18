@@ -13,19 +13,18 @@
 ---------------------------------------------------------------------
 
 
-module CDCL.Algorithm (interpret, searchTupel, cdcl, cdcl', calculateClauseList) where
+module CDCL.Algorithm where
 
 import           CDCL.Decisionalalgorithm (getHighestActivity,
-                     getHighestActivity', getShortestClause,
-                     getShortestClauseViaActivity, initialActivity,
-                     setVariableViaActivity, updateActivity)
+                     getShortestClauseViaActivity, halveActivityMap,
+                     initialActivity, setVariableViaActivity, updateActivity)
 
 import           CDCL.Types (Activity (..), ActivityMap, BoolVal (..),
                      CDCLResult (..), Clause, ClauseList, InterpretResult (..),
-                     Level (..), MappedTupleList, TriTuple, Tupel,
-                     TupelClauseList, Variable (..), getEmptyClause, getNOK,
-                     getVariableValue, increaseLvl, negateVariableValue,
-                     transformClauseList)
+                     Level (..), MappedTupleList, Period (..), TriTuple, Tuple,
+                     TupleClauseList, Variable (..), decreasePeriod,
+                     getEmptyClause, getNOK, getVariableValue, increaseLvl,
+                     negateVariableValue, transformClauseList)
 import qualified CDCL.Types as TypeC
 
 import           CDCL.Unitpropagation (unitPropagation, unitResolution,
@@ -33,62 +32,64 @@ import           CDCL.Unitpropagation (unitPropagation, unitResolution,
 
 import           CDCL.MapLogic (pushToMappedTupleList)
 
+import           CDCL.Conflict (analyzeConflict)
+
 import           Data.List
 import           Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
 import           Data.Maybe
 
+hardCoded = Period 10
+
 -- | This function will start the CDCL Function.
 --   To call this function do for example:
 --   cdcl [[1,2,3],[2,5]]
+--   cdcl [[1,2,3,4], [2,4], [4,5],[3,6,7],[3,9,1],[3,8,10]]
 --   The function will return the result of the cdcl' function.
+--   cdcl [[-2,-3],[-2,3]]  funktioniert noch nicht.
 cdcl :: [[Integer]] -> CDCLResult
-cdcl clist = cdcl' aMap (Level 0) [] Map.empty transformedList transformedList
-    where transformedList = transformClauseList clist []
+cdcl clist = cdcl' aMap (Level 0) [] Map.empty transformedList transformedList hardCoded --hardCoded
+    where transformedList = transformClauseList clist
           aMap = initialActivity transformedList Map.empty
 
 -- | Implementation not done
 --   Function recursively calls itself until either following result happens
---   interpreted = 1 -> SAT TupelClauseList
+--   interpreted = 1 -> SAT TupleClauseList
 --   interpreted = 0 and lvl = 0 -> UNSAT
-cdcl' :: ActivityMap -> Level -> TupelClauseList -> MappedTupleList -> ClauseList -> ClauseList -> CDCLResult
-cdcl' aMap (Level lvl)  tlist mappedTL clistOG clist
+cdcl' :: ActivityMap -> Level -> TupleClauseList -> MappedTupleList -> ClauseList -> ClauseList -> Period -> CDCLResult
+cdcl' aMap (Level lvl)  tlist mappedTL clistOG clist period
     | getNOK interpreted =
         let empty = getEmptyClause interpreted in
-            let analyzelv = lvl in
-                error "not implemented"
-            --cdcl' analyzelv clistOG clist tlist
+            let analyzed = analyzeConflict (Level lvl) empty updatedMap clistOG halvedActivity in
+                if firstElemAnalyze analyzed == Level (-1) then UNSAT
+                else cdcl' (fourthElemAnalyze analyzed) (firstElemAnalyze analyzed) (concatTupleList analyzed) (thirdElemAnalyze analyzed)
+                (transformClauseList [[1]]) (sndElemAnalyze analyzed) periodUpdate2
     | interpreted == OK = SAT (map fst tupleRes) updatedMap
-    | Level lvl > Level 10 = error "stop"
-    | otherwise = cdcl' aMap newLvl list updateMapViaDecision clistOG (calculateClauseList (getFirstElem res) list)
+    | otherwise = cdcl' halvedActivity newLvl list updateMapViaDecision clistOG (calculateClauseList (getFirstElem res) list) periodUpdate2 --periodUpdate2
     where res = unitPropagation clist tlist (Level lvl) mappedTL
           tupleRes = getSecondElem res
           updatedMap = getThirdElem res
           interpreted = interpret clistOG tupleRes
+
+          periodUpdate = decreasePeriod period
+          halvedActivity = if periodUpdate == Period 0 then halveActivityMap aMap (Map.keys aMap) else aMap
+          periodUpdate2 = if periodUpdate == Period 0 then hardCoded else periodUpdate
+
           newLvl = increaseLvl (Level lvl)
-          shortestClauses = getShortestClause (getFirstElem res) []
-          highestActivity = getHighestActivity shortestClauses aMap (Variable 0, Activity 0)
-          shortestCl = getShortestClauseViaActivity shortestClauses highestActivity
-          assuredShortestClause = fromMaybe [] shortestCl
-          decided = setVariableViaActivity assuredShortestClause highestActivity -- Need change here
+          highestActivity = getHighestActivity (getFirstElem res) aMap [(Variable 0, Activity (-1))]
+          shortestCl = getShortestClauseViaActivity (getFirstElem res) [] highestActivity
+          firstShortestCl = head shortestCl
+
+          assuredShortestClause = fst firstShortestCl
+          firstHighestActivityInClause = getHighestActivity [firstShortestCl] aMap [(Variable 0, Activity 0)]
+          decided = setVariableViaActivity assuredShortestClause (head firstHighestActivityInClause) -- Need change here? it takes first highest found VariableActivity in the clause.
           updateMapViaDecision = uncurry (pushToMappedTupleList updatedMap newLvl) decided
           list = nub (tlist ++ [decided] ++ tupleRes)
 
-    -- if interpret clistOG (snd res) == 0 then -- checkEmptyClause needs to be changed. eventuell einfach interpret auf 0 checken?
-    --     let empty = clist in -- function which calculates empty clause
-    --         let analyzelv = lvl in -- function to analyze conflict
-    --             -- backtrack-algorithm. will caculate new tlist or mapped tupleList
-    --             cdcl' analyzelv clistOG clist tlist -- replace tlist with the backtrack algorithm
-    -- else if interpret clistOG (snd res) == 1 then 1 else
-    --     let newLvl = lvl + 1 in
-    --         cdcl' newLvl clistOG (calculateClauseList (fst res) decided) decided
-    --         where decided = [(2,1)] -- decided needs to become a proper function
-
 -- | calculates the clauselist which will be given to unitpropagation.
 --   returns when everything of tupelClauselist was calculated
-calculateClauseList :: ClauseList -> TupelClauseList -> ClauseList
+calculateClauseList :: ClauseList -> TupleClauseList -> ClauseList
 calculateClauseList cl tlist@(xs : ys)
-    | null xs = cl
     | null ys = reso
     | otherwise = calculateClauseList reso ys
     where sub = unitSubsumption cl xs
@@ -98,7 +99,7 @@ calculateClauseList cl tlist@(xs : ys)
 
 -- | Bsp: [[2,1,3],[-1]] [(1,0),(3,0),(2,0)] -> 0. CONFLICT
 --   Bsp: [[2,1,3]][(1,0),(2,0)] -> -1. Etwas wurde noch nicht belegt o. etwas wurde nicht positiv.
-interpret :: ClauseList -> TupelClauseList -> InterpretResult
+interpret :: ClauseList -> TupleClauseList -> InterpretResult
 interpret t@(formel : xs) interpretation -- = do
     | null interpretation || interpreted == UNRESOLVED = UNRESOLVED
     | getNOK interpreted = NOK (snd formel)
@@ -110,7 +111,7 @@ interpret t@(formel : xs) interpretation -- = do
 -- | Returns 1, 0 and -1
 --   Interprets a single clause of a formula
 --   Empty Clause if whole clause interprets to 0. if -1 appears it means the clause isnt finished from interpreting
-interpret' :: Clause -> TupelClauseList -> Bool -> InterpretResult
+interpret' :: Clause -> TupleClauseList -> Bool -> InterpretResult
 interpret' (formel : xs) interpretation boolValue-- = do
     | tupelValue == BNothing   && null xs = UNRESOLVED
     | tupelValue == BNothing  && not (null xs) = interpret' xs interpretation True
@@ -120,27 +121,47 @@ interpret' (formel : xs) interpretation boolValue-- = do
     | otherwise = interpret' xs interpretation boolValue
         where formelValue = getVariableValue formel
               varValue = if formelValue < 0 then negateVariableValue formel else formel
-              tupelValue = searchTupel (getVariableValue varValue) interpretation
+              tupelValue = searchTuple varValue interpretation
 
 
 -- | Get the set value from the tupelClauselist.
-searchTupel :: Integer -> TupelClauseList -> BoolVal
-searchTupel xval (xs : ys)
-    | getVariableValue (fst tuple) == xval = snd tuple
-    | not (null ys) = searchTupel xval ys
+searchTuple :: Variable -> TupleClauseList -> BoolVal
+searchTuple xval (xs : ys)
+    | fst tuple == xval = snd tuple
+    | not (null ys) = searchTuple xval ys
     | otherwise = BNothing
     where tuple = fst xs
 
-searchTupel _ _ = BNothing
+searchTuple _ _ = BNothing
 
 -- | returns the clauseList from unitPropagation
 getFirstElem :: TriTuple -> ClauseList
 getFirstElem (x, _, _) = x
 
--- | returns the TupelClauseList from unitPropagation
-getSecondElem ::  TriTuple -> TupelClauseList
+-- | returns the TupleClauseList from unitPropagation
+getSecondElem ::  TriTuple -> TupleClauseList
 getSecondElem (_, x, _) = x
 
 -- | returns the MappedTupleList from unitPropagation
 getThirdElem :: TriTuple -> MappedTupleList
 getThirdElem (_, _, x) = x
+
+-- | returns the new level after analyzing the conflict
+firstElemAnalyze :: (Level, ClauseList, MappedTupleList, ActivityMap) -> Level
+firstElemAnalyze (x, _, _, _) = x
+
+-- | returns the new clauselist after analyzing the conflict
+sndElemAnalyze :: (Level, ClauseList, MappedTupleList, ActivityMap) -> ClauseList
+sndElemAnalyze (_, x, _, _) = x
+
+-- | returns the new mappedtupleList after analyzing the conflict
+thirdElemAnalyze :: (Level, ClauseList, MappedTupleList, ActivityMap) -> MappedTupleList
+thirdElemAnalyze (_, _, x, _) = x
+
+-- | function returns a tupleclauseList based on MappedTupleList from analyzing the conflict
+concatTupleList :: (Level, ClauseList, MappedTupleList, ActivityMap) -> TupleClauseList
+concatTupleList  = concat . thirdElemAnalyze 
+
+-- | returns the new activityMap after analyzing the conflict
+fourthElemAnalyze :: (Level, ClauseList, MappedTupleList, ActivityMap) -> ActivityMap
+fourthElemAnalyze (_, _, _, x) = x

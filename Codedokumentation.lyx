@@ -1,0 +1,1205 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\noindent
+
+\size larger
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+section{Dokumentation für Code}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size large
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsection{Types.hs}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Die Datei enthält alle nötigen Datentypen, die für die Implementierung des
+ CDCL Programms notwendig sind.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+textbf{
+\backslash
+underline{data}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{CDCLResult}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Rückgabewert von CDCL Funktion.
+ Folgende Datentypen können hier zurückgegeben werden:
+\end_layout
+
+\begin_layout Itemize
+\noindent
+SAT TupelList MappedTupleList
+\end_layout
+
+\begin_layout Itemize
+\noindent
+UNSAT
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{Reason}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Reason zeigt an, aus welchem Grund eine Belegung für eine Variable entschieden
+ wurde.
+ Diese können folgende sein:
+\end_layout
+
+\begin_layout Itemize
+\noindent
+Decision
+\end_layout
+
+\begin_layout Itemize
+\noindent
+Reason Clause
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{BoolVal}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+BoolVal gibt den gesetzten Wert einer Variablen zurück.
+ Diese sind BTrue, BFalse or BNothing.
+ Equivalente Werte für diese sind 1, 0 und -1.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{InterpretResult}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+InterpretResult ist das Ergebnis von der Interpret Funktion.
+ Ergebnisse können Folgende sein:
+\end_layout
+
+\begin_layout Itemize
+\noindent
+OK
+\end_layout
+
+\begin_layout Itemize
+\noindent
+NOK Clause
+\end_layout
+
+\begin_layout Itemize
+\noindent
+UNRESOLVED
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+textbf{
+\backslash
+underline{newtype}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{Variable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Datentyp für Variable.
+ Sie wird folgendermaßen dargestellt: 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{Variable Integer}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{Level}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Datentyp für Level.
+ Die Darstellung für diesen Datentyp ist 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{Level Integer}
+\end_layout
+
+\end_inset
+
+.
+ 
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{Activity}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Datentyp für Activity.
+ Die gewählte Darstelung für den Activity Datentyp ist 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{Activity Integer}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+textbf{
+\backslash
+underline{Type}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{Clause}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Clauseln sind Listen aus Variablen.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{ReducedClauseAndOGClause}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Synonym für Tupel, die aus zwei Clauseln bestehen.
+ Die erste Klausel wird durch Funktionen gekürzt, während die zweite Klausel
+ im Tupel in ihrem Originalzustand bleibt.
+ 
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{Tuple}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Synonym für Tupel, die aus Variable und BoolVal bestehen.
+ 
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{TupelClause}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Synonym für Tupel, die aus Tuple und Reason bestehen.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{MappedTupleList}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Eine Map, die Level als Key verwendet und TupleClauseList als Value besitzt.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{ActivityMap}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Variablen sind in dieser Map Keys, während Activity Values darstellen
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{VariableActivity}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Synonym für Tupel, die aus Variable und Activity bestehen.
+ 
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{TriTuple}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Eine Tupel aus drei Elementen.
+ Diese enthält ClauseList, TupleClauseList und MappedTupleList.
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size large
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsection{Algorithm.hs}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{cdcl}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Funktion benötigt einen Parameter.
+ Der erwartete Parameter ist eine Liste aus Listen, welche mit Integern
+ gefüllt ist.
+ Ruft die rekursive cdcl' Funktion auf.
+\end_layout
+
+\begin_layout Standard
+\noindent
+Als Ergebnis kommt dann ein CDCLResult zurück.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{calculateClauseList}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Funktion benötigt ClauseList und TupleClauseList als Parameter.
+ Diese Funktion wird aufgerufen, wenn eine Variable BoolVal durch eine Decision
+ 
+\end_layout
+
+\begin_layout Standard
+\noindent
+erhält und berechnet ihr Ergebnis mithilfe von 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{unitSubsumption} und 
+\backslash
+underline{unitResolution}
+\end_layout
+
+\end_inset
+
+.
+ Der Rückgabewert ist eine ClauseList.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{interpret}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Interpretiert eine gegebene ClauseList mithilfe einer übergebenen TupelClauseLis
+t.
+ Dabei wird rekursiv nach der Reihe eine Clause interpretiert, bis alle
+ Klauseln interpretiert sind oder eine Klausel nicht zu OK evaluiert wird.
+ 
+\end_layout
+
+\begin_layout Standard
+\noindent
+Rückgabewerte für diese Funktion sind InterpretResult.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{searchTupel}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Gibt den Wert eines Tupelpaares zurück basiered auf dem gegebenen Variablenwert
+ und der TupelList.
+ Dabei wird ein BoolVal zurückgegeben.
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size large
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsection{Unitpropagation.hs}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{unitProp}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Führt das Unit-Propagation Verfahren durch.
+ Die Funktion erwartet ClauseList, TupelClauseList, Level und MappedTupleList
+ als Argumente.
+ Als Ergebnis wird ein TriTuple zurückgegeben.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{getUnitClause}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Gibt eine ReducedClauseAndOGClause durch das überprüfen einer ClauseList
+ zurück.
+ Dabei wird überprüft ob die erste Clause im ReducedClauseAndOGClause Tuple
+ die Länge 1 besitzt.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{setVariable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Setz einen Wert von BFalse oder BTrue in einem Tuple und gibt dieses zurück.
+ 
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{unitSubsumption}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Löscht Klauseln aus ClauseList, wenn Klauseln 
+\lang ngerman
+gefunden
+\lang english
+ werden, die Variablen enthalten, welche bei einem eingesetzem Tupelwert
+ zu 1 evaluiert werden.
+ Die bearbeitete ClauseList wird dann zurückgegeben.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{unitResolution}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Löscht Variablen aus den Clauseln, die zu 0 evaluiert werden.
+ Als Ergebnis wird die bearbeitete ClauseList weitergegeben.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsection{Decisionalalgorithm.hs}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{initialActivity}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Die Funktion wird initial bei der Verwendung von 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{cdcl}
+\end_layout
+
+\end_inset
+
+ benutzt und erwartet eine ClauseList und ActivityMap als Paremeter.
+ Mithilfe von rekursiven Aufrufen von initialActivity und 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{updateActivity}
+\end_layout
+
+\end_inset
+
+ wird dann eine ActivityMap berechnet und zurückgegeben.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{updateActivity}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+UpdateActivity benötigt eine Clause und ActivityMap als Parameter.
+ Durch Rekursion erhalten neue Variablen einen Eintrag in die ActivityMap,
+ während bestehende um eins aktualisiert werden.
+ 
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{getHighestActivity}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Erwartet ClauseList, ActivityMap und VariableActivity als Parameter und
+ gibt die erste VariableActivity mit der höchsten Activity als Ergebnis
+ zurück.
+ 
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{getShortestClauseViaActivity}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Beim Aufruf der Funktion wird eine ClauseList und VariableActivity verlangt.
+ Die Funktion gibt die erste Clause zurück, die die gegebene VariableActivity
+ enthält oder Nothing.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{setVariableViaActivity}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+SetVariableViaActivity benötigt eine Clause und VariableActivity.
+ Basierend auf der Variable in der Clause wird ein TupleClause als Ergebnis
+ zurückgegeben.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsection{MapLogic.hs}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{pushToMappedTupleList}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Die Funktion erwartet MappedTupleList, Level, Tuple und ein Reason.
+ Anhand der übergebenen Parameter wird die MappedTupleList aktualisiert
+ und anschließend zurückgegeben.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{deleteLvl}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsection{Conflict.hs}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{analyzeConflict}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Die Funktion erwartet folgende Argumente: Level, Clause, MappedTupleList
+ und ClauseList.
+ Durch die 
+\end_layout
+
+\end_body
+\end_document
