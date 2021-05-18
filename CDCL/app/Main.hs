@@ -1,6 +1,8 @@
 module Main where
 
-import CDCL.Algorithm (cdcl)
+import System.IO  
+import Control.Monad
+import CDCL.CDCLFilereader (readCdclFile)
 
 main :: IO()
-main = print (cdcl [[11,1,2,51],[23,-2]])
+main = do readCdclFile "test.cnf"

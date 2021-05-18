@@ -63,7 +63,7 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG clist period
             let analyzed = analyzeConflict (Level lvl) empty updatedMap clistOG halvedActivity in
                 if firstElemAnalyze analyzed == Level (-1) then UNSAT
                 else cdcl' (fourthElemAnalyze analyzed) (firstElemAnalyze analyzed) (concatTupleList analyzed) (thirdElemAnalyze analyzed)
-                (transformClauseList [[1]]) (sndElemAnalyze analyzed) periodUpdate2
+                (sndElemAnalyze analyzed) (sndElemAnalyze analyzed) periodUpdate2
     | interpreted == OK = SAT (map fst tupleRes) updatedMap
     | otherwise = cdcl' halvedActivity newLvl list updateMapViaDecision clistOG (calculateClauseList (getFirstElem res) list) periodUpdate2 --periodUpdate2
     where res = unitPropagation clist tlist (Level lvl) mappedTL
@@ -160,7 +160,7 @@ thirdElemAnalyze (_, _, x, _) = x
 
 -- | function returns a tupleclauseList based on MappedTupleList from analyzing the conflict
 concatTupleList :: (Level, ClauseList, MappedTupleList, ActivityMap) -> TupleClauseList
-concatTupleList  = concat . thirdElemAnalyze 
+concatTupleList  = concat . thirdElemAnalyze
 
 -- | returns the new activityMap after analyzing the conflict
 fourthElemAnalyze :: (Level, ClauseList, MappedTupleList, ActivityMap) -> ActivityMap

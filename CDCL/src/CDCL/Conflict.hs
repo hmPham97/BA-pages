@@ -16,7 +16,7 @@ import           Data.Maybe
 
 -- | NOT DONE
 -- | Example:
---  f = analyzeConflict  (Level 1) [Variable (1), Variable (-2)] (Map.fromList [(Level 1, [((Variable 1, BFalse), Decision), ((Variable 2, BTrue), Reason [Variable 1, Variable 2])])]) [([Variable 1, Variable 2], [Variable 1, Variable 2]), ([Variable (1), Variable (-2)], [Variable 1, Variable (-2)])] Map.Empty
+--  f = analyzeConflict  (Level 1) [Variable (-1), Variable (-2)] (Map.fromList [(Level 1, [((Variable (-1), BTrue), Decision), ((Variable 2, BTrue), Reason [Variable (-1), Variable 2])])]) [([Variable (-1), Variable 2], [Variable (-1), Variable 2]), ([Variable (-1), Variable (-2)], [Variable (-1), Variable (-2)])] Map.Empty
 analyzeConflict :: Level -> Clause -> MappedTupleList -> ClauseList -> ActivityMap -> (Level, ClauseList, MappedTupleList, ActivityMap)
 analyzeConflict lvl emptyClause mtl cList aMap
     | getLevel lvl == 0 = (Level (-1), cList, mtl, aMap)
@@ -27,7 +27,7 @@ analyzeConflict lvl emptyClause mtl cList aMap
 
 -- | Calculate the reason of conflict
 --   E.G.
---   calcReason (Level 1) [Variable 1, Variable 2] (Map.fromList [(Level 1, [ ((Variable 1, BFalse), Decision), ((Variable 2, BFalse), Reason [Variable 1, Variable (-2)]) ] )] )
+--   calcReason (Level 1) [Variable (-1), Variable 2] (Map.fromList [(Level 1, [ ((Variable (-1), BTrue), Decision), ((Variable 2, BFalse), Reason [Variable (-1), Variable (-2)]) ] )] )
 --   calcReason (Level 1) [Variable 1] (Map.fromList [(Level 1, [((Variable 1, BFalse), Decision)])])
 --
 --   calcReason (Level 1) [Variable 1, Variable 2] (Map.fromList [(Level 1, [((Variable 1, BFalse), Decision), ((Variable 2, BTrue), Reason [Variable 2])])])
