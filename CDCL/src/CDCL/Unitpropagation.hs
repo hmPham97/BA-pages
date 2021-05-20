@@ -9,7 +9,7 @@
 -- Portability :
 --
 ---------------------------------------------------------------------
-module CDCL.Unitpropagation (getUnitClause, setVariable, unitSubsumption,
+module CDCL.Unitpropagation (getUnitClause, unitSubsumption,
     unitResolution, unitPropagation) where
 
 import           CDCL.Types (BoolVal (..), Clause, ClauseList, Level,
@@ -23,6 +23,9 @@ import           CDCL.MapLogic (pushToMappedTupleList)
 import           Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
 
+-- | The function is the base for the unitpropagation procedure. It checks first if an 
+--   unitclause exists. If it does, it will set the variable so that the unitclause is solved.
+-- 
 unitPropagation :: ClauseList -> TupleClauseList -> Level -> MappedTupleList -> TriTuple
 unitPropagation clist tlist lvl mapped
     | null clist || null (fst unitClause) = (clist, tlist, mapped)
@@ -57,7 +60,9 @@ unitSubsumption (firstList : xs) tuple
 
 unitSubsumption _ _ = []
 
--- | remove -variable of the variable which was set
+-- | remove negated variable of the variable which was set
+--   For example a negated variable was resolved, which would remove
+--   the positive ones.
 unitResolution :: ClauseList -> TupleClause -> ClauseList
 unitResolution (firstList : xs) tuple
     | not checked = filter (not . null) (firstList : unitResolution xs tuple)

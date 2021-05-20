@@ -17,8 +17,8 @@ import qualified Data.Map.Strict as Map
 -- | Datatype for CDCL
 data CDCLResult
     =
-        -- | Formula resolved, with TupelList to show how it was solved
-        SAT TupelList MappedTupleList
+        -- | Formula resolved, with TupleList to show how it was solved
+        SAT TupleList MappedTupleList
     |
         -- | Formula not resolved
         UNSAT
@@ -97,7 +97,7 @@ type ClauseList = [ReducedClauseAndOGClause]
 type Tuple = (Variable, BoolVal)
 
 -- | List containing Tupels.
-type TupelList = [Tuple]
+type TupleList = [Tuple]
 
 -- | A tuple of Tuple and Reason
 type TupleClause = (Tuple, Reason)
@@ -105,7 +105,7 @@ type TupleClause = (Tuple, Reason)
 -- | TupleClauseList is a list of TupleClause
 type TupleClauseList = [TupleClause]
 
--- | Defined as Map.Map Integer TupelList
+-- | Defined as Map.Map Integer TupleList
 type MappedTupleList = Map.Map Level TupleClauseList
 
 -- | Shows how often a variable is found in the formulas
@@ -158,8 +158,6 @@ transformClauseList (xs : ys)
     | null ys = [transformClause xs []]
     | otherwise = transformClause xs [] : transformClauseList ys
 
---transformBack :: Clause ->
-
 -- | Transforms a list of Integers into a ReducedClauseAndOGClause
 transformClause :: [Integer] -> Clause -> ReducedClauseAndOGClause
 transformClause (xs : ys) varList
@@ -176,8 +174,10 @@ getNOK _ = False
 getEmptyClause :: InterpretResult -> Clause
 getEmptyClause (NOK x) = x
 
+-- | Returns the Clause in Reason
 getReason :: Reason -> Clause
 getReason (Reason r) = r
 
+-- | Decrease a given Period by 1
 decreasePeriod :: Period -> Period
 decreasePeriod (Period r) = Period (r - 1)

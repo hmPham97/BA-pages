@@ -9,4 +9,4 @@ main :: IO()
 main = do
         h <- getLine
         readCdclFile h
-        -- do readCdclFile "test.cnf" 
+        -- do readCdclFile "test.cnf"

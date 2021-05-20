@@ -12,7 +12,7 @@ readCdclFile path = do
     handle <- openFile path ReadMode
     f <- loopCheck handle []
     case f of
-        Nothing -> putStrLn "error"
+        Nothing -> putStrLn "Error. The given file doesn't contain a legitimate Content."
         Just s -> print s
     hClose handle
 
@@ -24,14 +24,18 @@ checkCNFStart c = c == 'p'
 
 loopCheck :: Handle -> [[Integer]] -> IO (Maybe CDCLResult)
 loopCheck handle clist = do
-    f <- hGetChar handle
-    if checkCNFStart f then
-        do
-            m <- hGetLine handle
-            loopCheck' handle clist
+    end <- hIsEOF handle
+    if end then
+        pure Nothing
     else do
-        m <- hGetLine handle
-        loopCheck handle clist
+        f <- hGetChar handle
+        if checkCNFStart f then
+            do
+                m <- hGetLine handle
+                loopCheck' handle clist
+        else do
+            m <- hGetLine handle
+            loopCheck handle clist
 
 loopCheck' :: Handle -> [[Integer]] -> IO (Maybe CDCLResult)
 loopCheck' handle clist = do

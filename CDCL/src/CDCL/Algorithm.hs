@@ -13,7 +13,7 @@
 ---------------------------------------------------------------------
 
 
-module CDCL.Algorithm where
+module CDCL.Algorithm (cdcl, interpret, searchTuple) where
 
 import           CDCL.Decisionalalgorithm (getHighestActivity,
                      getShortestClauseViaActivity, halveActivityMap,

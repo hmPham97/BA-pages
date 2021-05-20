@@ -56,7 +56,7 @@ updateActivity clause@(xs : ys) aMap
 
 -- | periodically call this function to half the activities in the map.
 halveActivityMap :: ActivityMap -> [Variable] -> ActivityMap
-halveActivityMap = foldl (flip (Map.adjust divideActivity))
+halveActivityMap = foldr (Map.adjust divideActivity)
 -- above code does following thing:
 -- halveActivityMap aMap (xs : ys) = let updateMap = Map.adjust divideActivity xs aMap
 --     in halveActivityMap updateMap ys
@@ -69,7 +69,6 @@ halveActivityMap = foldl (flip (Map.adjust divideActivity))
 --   (Map.fromList [(Variable 1, Activity 5),(Variable 3, Activity 6),(Variable 5,Activity 2),(Variable 7,Activity 7)]) (Variable 0, Activity 0)
 getHighestActivity :: ClauseList -> ActivityMap -> [VariableActivity] -> [VariableActivity]
 getHighestActivity cList@(xs : ys) aMap val
-  --  | val == 0 && not (null ys) = getHighestActivity ys aMap highestValInClause
     | getActivityValue (snd firstVal) < getActivityValue (snd foundAct) = getHighestActivity ys aMap highestValInClause
     | getActivityValue (snd firstVal) > getActivityValue (snd foundAct) = getHighestActivity ys aMap val
     | getActivityValue (snd firstVal) == getActivityValue (snd foundAct) = getHighestActivity ys aMap nubList
@@ -110,8 +109,8 @@ setVariableViaActivity (xs : ys) vAct
 setVariableViaActivity [] vAct = error "wrong input in VariableActivity or Clause"--((Variable (-1), BNothing), Reason [Variable (-1)])
 
 -- | Get the shortest clause which contains the highest activity.
---   Do this based on the given ClauseList and VariableActivity. Return
---   Maybe Clause or Nothing.
+--   Do this based on the given ClauseList and VariableActivity. Returns
+--   a ClauseList
 getShortestClauseViaActivity :: ClauseList -> ClauseList -> [VariableActivity] -> ClauseList
 getShortestClauseViaActivity (xs : ys) checkC vAct
     | null checkC && checkClause = getShortestClauseViaActivity ys [xs] vAct
@@ -129,6 +128,8 @@ getShortestClauseViaActivity (xs : ys) checkC vAct
     --where firstVal = fst vAct
 getShortestClauseViaActivity [] checkC _ = checkC
 
+-- | Checks if the given Clause contains a given VariableActivity. Returns true if it does
+--   else return false.
 checkClauseForVariable :: Clause -> [VariableActivity] -> Bool
 checkClauseForVariable cl (x : ys)
     | fst x `elem` cl || negateVariableValue (fst x) `elem` cl = True

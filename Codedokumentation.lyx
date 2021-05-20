@@ -98,6 +98,14 @@ section{Dokumentation für Code}
 
 \begin_layout Standard
 \noindent
+Für eine umfangreichere Dokumentation des Codes wird auf Haddock Dokumentation
+ hingewiesen.
+ Diese Dokumentation dient nur als grober Überblick für die hauptsächlichen
+ Funktionen, die implementiert wurden.
+\end_layout
+
+\begin_layout Standard
+\noindent
 
 \size large
 \begin_inset ERT
@@ -169,7 +177,7 @@ Rückgabewert von CDCL Funktion.
 
 \begin_layout Itemize
 \noindent
-SAT TupelList MappedTupleList
+SAT TupleList MappedTupleList
 \end_layout
 
 \begin_layout Itemize
@@ -316,7 +324,7 @@ underline{Variable}
 \begin_layout Standard
 \noindent
 Datentyp für Variable.
- Sie wird folgendermaßen dargestellt: 
+ Die Darstellung für diesen Datentyp ist 
 \begin_inset ERT
 status open
 
@@ -329,7 +337,7 @@ underline{Variable Integer}
 
 \end_inset
 
-
+.
 \begin_inset Newline newline
 \end_inset
 
@@ -397,7 +405,7 @@ underline{Activity}
 \begin_layout Standard
 \noindent
 Datentyp für Activity.
- Die gewählte Darstelung für den Activity Datentyp ist 
+ Die Darstellung für diesen Datentyp ist 
 \begin_inset ERT
 status open
 
@@ -406,6 +414,46 @@ status open
 
 \backslash
 underline{Activity Integer}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{Period}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Datentyp für Period.
+ Die Darstellung für diesen Datentyp ist 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{Period Integer}
 \end_layout
 
 \end_inset
@@ -455,7 +503,7 @@ underline{Clause}
 
 \begin_layout Standard
 \noindent
-Clauseln sind Listen aus Variablen.
+Clause ist eine Liste bestehend aus Variable.
 \begin_inset Newline newline
 \end_inset
 
@@ -481,14 +529,36 @@ underline{ReducedClauseAndOGClause}
 
 \begin_layout Standard
 \noindent
-Synonym für Tupel, die aus zwei Clauseln bestehen.
- Die erste Klausel wird durch Funktionen gekürzt, während die zweite Klausel
+Synonym für Tupel, die aus zwei Clause bestehen.
+ Die erste Clause wird durch Funktionen gekürzt, während die zweite Clause
  im Tupel in ihrem Originalzustand bleibt.
  
 \begin_inset Newline newline
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{ClauseList}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+ClauseList ist eine Liste aus ReducedClauseAndOGClause.
 \end_layout
 
 \begin_layout Standard
@@ -527,7 +597,31 @@ status open
 
 
 \backslash
-underline{TupelClause}
+underline{TupleList}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Liste aus Tuple.
+ Wird für den Datentyp CDCLResult verwendet.
+ 
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{TupleClause}
 \end_layout
 
 \end_inset
@@ -542,6 +636,28 @@ Synonym für Tupel, die aus Tuple und Reason bestehen.
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{TupleClauseList}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Liste aus TupleClause.
 \end_layout
 
 \begin_layout Standard
@@ -729,7 +845,18 @@ status open
 
 
 \backslash
-underline{unitSubsumption} und 
+underline{unitSubsumption}
+\end_layout
+
+\end_inset
+
+ und 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
 \backslash
 underline{unitResolution}
 \end_layout
@@ -823,7 +950,7 @@ status open
 
 
 \backslash
-underline{unitProp}
+underline{unitPropagation}
 \end_layout
 
 \end_inset
@@ -860,8 +987,8 @@ underline{getUnitClause}
 \noindent
 Gibt eine ReducedClauseAndOGClause durch das überprüfen einer ClauseList
  zurück.
- Dabei wird überprüft ob die erste Clause im ReducedClauseAndOGClause Tuple
- die Länge 1 besitzt.
+ Dabei wird überprüft ob das erste Element im ReducedClauseAndOGClause die
+ Länge 1 besitzt.
 \end_layout
 
 \begin_layout Standard
@@ -1002,6 +1129,10 @@ underline{updateActivity}
 \end_inset
 
  wird dann eine ActivityMap berechnet und zurückgegeben.
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1027,6 +1158,38 @@ UpdateActivity benötigt eine Clause und ActivityMap als Parameter.
  Durch Rekursion erhalten neue Variablen einen Eintrag in die ActivityMap,
  während bestehende um eins aktualisiert werden.
  
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{halveActivityMap}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Die Funktion halbiert alle Activity nach einer bestimmten Periode.
+ Als Parameter werden eine ActivityMap und eine Liste von allen Variablen
+ benötigt.
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1048,10 +1211,13 @@ underline{getHighestActivity}
 
 \begin_layout Standard
 \noindent
-Erwartet ClauseList, ActivityMap und VariableActivity als Parameter und
- gibt die erste VariableActivity mit der höchsten Activity als Ergebnis
- zurück.
- 
+Erwartet ClauseList, ActivityMap und eine Liste von VariableActivity als
+ Parameter und gibt eine Liste von VariableActivity mit der höchsten Activity
+ als Ergebnis zurück.
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1073,9 +1239,14 @@ underline{getShortestClauseViaActivity}
 
 \begin_layout Standard
 \noindent
-Beim Aufruf der Funktion wird eine ClauseList und VariableActivity verlangt.
- Die Funktion gibt die erste Clause zurück, die die gegebene VariableActivity
- enthält oder Nothing.
+Beim Aufruf der Funktion werden zwei ClauseList und eine Liste von VariableActiv
+ity benötigt.
+ Die Funktion gibt eine ClauseList mit den kürzesten Clause zurück, die
+ die gegebenen VariableActivity enthalten.
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1141,6 +1312,10 @@ underline{pushToMappedTupleList}
 Die Funktion erwartet MappedTupleList, Level, Tuple und ein Reason.
  Anhand der übergebenen Parameter wird die MappedTupleList aktualisiert
  und anschließend zurückgegeben.
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1158,6 +1333,12 @@ underline{deleteLvl}
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\noindent
+Die Funktion löscht das gegebenene Level aus einer gegebenen MappedTupleList
+ und gibt diese zurück.
 \end_layout
 
 \begin_layout Standard
@@ -1196,9 +1377,166 @@ underline{analyzeConflict}
 
 \begin_layout Standard
 \noindent
-Die Funktion erwartet folgende Argumente: Level, Clause, MappedTupleList
- und ClauseList.
- Durch die 
+Die Funktion erwartet folgende Argumente: Level, Clause, MappedTupleList,
+ ClauseList und ActivityMap.
+ Mithilfe von 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{calcReason}
+\end_layout
+
+\end_inset
+
+ wird eine neue Clause berechnet und durch 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{addClause}
+\end_layout
+
+\end_inset
+
+ zu der gegebenen ClauseList hinzugefügt.
+ Dabei wird durch 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{deleteLvl}
+\end_layout
+
+\end_inset
+
+ das letzte Level aus MappedTupleList gelöscht.
+ Level, ClauseList, MappedTupleList und ActivityMap wird am zurückgegeben.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{calcReason}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Berechnet mithilfe von Level, Clause und MappedTupleList eine 1UIP-Clause.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsection{CDCLFilereader.hs}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{readCdclFile}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Die Funktion erwartet einen String Input und gibt eine IO Ausgabe zurück.
+ Der String Input soll hierbei eine existierende cnf-Datei sein.
+ Bei einem richtigen Input ruft die Funktion 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{loopCheck}
+\end_layout
+
+\end_inset
+
+ auf und gibt ihr Ergebnis aus.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{loopCheck}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Die Funktion überprüft, ob eine Zeile mit einem Integer oder einem - anfängt.
+ Wenn dies der Fall ist, wird die gesamte Zeile in ein Integerliste hinzugefügt.
+ Diese Liste wird dann zu einer Liste von Integerlisten beigefügt.
+ Wenn die Funktion das Ende der Datei erreicht, wird die die Liste von Integerli
+sten der 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{cdcl}
+\end_layout
+
+\end_inset
+
+-Funktion übergeben.
+ Das Ergebnis wird dann als IO (Maybe CDCLResult) zurückgegeben.
 \end_layout
 
 \end_body

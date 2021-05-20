@@ -34,5 +34,6 @@ pushToMappedTupleList maptl lvl tupel reason
           check = filter (((== fst tupel) . fst).fst) (fromMaybe [] f)
           m x = Just (fromMaybe [] f ++ [(tupel, reason)])
 
-deleteLvl :: MappedTupleList -> Level -> MappedTupleList
-deleteLvl mtl lvl = Map.delete lvl mtl
+-- | Function removes the given level
+deleteLvl :: Level -> MappedTupleList  -> MappedTupleList
+deleteLvl = Map.delete

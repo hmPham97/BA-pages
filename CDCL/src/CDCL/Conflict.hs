@@ -20,12 +20,12 @@ import           Data.Maybe
 analyzeConflict :: Level -> Clause -> MappedTupleList -> ClauseList -> ActivityMap -> (Level, ClauseList, MappedTupleList, ActivityMap)
 analyzeConflict lvl emptyClause mtl cList aMap
     | getLevel lvl == 0 = (Level (-1), cList, mtl, aMap)
-    | otherwise = (lvl, fst newCl, updatedMtl, snd newCl)
+    | otherwise = (decreaseLvl lvl, fst newCl, updatedMtl, snd newCl)
     where reason = calcReason lvl emptyClause mtl
-          updatedMtl = deleteLvl mtl lvl
+          updatedMtl = deleteLvl lvl mtl
           newCl = addClause reason cList aMap
 
--- | Calculate the reason of conflict
+-- | Calculate the reason of conflict. Uses calcReason' to calculate the 1UIP Clause and returns it.
 --   E.G.
 --   calcReason (Level 1) [Variable (-1), Variable 2] (Map.fromList [(Level 1, [ ((Variable (-1), BTrue), Decision), ((Variable 2, BFalse), Reason [Variable (-1), Variable (-2)]) ] )] )
 --   calcReason (Level 1) [Variable 1] (Map.fromList [(Level 1, [((Variable 1, BFalse), Decision)])])
@@ -41,7 +41,7 @@ calcReason lvl emptyClause mtl
           x = fromMaybe [] associated
           calc = calcReason' emptyClause x
 
-
+-- | Calculate clauses until 1UIP-Clause is found. Return the found clause then.
 calcReason' :: Clause -> TupleClauseList -> Clause
 calcReason' cl tcl
     | length tcl > 1 = calcReason' unionCl reducedTcl
@@ -51,13 +51,6 @@ calcReason' cl tcl
           var = fst (fst lastVal)
           reason = getReason (snd lastVal)
           unionCl = unionClause cl reason var
--- | help function
---   searches for tuple which is in clause.
---   needs to be changed, so that it first searches backwards.
-search :: TupleClauseList -> Clause -> Clause
-search (xs : ys) cl
-    | fst (fst xs) `elem` cl && snd xs /= Decision = getReason (snd xs)
-    | otherwise = search ys cl
 
 -- | Add the newly calculated Clause to the ClauseList and
 --   update the ActivityMap
