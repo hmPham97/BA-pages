@@ -1,0 +1,291 @@
+	Mon May 24 11:15 2021 Time and Allocation Profiling Report  (Final)
+
+	   CDCL-exe.EXE +RTS -N -p -RTS
+
+	total time  =        1.28 secs   (4754 ticks @ 1000 us, 8 processors)
+	total alloc = 107,109,637,384 bytes  (excludes profiling overheads)
+
+COST CENTRE             MODULE               SRC                                         %time %alloc
+
+unitSubsumption         CDCL.Unitpropagation src\CDCL\Unitpropagation.hs:(55,1)-(61,24)   47.4   51.1
+unitResolution          CDCL.Unitpropagation src\CDCL\Unitpropagation.hs:(67,1)-(74,23)   45.2   48.1
+==                      CDCL.Types           src\CDCL\Types.hs:69:21-22                    1.6    0.0
+unitResolution.checked  CDCL.Unitpropagation src\CDCL\Unitpropagation.hs:72:11-44          1.2    0.0
+unitSubsumption.checked CDCL.Unitpropagation src\CDCL\Unitpropagation.hs:59:11-44          1.1    0.0
+
+
+                                                                                                                                                   individual      inherited
+COST CENTRE                                           MODULE                   SRC                                              no.     entries  %time %alloc   %time %alloc
+
+MAIN                                                  MAIN                     <built-in>                                       203          0    0.0    0.0   100.0  100.0
+ CAF                                                  GHC.IO.FD                <entire-module>                                  395          0    0.0    0.0     0.0    0.0
+ CAF                                                  GHC.Conc.Windows         <entire-module>                                  373          0    0.0    0.0     0.0    0.0
+ CAF                                                  Text.Read.Lex            <entire-module>                                  370          0    0.0    0.0     0.0    0.0
+ CAF                                                  GHC.IO.Handle.Text       <entire-module>                                  337          0    0.0    0.0     0.0    0.0
+ CAF                                                  GHC.IO.Handle.FD         <entire-module>                                  335          0    0.0    0.0     0.0    0.0
+ CAF                                                  GHC.IO.Encoding.CodePage <entire-module>                                  326          0    0.0    0.0     0.0    0.0
+ CAF                                                  GHC.IO.Encoding          <entire-module>                                  325          0    0.0    0.0     0.0    0.0
+ CAF:$fEqActivity2                                    CDCL.Types               <no location info>                               226          0    0.0    0.0     0.0    0.0
+  ==                                                  CDCL.Types               src\CDCL\Types.hs:78:21-22                       491          1    0.0    0.0     0.0    0.0
+ CAF:$fEqLevel2                                       CDCL.Types               <no location info>                               257          0    0.0    0.0     0.0    0.0
+  ==                                                  CDCL.Types               src\CDCL\Types.hs:74:21-22                       578          1    0.0    0.0     0.0    0.0
+ CAF:$fEqPeriod2                                      CDCL.Types               <no location info>                               235          0    0.0    0.0     0.0    0.0
+  ==                                                  CDCL.Types               src\CDCL\Types.hs:82:15-16                       549          1    0.0    0.0     0.0    0.0
+ CAF:$fEqVariable1                                    CDCL.Types               <no location info>                               245          0    0.0    0.0     0.0    0.0
+  /=                                                  CDCL.Types               src\CDCL\Types.hs:69:21-22                       534          1    0.0    0.0     0.0    0.0
+ CAF:$fEqVariable2                                    CDCL.Types               <no location info>                               244          0    0.0    0.0     0.0    0.0
+  ==                                                  CDCL.Types               src\CDCL\Types.hs:69:21-22                       444          1    0.0    0.0     0.0    0.0
+ CAF:$fOrdActivity4                                   CDCL.Types               <no location info>                               231          0    0.0    0.0     0.0    0.0
+  >                                                   CDCL.Types               src\CDCL\Types.hs:78:25-27                       462          1    0.0    0.0     0.0    0.0
+ CAF:$fOrdLevel7                                      CDCL.Types               <no location info>                               260          0    0.0    0.0     0.0    0.0
+  compare                                             CDCL.Types               src\CDCL\Types.hs:74:25-27                       600          1    0.0    0.0     0.0    0.0
+ CAF:$fOrdVariable7                                   CDCL.Types               <no location info>                               246          0    0.0    0.0     0.0    0.0
+  compare                                             CDCL.Types               src\CDCL\Types.hs:69:25-27                       477          1    0.0    0.0     0.0    0.0
+ CAF:$fShowBoolVal6                                   CDCL.Types               <no location info>                               238          0    0.0    0.0     0.0    0.0
+ CAF:$fShowBoolVal9                                   CDCL.Types               <no location info>                               237          0    0.0    0.0     0.0    0.0
+ CAF:$fShowCDCLResult4                                CDCL.Types               <no location info>                               240          0    0.0    0.0     0.0    0.0
+ CAF:$fShowCDCLResult7                                CDCL.Types               <no location info>                               256          0    0.0    0.0     0.0    0.0
+ CAF:$fShowLevel2                                     CDCL.Types               <no location info>                               255          0    0.0    0.0     0.0    0.0
+ CAF:$fShowReason3                                    CDCL.Types               <no location info>                               243          0    0.0    0.0     0.0    0.0
+ CAF:$fShowReason6                                    CDCL.Types               <no location info>                               242          0    0.0    0.0     0.0    0.0
+ CAF:cdcl1                                            CDCL.Algorithm           <no location info>                               268          0    0.0    0.0     0.0    0.0
+  hardCoded                                           CDCL.Algorithm           src\CDCL\Algorithm.hs:42:1-21                    553          1    0.0    0.0     0.0    0.0
+ CAF:deleteLvl                                        CDCL.MapLogic            src\CDCL\MapLogic.hs:39:1-9                      282          0    0.0    0.0     0.0    0.0
+  deleteLvl                                           CDCL.MapLogic            src\CDCL\MapLogic.hs:39:1-22                     591          1    0.0    0.0     0.0    0.0
+ CAF:halveActivityMap                                 CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:59:1-16          280          0    0.0    0.0     0.0    0.0
+  halveActivityMap                                    CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:59:1-52          650          1    0.0    0.0     0.0    0.0
+ CAF:halveActivityMap1                                CDCL.Decisionalalgorithm <no location info>                               279          0    0.0    0.0     0.0    0.0
+  halveActivityMap                                    CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:59:1-52          652          0    0.0    0.0     0.0    0.0
+ CAF:lvl2_rhWk                                        CDCL.CDCLFilereader      <no location info>                               213          0    0.0    0.0     0.0    0.0
+  createIntegerList                                   CDCL.CDCLFilereader      src\CDCL\CDCLFilereader.hs:(60,1)-(66,28)        429          0    0.0    0.0     0.0    0.0
+   createIntegerList.m                                CDCL.CDCLFilereader      src\CDCL\CDCLFilereader.hs:63:11-37              430          0    0.0    0.0     0.0    0.0
+ CAF:main1                                            Main                     <no location info>                               211          0    0.0    0.0     0.0    0.0
+  main                                                Main                     app\Main.hs:(9,1)-(12,31)                        406          1    0.0    0.0     0.0    0.0
+   readCdclFile                                       CDCL.CDCLFilereader      src\CDCL\CDCLFilereader.hs:(9,1)-(17,17)         407          1    0.0    0.0     0.0    0.0
+ CAF:main2                                            Main                     <no location info>                               210          0    0.0    0.0     0.0    0.0
+ CAF:makeTupleClauseListFromAnalyze_rdrt              CDCL.Algorithm           src\CDCL\Algorithm.hs:170:1-30                   271          0    0.0    0.0     0.0    0.0
+  makeTupleClauseListFromAnalyze                      CDCL.Algorithm           src\CDCL\Algorithm.hs:170:1-72                   587          1    0.0    0.0     0.0    0.0
+ main                                                 Main                     app\Main.hs:(9,1)-(12,31)                        408          0    0.0    0.0   100.0  100.0
+  readCdclFile                                        CDCL.CDCLFilereader      src\CDCL\CDCLFilereader.hs:(9,1)-(17,17)         409          0    0.0    0.0   100.0  100.0
+   loopCheck                                          CDCL.CDCLFilereader      src\CDCL\CDCLFilereader.hs:(26,1)-(38,34)        410          8    0.0    0.0   100.0  100.0
+    loopCheck'                                        CDCL.CDCLFilereader      src\CDCL\CDCLFilereader.hs:(41,1)-(57,47)        412        326    0.0    0.0   100.0  100.0
+     checkComment                                     CDCL.CDCLFilereader      src\CDCL\CDCLFilereader.hs:20:1-25               413        325    0.0    0.0     0.0    0.0
+     loopCheck'.list                                  CDCL.CDCLFilereader      src\CDCL\CDCLFilereader.hs:56:17-48              425        325    0.0    0.0     0.0    0.0
+      createIntegerList                               CDCL.CDCLFilereader      src\CDCL\CDCLFilereader.hs:(60,1)-(66,28)        426       1300    0.0    0.0     0.0    0.0
+       createIntegerList.m                            CDCL.CDCLFilereader      src\CDCL\CDCLFilereader.hs:63:11-37              428       1300    0.0    0.0     0.0    0.0
+       createIntegerList.lastList                     CDCL.CDCLFilereader      src\CDCL\CDCLFilereader.hs:64:11-35              431        975    0.0    0.0     0.0    0.0
+     loopCheck'.word                                  CDCL.CDCLFilereader      src\CDCL\CDCLFilereader.hs:55:17-50              427        325    0.0    0.0     0.0    0.0
+     cdcl                                             CDCL.Algorithm           src\CDCL\Algorithm.hs:(50,1)-(52,58)             415          1    0.0    0.0   100.0  100.0
+      cdcl'                                           CDCL.Algorithm           src\CDCL\Algorithm.hs:(63,1)-(92,38)             418       1081    0.0    0.0   100.0  100.0
+       calculateClauseList                            CDCL.Algorithm           src\CDCL\Algorithm.hs:(97,1)-(102,30)            440      46411    0.0    0.0    88.1   87.0
+        calculateClauseList.reso                      CDCL.Algorithm           src\CDCL\Algorithm.hs:101:11-38                  527      46410    0.0    0.0    43.0   42.2
+         unitResolution                               CDCL.Unitpropagation     src\CDCL\Unitpropagation.hs:(67,1)-(74,23)       528    5604421   41.0   42.1    43.0   42.2
+          unitResolution.checked                      CDCL.Unitpropagation     src\CDCL\Unitpropagation.hs:72:11-44             529    5558011    1.0    0.0     1.4    0.0
+           ==                                         CDCL.Types               src\CDCL\Types.hs:69:21-22                       530          0    0.4    0.0     0.4    0.0
+          unitResolution.val                          CDCL.Unitpropagation     src\CDCL\Unitpropagation.hs:71:11-108            531    5418141    0.3    0.0     0.3    0.0
+           ==                                         CDCL.Types               src\CDCL\Types.hs:53:21-22                       532    5418141    0.0    0.0     0.0    0.0
+           negateVariableValue                        CDCL.Types               src\CDCL\Types.hs:141:1-48                       556    2671104    0.1    0.0     0.1    0.0
+          unitResolution.list                         CDCL.Unitpropagation     src\CDCL\Unitpropagation.hs:69:23-60             533     292785    0.1    0.1     0.2    0.1
+           /=                                         CDCL.Types               src\CDCL\Types.hs:69:21-22                       535          0    0.1    0.0     0.1    0.0
+        calculateClauseList.sub                       CDCL.Algorithm           src\CDCL\Algorithm.hs:100:11-37                  441      46410    0.0    0.0    45.1   44.8
+         unitSubsumption                              CDCL.Unitpropagation     src\CDCL\Unitpropagation.hs:(55,1)-(61,24)       442    5853935   42.9   44.8    45.1   44.8
+          unitSubsumption.checked                     CDCL.Unitpropagation     src\CDCL\Unitpropagation.hs:59:11-44             443    5807525    0.8    0.0     1.5    0.0
+           ==                                         CDCL.Types               src\CDCL\Types.hs:69:21-22                       445          0    0.6    0.0     0.6    0.0
+          unitSubsumption.val                         CDCL.Unitpropagation     src\CDCL\Unitpropagation.hs:58:11-107            446    5667655    0.6    0.0     0.7    0.0
+           ==                                         CDCL.Types               src\CDCL\Types.hs:53:21-22                       447    5667655    0.0    0.0     0.0    0.0
+           negateVariableValue                        CDCL.Types               src\CDCL\Types.hs:141:1-48                       526    2847959    0.1    0.0     0.1    0.0
+       cdcl'.interpreted                              CDCL.Algorithm           src\CDCL\Algorithm.hs:77:11-50                   435       1081    0.0    0.0     0.7    0.3
+        interpret                                     CDCL.Algorithm           src\CDCL\Algorithm.hs:(109,1)-(114,68)           436     114217    0.0    0.0     0.7    0.3
+         ==                                           CDCL.Types               src\CDCL\Types.hs:65:21-22                       536     114216    0.0    0.0     0.0    0.0
+         interpret.interpreted                        CDCL.Algorithm           src\CDCL\Algorithm.hs:114:11-68                  537     114216    0.0    0.0     0.7    0.3
+          interpret'                                  CDCL.Algorithm           src\CDCL\Algorithm.hs:(122,1)-(131,62)           538     185718    0.0    0.0     0.7    0.3
+           ==                                         CDCL.Types               src\CDCL\Types.hs:53:21-22                       546     614220    0.0    0.0     0.0    0.0
+           interpret'.formelValue                     CDCL.Algorithm           src\CDCL\Algorithm.hs:129:15-51                  544     185718    0.0    0.0     0.0    0.0
+            getVariableValue                          CDCL.Types               src\CDCL\Types.hs:137:1-33                       545     185718    0.0    0.0     0.0    0.0
+           interpret'.tupelValue                      CDCL.Algorithm           src\CDCL\Algorithm.hs:131:15-62                  539     185718    0.0    0.0     0.7    0.3
+            searchTuple                               CDCL.Algorithm           src\CDCL\Algorithm.hs:(136,1)-(142,27)           540    6303348    0.5    0.3     0.7    0.3
+             searchTuple.tuple                        CDCL.Algorithm           src\CDCL\Algorithm.hs:140:11-24                  542    6303348    0.1    0.0     0.1    0.0
+             ==                                       CDCL.Types               src\CDCL\Types.hs:69:21-22                       541          0    0.1    0.0     0.1    0.0
+           interpret'.varValue                        CDCL.Algorithm           src\CDCL\Algorithm.hs:130:15-87                  543     185718    0.0    0.0     0.0    0.0
+            negateVariableValue                       CDCL.Types               src\CDCL\Types.hs:141:1-48                       547      89507    0.0    0.0     0.0    0.0
+         getNOK                                       CDCL.Types               src\CDCL\Types.hs:(170,1)-(171,16)               577     113673    0.0    0.0     0.0    0.0
+       cdcl'.res                                      CDCL.Algorithm           src\CDCL\Algorithm.hs:74:11-64                   419       1081    0.0    0.0     9.7   12.5
+        unitPropagation                               CDCL.Unitpropagation     src\CDCL\Unitpropagation.hs:(30,1)-(39,73)       420      15621    0.0    0.0     9.7   12.5
+         unitPropagation.unitClause                   CDCL.Unitpropagation     src\CDCL\Unitpropagation.hs:33:11-42             421      15620    0.0    0.0     0.1    0.0
+          getUnitClause                               CDCL.Unitpropagation     src\CDCL\Unitpropagation.hs:(43,1)-(46,25)       422     663904    0.1    0.0     0.1    0.0
+           getUnitClause.listLength                   CDCL.Unitpropagation     src\CDCL\Unitpropagation.hs:43:35-66             423     662824    0.0    0.0     0.0    0.0
+         unitPropagation.calcTuple                    CDCL.Unitpropagation     src\CDCL\Unitpropagation.hs:34:11-50             563      14540    0.0    0.0     0.0    0.0
+          setVariable                                 CDCL.Unitpropagation     src\CDCL\Unitpropagation.hs:(50,1)-(51,78)       564      14540    0.0    0.0     0.0    0.0
+           getVariableValue                           CDCL.Types               src\CDCL\Types.hs:137:1-33                       565      14540    0.0    0.0     0.0    0.0
+           negateVariableValue                        CDCL.Types               src\CDCL\Types.hs:141:1-48                       576       7463    0.0    0.0     0.0    0.0
+         unitPropagation.resolutionC                  CDCL.Unitpropagation     src\CDCL\Unitpropagation.hs:39:11-73             566      14540    0.0    0.0     4.6    6.1
+          unitResolution                              CDCL.Unitpropagation     src\CDCL\Unitpropagation.hs:(67,1)-(74,23)       567    1420526    4.2    6.1     4.6    6.1
+           unitResolution.checked                     CDCL.Unitpropagation     src\CDCL\Unitpropagation.hs:72:11-44             568    1405986    0.2    0.0     0.3    0.0
+            ==                                        CDCL.Types               src\CDCL\Types.hs:69:21-22                       569          0    0.1    0.0     0.1    0.0
+           unitResolution.val                         CDCL.Unitpropagation     src\CDCL\Unitpropagation.hs:71:11-108            570    1364385    0.0    0.0     0.1    0.0
+            ==                                        CDCL.Types               src\CDCL\Types.hs:53:21-22                       571    1364385    0.0    0.0     0.0    0.0
+            negateVariableValue                       CDCL.Types               src\CDCL\Types.hs:141:1-48                       572     659914    0.0    0.0     0.0    0.0
+           unitResolution.list                        CDCL.Unitpropagation     src\CDCL\Unitpropagation.hs:69:23-60             573      47615    0.0    0.0     0.0    0.0
+            /=                                        CDCL.Types               src\CDCL\Types.hs:69:21-22                       574          0    0.0    0.0     0.0    0.0
+         unitPropagation.subsumptionC                 CDCL.Unitpropagation     src\CDCL\Unitpropagation.hs:38:11-68             557      14540    0.0    0.0     4.9    6.4
+          unitSubsumption                             CDCL.Unitpropagation     src\CDCL\Unitpropagation.hs:(55,1)-(61,24)       558    1486072    4.5    6.3     4.9    6.4
+           unitSubsumption.checked                    CDCL.Unitpropagation     src\CDCL\Unitpropagation.hs:59:11-44             559    1471532    0.2    0.0     0.3    0.0
+            ==                                        CDCL.Types               src\CDCL\Types.hs:69:21-22                       560          0    0.1    0.0     0.1    0.0
+           unitSubsumption.val                        CDCL.Unitpropagation     src\CDCL\Unitpropagation.hs:58:11-107            561    1429931    0.1    0.0     0.1    0.0
+            ==                                        CDCL.Types               src\CDCL\Types.hs:53:21-22                       562    1429931    0.0    0.0     0.0    0.0
+            negateVariableValue                       CDCL.Types               src\CDCL\Types.hs:141:1-48                       575     737468    0.0    0.0     0.0    0.0
+         unitPropagation.updatedMap                   CDCL.Unitpropagation     src\CDCL\Unitpropagation.hs:37:11-74             594      14539    0.0    0.0     0.0    0.0
+          pushToMappedTupleList                       CDCL.MapLogic            src\CDCL\MapLogic.hs:(29,1)-(35,58)              595      14539    0.0    0.0     0.0    0.0
+           pushToMappedTupleList.f                    CDCL.MapLogic            src\CDCL\MapLogic.hs:33:11-34                    596      14539    0.0    0.0     0.0    0.0
+           pushToMappedTupleList.check                CDCL.MapLogic            src\CDCL\MapLogic.hs:34:11-70                    604      14537    0.0    0.0     0.0    0.0
+           pushToMappedTupleList.m                    CDCL.MapLogic            src\CDCL\MapLogic.hs:35:11-58                    607      14537    0.0    0.0     0.0    0.0
+         unitPropagation.ogClause                     CDCL.Unitpropagation     src\CDCL\Unitpropagation.hs:36:11-44             631      14529    0.0    0.0     0.0    0.0
+       cdcl'.tupleRes                                 CDCL.Algorithm           src\CDCL\Algorithm.hs:75:11-55                   432       1081    0.0    0.0     0.0    0.0
+        getTupleClauseListFromTriTuple                CDCL.Algorithm           src\CDCL\Algorithm.hs:150:1-44                   433       1081    0.0    0.0     0.0    0.0
+       getNOK                                         CDCL.Types               src\CDCL\Types.hs:(170,1)-(171,16)               434       1081    0.0    0.0     0.0    0.0
+       cdcl'.updatedMap                               CDCL.Algorithm           src\CDCL\Algorithm.hs:76:11-57                   592       1080    0.0    0.0     0.0    0.0
+        getMappedTupleListFromTriTuple                CDCL.Algorithm           src\CDCL\Algorithm.hs:154:1-44                   593       1080    0.0    0.0     0.0    0.0
+       cdcl'.halvedActivity                           CDCL.Algorithm           src\CDCL\Algorithm.hs:80:11-107                  548       1075    0.0    0.0     0.0    0.0
+        halveActivityMap                              CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:59:1-52          651          0    0.0    0.0     0.0    0.0
+         divideActivity                               CDCL.Types               src\CDCL\Types.hs:153:1-50                       654       2550    0.0    0.0     0.0    0.0
+       cdcl'.periodUpdate                             CDCL.Algorithm           src\CDCL\Algorithm.hs:79:11-46                   551       1075    0.0    0.0     0.0    0.0
+        decreasePeriod                                CDCL.Types               src\CDCL\Types.hs:183:1-42                       552       1075    0.0    0.0     0.0    0.0
+       cdcl'.periodUpdate2                            CDCL.Algorithm           src\CDCL\Algorithm.hs:81:11-86                   554       1073    0.0    0.0     0.0    0.0
+       getClauseListFromAnalyze                       CDCL.Algorithm           src\CDCL\Algorithm.hs:162:1-41                   609       1071    0.0    0.0     0.0    0.0
+       getLevelFromAnalyze                            CDCL.Algorithm           src\CDCL\Algorithm.hs:158:1-36                   580       1071    0.0    0.0     0.0    0.0
+       initialActivity                                CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:(34,1)-(37,49)   655        624    0.0    0.0     0.0    0.0
+        initialActivity.updated                       CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:37:11-49         656        624    0.0    0.0     0.0    0.0
+         updateActivity                               CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:(44,1)-(55,53)   657       4505    0.0    0.0     0.0    0.0
+          updateActivity.activityMap                  CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:53:11-43         661       3881    0.0    0.0     0.0    0.0
+           filterK                                    CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:26:1-50          662       3881    0.0    0.0     0.0    0.0
+            filterK.\                                 CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:26:42-49         664     254194    0.0    0.0     0.0    0.0
+          updateActivity.xValue                       CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:52:11-81         658       3881    0.0    0.0     0.0    0.0
+           getVariableValue                           CDCL.Types               src\CDCL\Types.hs:137:1-33                       659       3881    0.0    0.0     0.0    0.0
+           negateVariableValue                        CDCL.Types               src\CDCL\Types.hs:141:1-48                       660       1748    0.0    0.0     0.0    0.0
+          updateActivity.updatedMap                   CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:46:36-87         667       3806    0.0    0.0     0.0    0.0
+           increaseActivity                           CDCL.Types               src\CDCL\Types.hs:149:1-48                       669       3806    0.0    0.0     0.0    0.0
+          updateActivity.updatedMap                   CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:49:31-78         663         75    0.0    0.0     0.0    0.0
+       ==                                             CDCL.Types               src\CDCL\Types.hs:65:21-22                       437        545    0.0    0.0     0.0    0.0
+       cdcl'.assuredShortestClause                    CDCL.Algorithm           src\CDCL\Algorithm.hs:88:11-53                   502        543    0.0    0.0     0.0    0.0
+       cdcl'.decided                                  CDCL.Algorithm           src\CDCL\Algorithm.hs:90:11-100                  503        543    0.0    0.0     0.0    0.0
+        setVariableViaActivity                        CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:(104,1)-(109,82) 504        798    0.0    0.0     0.0    0.0
+         negateVariableValue                          CDCL.Types               src\CDCL\Types.hs:141:1-48                       525        797    0.0    0.0     0.0    0.0
+       cdcl'.firstHighestActivityInClause             CDCL.Algorithm           src\CDCL\Algorithm.hs:89:11-112                  506        543    0.0    0.0     0.0    0.0
+        getHighestActivity                            CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:(71,1)-(81,36)   507       1086    0.0    0.0     0.0    0.0
+         getActivityValue                             CDCL.Types               src\CDCL\Types.hs:145:1-33                       508       1086    0.0    0.0     0.0    0.0
+         getHighestActivity.firstVal                  CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:75:11-29         509        543    0.0    0.0     0.0    0.0
+         getHighestActivity.foundAct                  CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:78:11-44         510        543    0.0    0.0     0.0    0.0
+         getHighestActivity.highestValInClause        CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:76:11-68         511        543    0.0    0.0     0.0    0.0
+          getHighestActivity'                         CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:(88,1)-(97,33)   512       1644    0.0    0.0     0.0    0.0
+           getHighestActivity'.actVal                 CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:95:11-61         520       1101    0.0    0.0     0.0    0.0
+           getHighestActivity'.activity               CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:94:11-35         514       1101    0.0    0.0     0.0    0.0
+            filterK                                   CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:26:1-50          515       1101    0.0    0.0     0.0    0.0
+             filterK.\                                CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:26:42-49         516      82575    0.0    0.0     0.0    0.0
+           getHighestActivity'.firstVal               CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:92:11-29         522       1101    0.0    0.0     0.0    0.0
+           getHighestActivity'.x                      CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:93:11-76         518       1101    0.0    0.0     0.0    0.0
+            getVariableValue                          CDCL.Types               src\CDCL\Types.hs:137:1-33                       519       1101    0.0    0.0     0.0    0.0
+            negateVariableValue                       CDCL.Types               src\CDCL\Types.hs:141:1-48                       523        533    0.0    0.0     0.0    0.0
+       cdcl'.firstShortestCl                          CDCL.Algorithm           src\CDCL\Algorithm.hs:86:11-43                   448        543    0.0    0.0     0.0    0.0
+       cdcl'.highestActivity                          CDCL.Algorithm           src\CDCL\Algorithm.hs:84:11-113                  454        543    0.0    0.0     1.3    0.1
+        getHighestActivity                            CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:(71,1)-(81,36)   456      71559    0.0    0.0     1.3    0.1
+         getActivityValue                             CDCL.Types               src\CDCL\Types.hs:145:1-33                       457     422568    0.0    0.0     0.0    0.0
+         getHighestActivity.firstVal                  CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:75:11-29         458      71016    0.0    0.0     0.0    0.0
+         getHighestActivity.foundAct                  CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:78:11-44         459      71016    0.0    0.0     0.0    0.0
+         getHighestActivity.highestValInClause        CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:76:11-68         460      71016    0.0    0.0     1.2    0.0
+          getHighestActivity'                         CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:(88,1)-(97,33)   461     291871    0.1    0.0     1.2    0.0
+           getHighestActivity'.actVal                 CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:95:11-61         487     220855    0.1    0.0     0.1    0.0
+           getHighestActivity'.activity               CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:94:11-35         464     220855    0.0    0.0     1.0    0.0
+            filterK                                   CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:26:1-50          465     220855    0.5    0.0     1.0    0.0
+             filterK.\                                CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:26:42-49         483   16564125    0.2    0.0     0.5    0.0
+              ==                                      CDCL.Types               src\CDCL\Types.hs:69:21-22                       484          0    0.3    0.0     0.3    0.0
+           getHighestActivity'.firstVal               CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:92:11-29         489     220855    0.0    0.0     0.0    0.0
+           getHighestActivity'.x                      CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:93:11-76         485     220855    0.0    0.0     0.0    0.0
+            getVariableValue                          CDCL.Types               src\CDCL\Types.hs:137:1-33                       486     220855    0.0    0.0     0.0    0.0
+            negateVariableValue                       CDCL.Types               src\CDCL\Types.hs:141:1-48                       490     108410    0.0    0.0     0.0    0.0
+           ==                                         CDCL.Types               src\CDCL\Types.hs:78:21-22                       492          0    0.0    0.0     0.0    0.0
+         getHighestActivity.nubList                   CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:79:11-51         493      70134    0.0    0.0     0.0    0.0
+        getClauseListFromTriTuple                     CDCL.Algorithm           src\CDCL\Algorithm.hs:146:1-39                   455        543    0.0    0.0     0.0    0.0
+       cdcl'.list                                     CDCL.Algorithm           src\CDCL\Algorithm.hs:92:11-38                   438        543    0.0    0.0     0.0    0.0
+       cdcl'.newLvl                                   CDCL.Algorithm           src\CDCL\Algorithm.hs:83:11-42                   584        543    0.0    0.0     0.0    0.0
+        increaseLvl                                   CDCL.Types               src\CDCL\Types.hs:125:1-37                       585        543    0.0    0.0     0.0    0.0
+       cdcl'.shortestCl                               CDCL.Algorithm           src\CDCL\Algorithm.hs:85:11-102                  449        543    0.0    0.0     0.0    0.0
+        getShortestClauseViaActivity                  CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:(115,1)-(129,49) 451      39353    0.0    0.0     0.0    0.0
+         getShortestClauseViaActivity.checkClause     CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:121:11-60        452      38811    0.0    0.0     0.0    0.0
+          checkClauseForVariable                      CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:(134,1)-(137,36) 453      87034    0.0    0.0     0.0    0.0
+           negateVariableValue                        CDCL.Types               src\CDCL\Types.hs:141:1-48                       495      48093    0.0    0.0     0.0    0.0
+           ==                                         CDCL.Types               src\CDCL\Types.hs:69:21-22                       494          0    0.0    0.0     0.0    0.0
+         getShortestClauseViaActivity.headLen         CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:123:11-46        499       3781    0.0    0.0     0.0    0.0
+         getShortestClauseViaActivity.xsLen           CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:122:11-33        498       3781    0.0    0.0     0.0    0.0
+         getShortestClauseViaActivity.filterClause    CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:124:11-76        500       3227    0.0    0.0     0.0    0.0
+          getShortestClauseViaActivity.filterClause.\ CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:124:40-72        501     135659    0.0    0.0     0.0    0.0
+        getClauseListFromTriTuple                     CDCL.Algorithm           src\CDCL\Algorithm.hs:146:1-39                   450        543    0.0    0.0     0.0    0.0
+       cdcl'.updateMapViaDecision                     CDCL.Algorithm           src\CDCL\Algorithm.hs:91:11-90                   597        543    0.0    0.0     0.0    0.0
+        pushToMappedTupleList                         CDCL.MapLogic            src\CDCL\MapLogic.hs:(29,1)-(35,58)              598        543    0.0    0.0     0.0    0.0
+         pushToMappedTupleList.f                      CDCL.MapLogic            src\CDCL\MapLogic.hs:33:11-34                    599        543    0.0    0.0     0.0    0.0
+       getClauseListFromTriTuple                      CDCL.Algorithm           src\CDCL\Algorithm.hs:146:1-39                   439        543    0.0    0.0     0.0    0.0
+       cdcl'.analyzed                                 CDCL.Algorithm           src\CDCL\Algorithm.hs:66:17-99                   581        536    0.0    0.0     0.2    0.1
+        analyzeConflict                               CDCL.Conflict            src\CDCL\Conflict.hs:(21,1)-(26,45)              582        536    0.0    0.0     0.2    0.1
+         analyzeConflict.newCl                        CDCL.Conflict            src\CDCL\Conflict.hs:26:11-45                    633        536    0.0    0.0     0.1    0.0
+          addClause                                   CDCL.Conflict            src\CDCL\Conflict.hs:(58,1)-(62,46)              634        536    0.0    0.0     0.1    0.0
+           addClause.updated                          CDCL.Conflict            src\CDCL\Conflict.hs:61:11-36                    635        536    0.0    0.0     0.0    0.0
+           addClause.updatedAMap                      CDCL.Conflict            src\CDCL\Conflict.hs:62:11-46                    637        534    0.0    0.0     0.0    0.0
+            updateActivity                            CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:(44,1)-(55,53)   638       5763    0.0    0.0     0.0    0.0
+             updateActivity.activityMap               CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:53:11-43         641       5229    0.0    0.0     0.0    0.0
+              filterK                                 CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:26:1-50          642       5229    0.0    0.0     0.0    0.0
+               filterK.\                              CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:26:42-49         643     392175    0.0    0.0     0.0    0.0
+             updateActivity.updatedMap                CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:46:36-87         645       5229    0.0    0.0     0.0    0.0
+              increaseActivity                        CDCL.Types               src\CDCL\Types.hs:149:1-48                       647       5229    0.0    0.0     0.0    0.0
+             updateActivity.xValue                    CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:52:11-81         639       5229    0.0    0.0     0.0    0.0
+              getVariableValue                        CDCL.Types               src\CDCL\Types.hs:137:1-33                       640       5229    0.0    0.0     0.0    0.0
+              negateVariableValue                     CDCL.Types               src\CDCL\Types.hs:141:1-48                       648       2490    0.0    0.0     0.0    0.0
+         analyzeConflict.reason                       CDCL.Conflict            src\CDCL\Conflict.hs:24:11-49                    610        536    0.0    0.0     0.1    0.1
+          calcReason                                  CDCL.Conflict            src\CDCL\Conflict.hs:(37,1)-(42,42)              611        536    0.0    0.0     0.1    0.1
+           calcReason.associated                      CDCL.Conflict            src\CDCL\Conflict.hs:40:11-41                    613        536    0.0    0.0     0.0    0.0
+           calcReason.calc                            CDCL.Conflict            src\CDCL\Conflict.hs:42:11-42                    616        536    0.0    0.0     0.1    0.1
+            calcReason'                               CDCL.Conflict            src\CDCL\Conflict.hs:(46,1)-(53,45)              617      15000    0.0    0.0     0.1    0.1
+             calcReason'.lastVal                      CDCL.Conflict            src\CDCL\Conflict.hs:49:11-28                    627      14464    0.0    0.0     0.0    0.0
+             calcReason'.reason                       CDCL.Conflict            src\CDCL\Conflict.hs:52:11-42                    629      14464    0.0    0.0     0.0    0.0
+              getReason                               CDCL.Types               src\CDCL\Types.hs:179:1-24                       630      14464    0.0    0.0     0.0    0.0
+             calcReason'.reducedTcl                   CDCL.Conflict            src\CDCL\Conflict.hs:50:11-31                    618      14464    0.0    0.0     0.0    0.0
+             calcReason'.unionCl                      CDCL.Conflict            src\CDCL\Conflict.hs:53:11-45                    619      14464    0.0    0.0     0.1    0.1
+              unionClause                             CDCL.Conflict            src\CDCL\Conflict.hs:(68,1)-(69,25)              620      14464    0.0    0.0     0.1    0.1
+               removeVariable                         CDCL.Conflict            src\CDCL\Conflict.hs:(74,1)-(77,42)              624     295406    0.0    0.0     0.0    0.0
+                negateVariableValue                   CDCL.Types               src\CDCL\Types.hs:141:1-48                       628     268767    0.0    0.0     0.0    0.0
+                ==                                    CDCL.Types               src\CDCL\Types.hs:69:21-22                       625          0    0.0    0.0     0.0    0.0
+               unionClause.list                       CDCL.Conflict            src\CDCL\Conflict.hs:68:29-51                    621      14464    0.1    0.1     0.1    0.1
+                ==                                    CDCL.Types               src\CDCL\Types.hs:69:21-22                       632          0    0.0    0.0     0.0    0.0
+             calcReason'.var                          CDCL.Conflict            src\CDCL\Conflict.hs:51:11-33                    626      14464    0.0    0.0     0.0    0.0
+           calcReason.x                               CDCL.Conflict            src\CDCL\Conflict.hs:41:11-37                    615        536    0.0    0.0     0.0    0.0
+           getLevel                                   CDCL.Types               src\CDCL\Types.hs:133:1-22                       612        536    0.0    0.0     0.0    0.0
+         analyzeConflict.updatedMtl                   CDCL.Conflict            src\CDCL\Conflict.hs:25:11-40                    590        536    0.0    0.0     0.0    0.0
+         decreaseLvl                                  CDCL.Types               src\CDCL\Types.hs:129:1-37                       586        536    0.0    0.0     0.0    0.0
+         getLevel                                     CDCL.Types               src\CDCL\Types.hs:133:1-22                       583        536    0.0    0.0     0.0    0.0
+       cdcl'.empty                                    CDCL.Algorithm           src\CDCL\Algorithm.hs:65:13-46                   622        536    0.0    0.0     0.0    0.0
+        getEmptyClause                                CDCL.Types               src\CDCL\Types.hs:175:1-26                       623        536    0.0    0.0     0.0    0.0
+       getMappedTupleListFromAnalyze                  CDCL.Algorithm           src\CDCL\Algorithm.hs:166:1-46                   649        535    0.0    0.0     0.0    0.0
+       getActivityMapFromAnalyze                      CDCL.Algorithm           src\CDCL\Algorithm.hs:174:1-42                   636        534    0.0    0.0     0.0    0.0
+       makeTupleClauseListFromAnalyze                 CDCL.Algorithm           src\CDCL\Algorithm.hs:170:1-72                   588          0    0.0    0.0     0.0    0.0
+        getMappedTupleListFromAnalyze                 CDCL.Algorithm           src\CDCL\Algorithm.hs:166:1-46                   589       1072    0.0    0.0     0.0    0.0
+      cdcl.aMap                                       CDCL.Algorithm           src\CDCL\Algorithm.hs:52:11-58                   466          1    0.0    0.0     0.0    0.0
+       initialActivity                                CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:(34,1)-(37,49)   467        325    0.0    0.0     0.0    0.0
+        initialActivity.updated                       CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:37:11-49         468        325    0.0    0.0     0.0    0.0
+         updateActivity                               CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:(44,1)-(55,53)   469       1300    0.0    0.0     0.0    0.0
+          updateActivity.activityMap                  CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:53:11-43         472        975    0.0    0.0     0.0    0.0
+           filterK                                    CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:26:1-50          473        975    0.0    0.0     0.0    0.0
+            filterK.\                                 CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:26:42-49         475      67230    0.0    0.0     0.0    0.0
+          updateActivity.xValue                       CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:52:11-81         470        975    0.0    0.0     0.0    0.0
+           getVariableValue                           CDCL.Types               src\CDCL\Types.hs:137:1-33                       471        975    0.0    0.0     0.0    0.0
+           negateVariableValue                        CDCL.Types               src\CDCL\Types.hs:141:1-48                       479        495    0.0    0.0     0.0    0.0
+          updateActivity.updatedMap                   CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:46:36-87         480        900    0.0    0.0     0.0    0.0
+           increaseActivity                           CDCL.Types               src\CDCL\Types.hs:149:1-48                       482        900    0.0    0.0     0.0    0.0
+          updateActivity.updatedMap                   CDCL.Decisionalalgorithm src\CDCL\Decisionalalgorithm.hs:49:31-78         474         75    0.0    0.0     0.0    0.0
+      cdcl.transformedList                            CDCL.Algorithm           src\CDCL\Algorithm.hs:51:11-53                   416          1    0.0    0.0     0.0    0.0
+       transformClauseList                            CDCL.Types               src\CDCL\Types.hs:(157,1)-(159,64)               417        325    0.0    0.0     0.0    0.0
+        transformClause                               CDCL.Types               src\CDCL\Types.hs:(163,1)-(165,63)               424        975    0.0    0.0     0.0    0.0
+    checkCNFStart                                     CDCL.CDCLFilereader      src\CDCL\CDCLFilereader.hs:23:1-26               411          8    0.0    0.0     0.0    0.0
+   show                                               CDCL.Types               src\CDCL\Types.hs:(28,5)-(29,24)                 414          1    0.0    0.0     0.0    0.0
+    showsPrec                                         CDCL.Types               src\CDCL\Types.hs:53:15-18                       671        140    0.0    0.0     0.0    0.0
+    showsPrec                                         CDCL.Types               src\CDCL\Types.hs:69:15-18                       670        140    0.0    0.0     0.0    0.0
+    showsPrec                                         CDCL.Types               src\CDCL\Types.hs:40:15-18                       673         70    0.0    0.0     0.0    0.0
+     showsPrec                                        CDCL.Types               src\CDCL\Types.hs:69:15-18                       674        224    0.0    0.0     0.0    0.0
+    showsPrec                                         CDCL.Types               src\CDCL\Types.hs:74:15-18                       672          6    0.0    0.0     0.0    0.0

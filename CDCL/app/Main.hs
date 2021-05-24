@@ -7,6 +7,6 @@ import           System.IO
 
 main :: IO()
 main = do
-        h <- getLine
-        readCdclFile h
-        -- do readCdclFile "test.cnf"
+        -- h <- getLine
+        -- readCdclFile h
+        readCdclFile "test.cnf"

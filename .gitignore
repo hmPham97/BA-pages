@@ -3,6 +3,3 @@ dist-newstyle/
 *.lyx~
 *.hi
 *.o
-*.prof
-*.html
-*.exe
