@@ -78,7 +78,7 @@ getHighestActivity cList@(xs : ys) aMap val
           foundAct = head highestValInClause
           nubList = nub (val ++ highestValInClause)
 
-getHighestActivity _ _ val = val
+getHighestActivity [] aMap val = val
 
 -- | return the highest activity in a clause.
 --   example getHighestActivity' [-1,3,5] (Map.fromList [(1,5),(3,6),(5,2)]) (0,0)

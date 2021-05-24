@@ -44,7 +44,9 @@ loopCheck' handle clist = do
         pure (Just (cdcl clist))
     else do
         firstChar <- hGetChar handle
-        if checkComment firstChar then
+        if firstChar == '%' then
+            pure (Just (cdcl clist))
+        else if checkComment firstChar || firstChar == '\n' then
             do
                 remove <- hGetLine handle
                 loopCheck' handle clist
