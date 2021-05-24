@@ -28,7 +28,7 @@ import qualified Data.Map.Strict as Map
 -- 
 unitPropagation :: ClauseList -> TupleClauseList -> Level -> MappedTupleList -> TriTuple
 unitPropagation clist tlist lvl mapped
-    | null clist || null (fst unitClause) = (filter (not . null) clist, tlist, mapped)
+    | null clist || null (fst unitClause) = (clist, tlist, mapped)
     | otherwise = unitPropagation resolutionC (tlist ++ [(calcTuple, ogClause)]) lvl updatedMap
     where unitClause = getUnitClause clist
           calcTuple = setVariable (fst unitClause)
