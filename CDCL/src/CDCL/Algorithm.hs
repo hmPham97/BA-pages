@@ -40,6 +40,7 @@ import qualified Data.Map.Strict as Map
 import           Data.Maybe
 
 hardCoded = Period 30
+startBoundary = 20
 
 -- | This function will start the CDCL Procedure.
 --   To call this function do for example:
@@ -47,7 +48,7 @@ hardCoded = Period 30
 --   cdcl [[1,2,3,4], [2,4], [4,5],[3,6,7],[3,9,1],[3,8,10]]
 --   The function will return the result of the cdcl' function.
 cdcl :: [[Integer]] -> CDCLResult
-cdcl clist = cdcl' aMap (Level 0) [] Map.empty transformedList transformedList transformedList hardCoded 0--hardCoded
+cdcl clist = cdcl' aMap (Level 0) [] Map.empty transformedList transformedList transformedList hardCoded 0 (startBoundary * 2) startBoundary--hardCoded
     where transformedList = transformClauseList clist
           aMap = initialActivity transformedList Map.empty
 
@@ -59,18 +60,21 @@ cdcl clist = cdcl' aMap (Level 0) [] Map.empty transformedList transformedList t
 --   the analyzeConflict Function to resolve the conflict.
 --   After that the recursion starts again with Unitpropagation.
 --   This happens until either SAT or UNSAT is returned as result.
-cdcl' :: ActivityMap -> Level -> TupleClauseList -> MappedTupleList -> ClauseList -> ClauseList -> ClauseList -> Period -> Integer -> CDCLResult
-cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist clist period restart
+cdcl' :: ActivityMap -> Level -> TupleClauseList -> MappedTupleList -> ClauseList -> ClauseList -> ClauseList -> Period -> Integer -> Integer -> Integer -> CDCLResult
+cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist clist period conflictIteration upperBound currentBoundary
+    | conflictIteration == upperBound = cdcl' (initialActivity clistOG Map.empty) (Level 0) [] Map.empty clistOG learnedClist learnedClist hardCoded 0 (upperBound*2) startBoundary
+    | conflictIteration == currentBoundary = cdcl' (initialActivity clistOG Map.empty) (Level 0) [] Map.empty clistOG learnedClist learnedClist hardCoded 0 upperBound (currentBoundary * 2)
     | getNOK interpreted =
         let empty = getEmptyClause interpreted in
             let analyzed = analyzeConflict (Level lvl) empty updatedMap learnedClist halvedActivity in
                 if getLevelFromAnalyze analyzed == Level (-1) then UNSAT
                 else cdcl' (getActivityMapFromAnalyze analyzed) (getLevelFromAnalyze analyzed) (makeTupleClauseListFromAnalyze analyzed) (getMappedTupleListFromAnalyze analyzed)
-                clistOG (getClauseListFromAnalyze analyzed) (calculateClauseList (getClauseListFromAnalyze analyzed) (makeTupleClauseListFromAnalyze analyzed)) periodUpdate2 restart
+                clistOG (getClauseListFromAnalyze analyzed) (calculateClauseList (getClauseListFromAnalyze analyzed) 
+                (makeTupleClauseListFromAnalyze analyzed)) periodUpdate2 (conflictIteration + 1) upperBound currentBoundary
     | interpreted == OK = SAT (map fst tupleRes) updatedMap
-    | restart > 300 = cdcl' (initialActivity learnedClist Map.empty) (Level 0) [] Map.empty clistOG learnedClist learnedClist hardCoded 0
     -- | lvl > 100 = error "to long"
-    | otherwise = cdcl' halvedActivity newLvl list updateMapViaDecision clistOG learnedClist (calculateClauseList (getClauseListFromTriTuple res) list) periodUpdate2 (restart +1)--periodUpdate2
+    | otherwise = cdcl' halvedActivity newLvl list updateMapViaDecision clistOG learnedClist 
+                    (calculateClauseList (getClauseListFromTriTuple res) list) periodUpdate2 conflictIteration upperBound currentBoundary--periodUpdate2
     where res = unitPropagation clist tlist (Level lvl) mappedTL
           tupleRes = getTupleClauseListFromTriTuple res
           updatedMap = getMappedTupleListFromTriTuple res

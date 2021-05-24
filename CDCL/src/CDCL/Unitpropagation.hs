@@ -28,7 +28,7 @@ import qualified Data.Map.Strict as Map
 -- 
 unitPropagation :: ClauseList -> TupleClauseList -> Level -> MappedTupleList -> TriTuple
 unitPropagation clist tlist lvl mapped
-    | null clist || null (fst unitClause) = (clist, tlist, mapped)
+    | null clist || null (fst unitClause) = (filter (not . null) clist, tlist, mapped)
     | otherwise = unitPropagation resolutionC (tlist ++ [(calcTuple, ogClause)]) lvl updatedMap
     where unitClause = getUnitClause clist
           calcTuple = setVariable (fst unitClause)
@@ -53,8 +53,8 @@ setVariable clause = if getVariableValue (head clause) < 0
 -- | Remove clauses which have removableVar as variable.
 unitSubsumption :: ClauseList  -> TupleClause -> ClauseList
 unitSubsumption (firstList : xs) tuple
-    | not checked = filter (not . null) (firstList : unitSubsumption xs tuple)
-    | otherwise = filter (not . null) (unitSubsumption xs tuple)
+    | not checked = firstList : unitSubsumption xs tuple
+    | otherwise = unitSubsumption xs tuple
     where val = if snd (fst tuple) == BTrue then fst (fst tuple) else negateVariableValue (fst (fst tuple))
           checked = val `elem` fst firstList -- checks if val is inside list
 
@@ -65,9 +65,9 @@ unitSubsumption _ _ = []
 --   the positive ones.
 unitResolution :: ClauseList -> TupleClause -> ClauseList
 unitResolution (firstList : xs) tuple
-    | not checked = filter (not . null) (firstList : unitResolution xs tuple)
+    | not checked = firstList : unitResolution xs tuple
     | otherwise = let list = filter (/= val) (fst firstList) in
-        filter (not . null) ((list,snd firstList) : unitResolution xs tuple)
+        (list,snd firstList) : unitResolution xs tuple
     where val = if snd (fst tuple) == BFalse then fst (fst tuple) else negateVariableValue (fst (fst tuple))
           checked = val `elem` fst firstList -- checks if val is inside list
 
