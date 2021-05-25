@@ -71,12 +71,12 @@ getHighestActivity :: ClauseList -> ActivityMap -> [VariableActivity] -> [Variab
 getHighestActivity cList@(xs : ys) aMap val
     | getActivityValue (snd firstVal) < getActivityValue (snd foundAct) = getHighestActivity ys aMap highestValInClause
     | getActivityValue (snd firstVal) > getActivityValue (snd foundAct) = getHighestActivity ys aMap val
-    | getActivityValue (snd firstVal) == getActivityValue (snd foundAct) = getHighestActivity ys aMap nubList
+    | getActivityValue (snd firstVal) == getActivityValue (snd foundAct) = getHighestActivity ys aMap list
     where firstVal = head val
           highestValInClause = getHighestActivity' (fst xs) aMap val
           firstActVal = getActivityValue (snd firstVal)
           foundAct = head highestValInClause
-          nubList = nub (val ++ highestValInClause)
+          list = nub (val ++ highestValInClause)
 
 getHighestActivity [] aMap val = val
 
@@ -87,13 +87,12 @@ getHighestActivity [] aMap val = val
 getHighestActivity' :: Clause -> ActivityMap -> [VariableActivity] -> [VariableActivity]
 getHighestActivity' cl@(xs : ys) aMap val
     | actVal > snd firstVal = getHighestActivity' ys aMap [(x, actVal)]
-    | actVal == snd firstVal = getHighestActivity' ys aMap (val ++ [(x, actVal)])
+    | actVal == snd firstVal = getHighestActivity' ys aMap ((x, actVal) : val)
     | otherwise = getHighestActivity' ys aMap val
     where firstVal = head val
           x = if getVariableValue xs < 0 then negateVariableValue xs else xs
           activity = filterK x aMap
           actVal = fromMaybe (Activity 0) (activity Map.!? x)
-          nubList = nub (val ++ [(x, actVal)])
 getHighestActivity' [] aMap x = x
 
 -- | Set the Tupelvalue based on the Variable.
@@ -116,7 +115,7 @@ getShortestClauseViaActivity (xs : ys) checkC vAct
     | null checkC && checkClause = getShortestClauseViaActivity ys [xs] vAct
     | not checkClause || xsLen > headLen = getShortestClauseViaActivity ys checkC vAct
     | null filterClause && xsLen < headLen  = [xs]
-    | xsLen == headLen = getShortestClauseViaActivity ys  (checkC ++ [xs]) vAct
+    | xsLen == headLen = getShortestClauseViaActivity ys  (xs : checkC) vAct
     | xsLen < headLen = getShortestClauseViaActivity filterClause [xs] vAct
     where checkClause = checkClauseForVariable (fst xs) vAct
           xsLen = length (fst xs)

@@ -72,7 +72,6 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist clist period conflic
                 clistOG (getClauseListFromAnalyze analyzed) (calculateClauseList (getClauseListFromAnalyze analyzed) 
                 (makeTupleClauseListFromAnalyze analyzed)) periodUpdate2 (conflictIteration + 1) upperBound currentBoundary
     | interpreted == OK = SAT (map fst tupleRes) updatedMap
-    -- | lvl > 100 = error "to long"
     | otherwise = cdcl' halvedActivity newLvl list updateMapViaDecision clistOG learnedClist 
                     (calculateClauseList (getClauseListFromTriTuple res) list) periodUpdate2 conflictIteration upperBound currentBoundary--periodUpdate2
     where res = unitPropagation clist tlist (Level lvl) mappedTL
