@@ -23,7 +23,11 @@ import           Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
 import           Data.Maybe
 
+-- Diese Funktion ist nicht gut definiert. Das ist ja an sich einfach
+-- Map.lookup, allerdings ist `lookup` O(log n) und `filterK` ist O(n)
+
 filterK val = Map.filterWithKey (\x _ -> x == val)
+
 
 
 -- | calculate the ActivityMap. calls itself recursively until every clause
@@ -43,16 +47,14 @@ initialActivity cList@(xs : ys) aList
 updateActivity :: Clause -> ActivityMap -> ActivityMap
 updateActivity [] aMap = aMap
 updateActivity clause@(xs : ys) aMap
-    | not (null activityMap) = let updatedMap = Map.adjust increaseActivity xValue aMap in
+    | Map.member xValue aMap = let updatedMap = Map.adjust increaseActivity xValue aMap in
         updateActivity ys updatedMap
     -- --let actInt = (snd activity) + 1 in
-    |  null activityMap = let updatedMap = Map.insert xValue (Activity 1) aMap in
+    |  Map.notMember xValue aMap = let updatedMap = Map.insert xValue (Activity 1) aMap in
          updateActivity ys updatedMap
     | not (null ys) = updateActivity ys aMap
     where xValue = if getVariableValue xs < 0 then negateVariableValue xs else xs
-          activityMap = filterK xValue aMap
-          activity = Map.lookup xValue activityMap
-          actval = fromMaybe (Activity (-1)) activity
+
 
 -- | periodically call this function to half the activities in the map.
 halveActivityMap :: ActivityMap -> [Variable] -> ActivityMap
@@ -91,9 +93,8 @@ getHighestActivity' cl@(xs : ys) aMap val
     | otherwise = getHighestActivity' ys aMap val
     where firstVal = head val
           x = if getVariableValue xs < 0 then negateVariableValue xs else xs
-          activity = filterK x aMap
-          actVal = fromMaybe (Activity 0) (activity Map.!? x)
-getHighestActivity' [] aMap x = x
+          actVal = Map.findWithDefault (Activity 0) x aMap
+getHighestActivity' [] _ x = x
 
 -- | Set the Tupelvalue based on the Variable.
 --   If the Variable with the highest activity has a minus prefix the tupel value will
