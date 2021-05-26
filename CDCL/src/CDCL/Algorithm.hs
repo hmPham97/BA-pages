@@ -132,8 +132,12 @@ calculateClauseList cl [] = cl
 --   Bsp: [[2,1,3],[-1]] [(1,0),(3,0),(2,0)] -> 0. CONFLICT
 --   Bsp: [[2,1,3]][(1,0),(2,0)] -> -1. Etwas wurde noch nicht belegt o. etwas wurde nicht positiv.
 interpret :: ClauseList -> TupleClauseList -> InterpretResult
-interpret t@(formel : xs) interpretation -- = do
+interpret t@(formel : xs) interpretation
+
+    -- Kommentar welcher Fall hier vorliegt
     | null interpretation || interpreted == UNRESOLVED = UNRESOLVED
+
+    -- Kommentar welcher Fall hier usw.
     | getNOK interpreted = NOK (snd formel)
     | not (null xs) = interpret xs interpretation
     | otherwise = interpreted --interpret' (snd formel) interpretation False
