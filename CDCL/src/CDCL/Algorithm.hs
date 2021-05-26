@@ -52,27 +52,50 @@ cdcl clist = cdcl' aMap (Level 0) [] Map.empty transformedList transformedList t
     where transformedList = transformClauseList clist
           aMap = initialActivity transformedList Map.empty
 
--- | Function will first call the Unitpropagation Function. 
+-- | Function will first call the Unitpropagation Function.
 --   Afterwards it will check if every Clause is interpreted.
 --   If that isn't the case it will call functions related to
---   the Decision Algorithm.  
+--   the Decision Algorithm.
 --   In the case of getting NOK as result the function will call
 --   the analyzeConflict Function to resolve the conflict.
 --   After that the recursion starts again with Unitpropagation.
 --   This happens until either SAT or UNSAT is returned as result.
-cdcl' :: ActivityMap -> Level -> TupleClauseList -> MappedTupleList -> ClauseList -> ClauseList -> ClauseList -> Period -> Integer -> Integer -> Integer -> CDCLResult
+cdcl'
+  :: ActivityMap
+  -> Level
+  -> TupleClauseList
+  -> MappedTupleList
+  -> ClauseList
+  -> ClauseList
+  -> ClauseList
+  -> Period
+  -> Integer
+  -> Integer
+  -> Integer
+  -> CDCLResult
 cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist clist period conflictIteration upperBound currentBoundary
-    | conflictIteration == upperBound = cdcl' (initialActivity clistOG Map.empty) (Level 0) [] Map.empty clistOG learnedClist learnedClist hardCoded 0 (upperBound*2) startBoundary
+    | conflictIteration == upperBound = cdcl' (initialActivity clistOG Map.empty)
+                                              (Level 0)
+                                              []
+                                              Map.empty
+                                              clistOG
+                                              learnedClist
+                                              learnedClist
+                                              hardCoded
+                                              0
+                                              (upperBound*2)
+                                              startBoundary
     | conflictIteration == currentBoundary = cdcl' (initialActivity clistOG Map.empty) (Level 0) [] Map.empty clistOG learnedClist learnedClist hardCoded 0 upperBound (currentBoundary * 2)
     | getNOK interpreted =
-        let empty = getEmptyClause interpreted in
-            let analyzed = analyzeConflict (Level lvl) empty updatedMap learnedClist halvedActivity in
-                if getLevelFromAnalyze analyzed == Level (-1) then UNSAT
+        let empty    = getEmptyClause interpreted
+            analyzed = analyzeConflict (Level lvl) empty updatedMap learnedClist halvedActivity
+        in
+          if getLevelFromAnalyze analyzed == Level (-1) then UNSAT
                 else cdcl' (getActivityMapFromAnalyze analyzed) (getLevelFromAnalyze analyzed) (makeTupleClauseListFromAnalyze analyzed) (getMappedTupleListFromAnalyze analyzed)
-                clistOG (getClauseListFromAnalyze analyzed) (calculateClauseList (getClauseListFromAnalyze analyzed) 
+                clistOG (getClauseListFromAnalyze analyzed) (calculateClauseList (getClauseListFromAnalyze analyzed)
                 (makeTupleClauseListFromAnalyze analyzed)) periodUpdate2 (conflictIteration + 1) upperBound currentBoundary
     | interpreted == OK = SAT (map fst tupleRes) updatedMap
-    | otherwise = cdcl' halvedActivity newLvl list updateMapViaDecision clistOG learnedClist 
+    | otherwise = cdcl' halvedActivity newLvl list updateMapViaDecision clistOG learnedClist
                     (calculateClauseList (getClauseListFromTriTuple res) list) periodUpdate2 conflictIteration upperBound currentBoundary--periodUpdate2
     where res = unitPropagation clist tlist (Level lvl) mappedTL
           tupleRes = getTupleClauseListFromTriTuple res
