@@ -23,13 +23,6 @@ import           Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
 import           Data.Maybe
 
--- Diese Funktion ist nicht gut definiert. Das ist ja an sich einfach
--- Map.lookup, allerdings ist `lookup` O(log n) und `filterK` ist O(n)
-
-filterK val = Map.filterWithKey (\x _ -> x == val)
-
-
-
 -- | calculate the ActivityMap. calls itself recursively until every clause
 --   is calculated. Returns a filled ActivityMap.
 --   example: initialActivity [[1,2,3,4],[3,4]] (IntMap.fromList [])
@@ -47,12 +40,14 @@ initialActivity cList@(xs : ys) aList
 updateActivity :: Clause -> ActivityMap -> ActivityMap
 updateActivity [] aMap = aMap
 updateActivity clause@(xs : ys) aMap
+
+    -- Current Variable is already in Map.
     | Map.member xValue aMap = let updatedMap = Map.adjust increaseActivity xValue aMap in
         updateActivity ys updatedMap
-    -- --let actInt = (snd activity) + 1 in
+
+    -- Current Variable is not in the Map.
     |  Map.notMember xValue aMap = let updatedMap = Map.insert xValue (Activity 1) aMap in
          updateActivity ys updatedMap
-    | not (null ys) = updateActivity ys aMap
     where xValue = if getVariableValue xs < 0 then negateVariableValue xs else xs
 
 
@@ -71,8 +66,14 @@ halveActivityMap = foldr (Map.adjust divideActivity)
 --   (Map.fromList [(Variable 1, Activity 5),(Variable 3, Activity 6),(Variable 5,Activity 2),(Variable 7,Activity 7)]) (Variable 0, Activity 0)
 getHighestActivity :: ClauseList -> ActivityMap -> [VariableActivity] -> [VariableActivity]
 getHighestActivity cList@(xs : ys) aMap val
+
+    -- Case: Found Activity is higher then current activity
     | getActivityValue (snd firstVal) < getActivityValue (snd foundAct) = getHighestActivity ys aMap highestValInClause
+
+    -- Case: Found Activity is lower then current activity
     | getActivityValue (snd firstVal) > getActivityValue (snd foundAct) = getHighestActivity ys aMap val
+
+    -- Case: Found activity has the same value
     | getActivityValue (snd firstVal) == getActivityValue (snd foundAct) = getHighestActivity ys aMap list
     where firstVal = head val
           highestValInClause = getHighestActivity' (fst xs) aMap val
@@ -88,8 +89,14 @@ getHighestActivity [] aMap val = val
 --   returns (3,6)
 getHighestActivity' :: Clause -> ActivityMap -> [VariableActivity] -> [VariableActivity]
 getHighestActivity' cl@(xs : ys) aMap val
+
+    -- Case: found activity is higher then current activity
     | actVal > snd firstVal = getHighestActivity' ys aMap [(x, actVal)]
+
+    -- Case: found activity has same activity value
     | actVal == snd firstVal = getHighestActivity' ys aMap ((x, actVal) : val)
+
+    -- Case: found activity has lower activity value
     | otherwise = getHighestActivity' ys aMap val
     where firstVal = head val
           x = if getVariableValue xs < 0 then negateVariableValue xs else xs
@@ -102,7 +109,11 @@ getHighestActivity' [] _ x = x
 --   Else the tupel will be set to the variable with a 0 as second value.
 setVariableViaActivity :: Clause -> VariableActivity -> TupleClause
 setVariableViaActivity (xs : ys) vAct
+
+    -- Case: the current Variable is a positive one and is found in vAct.
     | xs == fst vAct = ((xs, BFalse), Decision)
+
+    -- Case: the current Variable is a negative one and is found in vAct when negated.
     | negateVariableValue xs == fst vAct = ((negateVariableValue xs, BTrue), Decision)
     | otherwise = setVariableViaActivity ys vAct
     where varValue = getVariableValue xs
@@ -113,10 +124,20 @@ setVariableViaActivity [] vAct = error "wrong input in VariableActivity or Claus
 --   a ClauseList
 getShortestClauseViaActivity :: ClauseList -> ClauseList -> [VariableActivity] -> ClauseList
 getShortestClauseViaActivity (xs : ys) checkC vAct
+
+    -- Case: checkC is null and checkClause found Clause which contains a VariableActivity inside vAct
     | null checkC && checkClause = getShortestClauseViaActivity ys [xs] vAct
+
+    -- Case: either checkClause doesnt find VariableActivty in clause or the length of current clause is bigger then current shortest Clause
     | not checkClause || xsLen > headLen = getShortestClauseViaActivity ys checkC vAct
+
+    -- Case: Current Clause is shorter then the ones in checkC. Also no other clause has the same length
     | null filterClause && xsLen < headLen  = [xs]
+
+    -- Case: Current Clause has the same length like current shortest one
     | xsLen == headLen = getShortestClauseViaActivity ys  (xs : checkC) vAct
+
+    -- Case: See 3rd Case but ther are still other clauses which are either the same length or shorter.
     | xsLen < headLen = getShortestClauseViaActivity filterClause [xs] vAct
     where checkClause = checkClauseForVariable (fst xs) vAct
           xsLen = length (fst xs)

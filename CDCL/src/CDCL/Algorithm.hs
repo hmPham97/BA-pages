@@ -48,7 +48,17 @@ startBoundary = 20
 --   cdcl [[1,2,3,4], [2,4], [4,5],[3,6,7],[3,9,1],[3,8,10]]
 --   The function will return the result of the cdcl' function.
 cdcl :: [[Integer]] -> CDCLResult
-cdcl clist = cdcl' aMap (Level 0) [] Map.empty transformedList transformedList transformedList hardCoded 0 (startBoundary * 2) startBoundary--hardCoded
+cdcl clist = cdcl' aMap
+                   (Level 0)
+                   []
+                   Map.empty
+                   transformedList
+                   transformedList
+                   transformedList
+                   hardCoded
+                   0
+                   (startBoundary * 2)
+                   startBoundary
     where transformedList = transformClauseList clist
           aMap = initialActivity transformedList Map.empty
 
@@ -74,6 +84,9 @@ cdcl'
   -> Integer
   -> CDCLResult
 cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist clist period conflictIteration upperBound currentBoundary
+
+    -- First and Second Case are part of Restart Algorithm with Luby Sequence
+    -- current conflictiteration has same value like the current upper boundary. Restart the algorithm with higher upper boundary
     | conflictIteration == upperBound = cdcl' (initialActivity clistOG Map.empty)
                                               (Level 0)
                                               []
@@ -85,18 +98,52 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist clist period conflic
                                               0
                                               (upperBound*2)
                                               startBoundary
-    | conflictIteration == currentBoundary = cdcl' (initialActivity clistOG Map.empty) (Level 0) [] Map.empty clistOG learnedClist learnedClist hardCoded 0 upperBound (currentBoundary * 2)
+
+    -- current conflictiteration has same value like the current restart boundary. Restarts the algorithm with higher current boundary
+    | conflictIteration == currentBoundary = cdcl' (initialActivity clistOG Map.empty)
+                                                   (Level 0)
+                                                   []
+                                                   Map.empty
+                                                   clistOG
+                                                   learnedClist
+                                                   learnedClist
+                                                   hardCoded
+                                                   0
+                                                   upperBound
+                                                   (currentBoundary * 2)
+
+    -- Interpret returned a NOK. Start the conflict analysis.
     | getNOK interpreted =
         let empty    = getEmptyClause interpreted
             analyzed = analyzeConflict (Level lvl) empty updatedMap learnedClist halvedActivity
         in
           if getLevelFromAnalyze analyzed == Level (-1) then UNSAT
-                else cdcl' (getActivityMapFromAnalyze analyzed) (getLevelFromAnalyze analyzed) (makeTupleClauseListFromAnalyze analyzed) (getMappedTupleListFromAnalyze analyzed)
-                clistOG (getClauseListFromAnalyze analyzed) (calculateClauseList (getClauseListFromAnalyze analyzed)
-                (makeTupleClauseListFromAnalyze analyzed)) periodUpdate2 (conflictIteration + 1) upperBound currentBoundary
+                else cdcl' (getActivityMapFromAnalyze analyzed)
+                           (getLevelFromAnalyze analyzed)
+                           (makeTupleClauseListFromAnalyze analyzed)
+                           (getMappedTupleListFromAnalyze analyzed)
+                           clistOG
+                           (getClauseListFromAnalyze analyzed)
+                           (calculateClauseList (getClauseListFromAnalyze analyzed)
+                           (makeTupleClauseListFromAnalyze analyzed))
+                           periodUpdate2
+                           (conflictIteration + 1)
+                           upperBound
+                           currentBoundary
+
+    -- Interpret retunred OK. Stop the algorithm.
     | interpreted == OK = SAT (map fst tupleRes) updatedMap
-    | otherwise = cdcl' halvedActivity newLvl list updateMapViaDecision clistOG learnedClist
-                    (calculateClauseList (getClauseListFromTriTuple res) list) periodUpdate2 conflictIteration upperBound currentBoundary--periodUpdate2
+    | otherwise = cdcl' halvedActivity
+                        newLvl
+                        list
+                        updateMapViaDecision
+                        clistOG
+                        learnedClist
+                        (calculateClauseList (getClauseListFromTriTuple res) list)
+                        periodUpdate2
+                        conflictIteration
+                        upperBound
+                        currentBoundary
     where res = unitPropagation clist tlist (Level lvl) mappedTL
           tupleRes = getTupleClauseListFromTriTuple res
           updatedMap = getMappedTupleListFromTriTuple res
@@ -134,12 +181,16 @@ calculateClauseList cl [] = cl
 interpret :: ClauseList -> TupleClauseList -> InterpretResult
 interpret t@(formel : xs) interpretation
 
-    -- Kommentar welcher Fall hier vorliegt
+    -- Case: Clause found which cant be evaluated to 0 or 1
     | null interpretation || interpreted == UNRESOLVED = UNRESOLVED
 
-    -- Kommentar welcher Fall hier usw.
+    -- Case: Clause found which evalutes to 0.
     | getNOK interpreted = NOK (snd formel)
+
+    -- Case: None of the above cases appeared. Continue evaluating clauseList
     | not (null xs) = interpret xs interpretation
+
+    -- Case: Returns OK as Result
     | otherwise = interpreted --interpret' (snd formel) interpretation False
     where interpreted = interpret' (snd formel) interpretation False
 
@@ -149,11 +200,20 @@ interpret t@(formel : xs) interpretation
 --   NOK (emptyClause) <-- Clause which returns 0 with the set variables.
 --   UNRESOLVED <-- No Variable evaluated the clause to 1.
 interpret' :: Clause -> TupleClauseList -> Bool -> InterpretResult
-interpret' (formel : xs) interpretation boolValue-- = do
+interpret' (formel : xs) interpretation boolValue
+
+    -- if calculated tupelValue isn't set and xs is null return UNRESOLVED
     | tupelValue == BNothing   && null xs = UNRESOLVED
+
+    -- tupelValue not set but xs isn't null. Continue with the iteration.
     | tupelValue == BNothing  && not (null xs) = interpret' xs interpretation True
+
+    -- The given Variable evalutes to 1. Returns OK
     | (formelValue >= 0 && tupelValue == BTrue) || (formelValue < 0 && tupelValue == BFalse) = OK
-    | ((formelValue >= 0 && tupelValue == BFalse) || (formelValue < 0 && tupelValue == BTrue))  && null xs && not boolValue= NOK  (formel :  xs)
+
+    -- Current Variable evalutes to 0 and xs is null. If it never entered to the second case it will return NOK. Otherwise it will enter below case to return UNRESOLVED
+    | ((formelValue >= 0 && tupelValue == BFalse) || (formelValue < 0 && tupelValue == BTrue))  && null xs && not boolValue = NOK  (formel :  xs)
+
     | boolValue && null xs = UNRESOLVED
     | otherwise = interpret' xs interpretation boolValue
         where formelValue = getVariableValue formel
