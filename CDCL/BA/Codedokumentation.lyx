@@ -4,8 +4,9 @@
 \begin_header
 \save_transient_properties true
 \origin unavailable
-\textclass article
+\textclass scrbook
 \use_default_options true
+\master Thesis_CDCL_SAT_Solver.lyx
 \maintain_unincluded_children false
 \language english
 \language_package default
@@ -15,7 +16,7 @@
 \font_sans "default" "default"
 \font_typewriter "default" "default"
 \font_math "auto" "auto"
-\font_default_family default
+\font_default_family sfdefault
 \use_non_tex_fonts false
 \font_sc false
 \font_osf false
@@ -26,13 +27,13 @@
 \graphics default
 \default_output_format default
 \output_sync 0
-\bibtex_command default
+\bibtex_command bibtex
 \index_command default
-\paperfontsize default
-\spacing single
+\paperfontsize 12
+\spacing onehalf
 \use_hyperref false
 \papersize default
-\use_geometry false
+\use_geometry true
 \use_package amsmath 1
 \use_package amssymb 1
 \use_package cancel 1
@@ -43,9 +44,9 @@
 \use_package stackrel 1
 \use_package stmaryrd 1
 \use_package undertilde 1
-\cite_engine basic
-\cite_engine_type default
-\biblio_style plain
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style plainnat
 \use_bibtopic false
 \use_indices false
 \paperorientation portrait
@@ -57,10 +58,14 @@
 \shortcut idx
 \color #008000
 \end_index
+\leftmargin 4cm
+\topmargin 4cm
+\rightmargin 2cm
+\bottommargin 2cm
 \secnumdepth 3
-\tocdepth 3
+\tocdepth 1
 \paragraph_separation indent
-\paragraph_indentation default
+\paragraph_indentation 0bp
 \is_math_indent 0
 \math_numbering_side default
 \quotes_style english
@@ -77,23 +82,9 @@
 
 \begin_body
 
-\begin_layout Standard
+\begin_layout Chapter
 \noindent
-
-\size larger
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-section{Dokumentation für Code}
-\end_layout
-
-\end_inset
-
-
+Dokumentation für Code
 \end_layout
 
 \begin_layout Standard
@@ -104,33 +95,15 @@ Für eine umfangreichere Dokumentation des Codes wird auf Haddock Dokumentation
  Funktionen, die implementiert wurden.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Section
 \noindent
-
-\size large
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-subsection{Types.hs}
-\end_layout
-
-\end_inset
-
-
+Types.hs
 \end_layout
 
 \begin_layout Standard
 \noindent
 Die Datei enthält alle nötigen Datentypen, die für die Implementierung des
  CDCL Programms notwendig sind.
-\begin_inset Newline newline
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -241,10 +214,6 @@ underline{BoolVal}
 BoolVal gibt den gesetzten Wert einer Variablen zurück.
  Diese sind BTrue, BFalse or BNothing.
  Equivalente Werte für diese sind 1, 0 und -1.
-\begin_inset Newline newline
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -338,10 +307,6 @@ underline{Variable Integer}
 \end_inset
 
 .
-\begin_inset Newline newline
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -379,10 +344,6 @@ underline{Level Integer}
 
 .
  
-\begin_inset Newline newline
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -419,10 +380,6 @@ underline{Activity Integer}
 \end_inset
 
 
-\begin_inset Newline newline
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -456,10 +413,6 @@ status open
 underline{Period Integer}
 \end_layout
 
-\end_inset
-
-
-\begin_inset Newline newline
 \end_inset
 
 
@@ -504,10 +457,6 @@ underline{Clause}
 \begin_layout Standard
 \noindent
 Clause ist eine Liste bestehend aus Variable.
-\begin_inset Newline newline
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -533,10 +482,6 @@ Synonym für Tupel, die aus zwei Clause bestehen.
  Die erste Clause wird durch Funktionen gekürzt, während die zweite Clause
  im Tupel in ihrem Originalzustand bleibt.
  
-\begin_inset Newline newline
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -582,10 +527,6 @@ underline{Tuple}
 \noindent
 Synonym für Tupel, die aus Variable und BoolVal bestehen.
  
-\begin_inset Newline newline
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -632,10 +573,6 @@ underline{TupleClause}
 \begin_layout Standard
 \noindent
 Synonym für Tupel, die aus Tuple und Reason bestehen.
-\begin_inset Newline newline
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -680,10 +617,6 @@ underline{MappedTupleList}
 \begin_layout Standard
 \noindent
 Eine Map, die Level als Key verwendet und TupleClauseList als Value besitzt.
-\begin_inset Newline newline
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -706,10 +639,6 @@ underline{ActivityMap}
 \begin_layout Standard
 \noindent
 Variablen sind in dieser Map Keys, während Activity Values darstellen
-\begin_inset Newline newline
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -733,10 +662,6 @@ underline{VariableActivity}
 \noindent
 Synonym für Tupel, die aus Variable und Activity bestehen.
  
-\begin_inset Newline newline
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -762,23 +687,9 @@ Eine Tupel aus drei Elementen.
  Diese enthält ClauseList, TupleClauseList und MappedTupleList.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Section
 \noindent
-
-\size large
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-subsection{Algorithm.hs}
-\end_layout
-
-\end_inset
-
-
+Algorithm.hs
 \end_layout
 
 \begin_layout Standard
@@ -922,23 +833,9 @@ Gibt den Wert eines Tupelpaares zurück basiered auf dem gegebenen Variablenwert
  Dabei wird ein BoolVal zurückgegeben.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Section
 \noindent
-
-\size large
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-subsection{Unitpropagation.hs}
-\end_layout
-
-\end_inset
-
-
+Unitpropagation.hs
 \end_layout
 
 \begin_layout Standard
@@ -1065,21 +962,9 @@ Löscht Variablen aus den Clauseln, die zu 0 evaluiert werden.
  Als Ergebnis wird die bearbeitete ClauseList weitergegeben.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Section
 \noindent
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-subsection{Decisionalalgorithm.hs}
-\end_layout
-
-\end_inset
-
-
+Decisionalalgorithm.hs
 \end_layout
 
 \begin_layout Standard
@@ -1129,10 +1014,6 @@ underline{updateActivity}
 \end_inset
 
  wird dann eine ActivityMap berechnet und zurückgegeben.
-\begin_inset Newline newline
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -1158,10 +1039,6 @@ UpdateActivity benötigt eine Clause und ActivityMap als Parameter.
  Durch Rekursion erhalten neue Variablen einen Eintrag in die ActivityMap,
  während bestehende um eins aktualisiert werden.
  
-\begin_inset Newline newline
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -1186,10 +1063,6 @@ underline{halveActivityMap}
 Die Funktion halbiert alle Activity nach einer bestimmten Periode.
  Als Parameter werden eine ActivityMap und eine Liste von allen Variablen
  benötigt.
-\begin_inset Newline newline
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -1214,10 +1087,6 @@ underline{getHighestActivity}
 Erwartet ClauseList, ActivityMap und eine Liste von VariableActivity als
  Parameter und gibt eine Liste von VariableActivity mit der höchsten Activity
  als Ergebnis zurück.
-\begin_inset Newline newline
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -1243,10 +1112,6 @@ Beim Aufruf der Funktion werden zwei ClauseList und eine Liste von VariableActiv
 ity benötigt.
  Die Funktion gibt eine ClauseList mit den kürzesten Clause zurück, die
  die gegebenen VariableActivity enthalten.
-\begin_inset Newline newline
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -1273,21 +1138,8 @@ SetVariableViaActivity benötigt eine Clause und VariableActivity.
  zurückgegeben.
 \end_layout
 
-\begin_layout Standard
-\noindent
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-subsection{MapLogic.hs}
-\end_layout
-
-\end_inset
-
-
+\begin_layout Section
+MapLogic.hs
 \end_layout
 
 \begin_layout Standard
@@ -1312,10 +1164,6 @@ underline{pushToMappedTupleList}
 Die Funktion erwartet MappedTupleList, Level, Tuple und ein Reason.
  Anhand der übergebenen Parameter wird die MappedTupleList aktualisiert
  und anschließend zurückgegeben.
-\begin_inset Newline newline
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -1421,10 +1269,6 @@ underline{deleteLvl}
 
  das letzte Level aus MappedTupleList gelöscht.
  Level, ClauseList, MappedTupleList und ActivityMap wird am zurückgegeben.
-\begin_inset Newline newline
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -1450,20 +1294,8 @@ Berechnet mithilfe von Level, Clause und MappedTupleList eine 1UIP-Clause.
  
 \end_layout
 
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-subsection{CDCLFilereader.hs}
-\end_layout
-
-\end_inset
-
-
+\begin_layout Section
+CDCLFilereader.hs
 \end_layout
 
 \begin_layout Standard

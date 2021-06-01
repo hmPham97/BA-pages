@@ -4,8 +4,9 @@
 \begin_header
 \save_transient_properties true
 \origin unavailable
-\textclass article
+\textclass scrbook
 \use_default_options true
+\master Thesis_CDCL_SAT_Solver.lyx
 \maintain_unincluded_children false
 \language english
 \language_package default
@@ -15,7 +16,7 @@
 \font_sans "default" "default"
 \font_typewriter "default" "default"
 \font_math "auto" "auto"
-\font_default_family default
+\font_default_family sfdefault
 \use_non_tex_fonts false
 \font_sc false
 \font_osf false
@@ -26,12 +27,13 @@
 \graphics default
 \default_output_format default
 \output_sync 0
-\bibtex_command default
+\bibtex_command bibtex
 \index_command default
 \paperfontsize default
+\spacing onehalf
 \use_hyperref false
 \papersize default
-\use_geometry false
+\use_geometry true
 \use_package amsmath 1
 \use_package amssymb 1
 \use_package cancel 1
@@ -42,8 +44,9 @@
 \use_package stackrel 1
 \use_package stmaryrd 1
 \use_package undertilde 1
-\cite_engine basic
-\cite_engine_type default
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style plainnat
 \use_bibtopic false
 \use_indices false
 \paperorientation portrait
@@ -55,10 +58,14 @@
 \shortcut idx
 \color #008000
 \end_index
+\leftmargin 4cm
+\topmargin 4cm
+\rightmargin 2cm
+\bottommargin 2cm
 \secnumdepth 3
-\tocdepth 3
+\tocdepth 1
 \paragraph_separation indent
-\paragraph_indentation default
+\paragraph_indentation 0bp
 \is_math_indent 0
 \math_numbering_side default
 \quotes_style english
@@ -76,19 +83,11 @@
 \begin_body
 
 \begin_layout Standard
-\begin_inset CommandInset include
-LatexCommand include
-filename "Titelseite.lyx"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset include
-LatexCommand include
-filename "Codedokumentation.lyx"
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintAll"
+bibfiles "C:/Users/nam02/Desktop/Meine Bibliothek/Meine Bibliothek"
+options "bibtotoc,plain"
 
 \end_inset
 
