@@ -8,10 +8,14 @@ import           Control.Exception (evaluate)
 import           Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
 import           Test.Hspec
+
 import           Test.QuickCheck
+import           Test.QuickCheck.Monadic
+
+import qualified Picosat as PicoSAT
 
 spec :: Spec
-spec =
+spec = do
     describe "testing" $ do
         it "interpret should return OK" $
             interpret (transformClauseList[[1,2,-3],[-2],[4,5]])
@@ -43,3 +47,17 @@ spec =
             cdcl [[1,2],[1,-2]] `shouldBe` SAT [(Variable 2, BTrue),(Variable 1,BTrue)] (Map.fromList [(Level 1, [((Variable 2, BTrue), Decision), ((Variable 1, BTrue), Reason [Variable 1, Variable (-2)])])])
         it "cdcl should return UNSAT" $
             cdcl [[1,2],[1,-2],[-1,2],[-1,-2]] `shouldBe` UNSAT
+
+    describe "Compare with picoSAT solver" $ do
+        it "compare SAT / UNSAT results" $ do
+          property $ \clauses -> prop_picoSATcomparison clauses
+
+
+prop_picoSATcomparison :: [[Int]] -> Property
+prop_picoSATcomparison clauses = monadicIO $ do
+  picoSol <- run $ PicoSAT.solve clauses
+  let cdclSol = cdcl $ map (map fromIntegral) clauses
+  assert $ case (picoSol, cdclSol) of
+             (PicoSAT.Unsatisfiable, UNSAT) -> True
+             (PicoSAT.Unknown, _)           -> False
+             (PicoSAT.Solution _, SAT _ _)  -> True
