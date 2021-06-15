@@ -55,6 +55,7 @@ tests:
     - CDCL
     - hspec
     - QuickCheck
+    - picosat
     when:
     - condition: false
       other-modules: Paths_CDCL
