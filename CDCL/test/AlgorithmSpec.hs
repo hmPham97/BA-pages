@@ -66,7 +66,8 @@ prop_picoSATcomparison cl = monadicIO $ do
       picoSol <- run $ PicoSAT.solve clauses
       D.trace (show clauses ++ "\npicoSAT: " ++ show picoSol) $ do
         let cdclSol = cdcl $ map (map fromIntegral) clauses
-        assert $ case (picoSol, cdclSol) of
+        D.trace ("\ncdcl: " ++ show cdclSol) $
+         assert $ case (picoSol, cdclSol) of
                    (PicoSAT.Unsatisfiable, UNSAT) -> True
                    (PicoSAT.Unknown, _)           -> False
                    (PicoSAT.Solution _, SAT _ _)  -> True
