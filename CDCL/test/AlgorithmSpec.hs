@@ -55,9 +55,12 @@ spec = do
 
 prop_picoSATcomparison :: [[Int]] -> Property
 prop_picoSATcomparison clauses = monadicIO $ do
-  picoSol <- run $ PicoSAT.solve clauses
-  let cdclSol = cdcl $ map (map fromIntegral) clauses
-  assert $ case (picoSol, cdclSol) of
-             (PicoSAT.Unsatisfiable, UNSAT) -> True
-             (PicoSAT.Unknown, _)           -> False
-             (PicoSAT.Solution _, SAT _ _)  -> True
+  if null clauses || any null clauses
+    then assert True
+    else do
+      picoSol <- run $ PicoSAT.solve clauses
+      let cdclSol = cdcl $ map (map fromIntegral) clauses
+      assert $ case (picoSol, cdclSol) of
+                 (PicoSAT.Unsatisfiable, UNSAT) -> True
+                 (PicoSAT.Unknown, _)           -> False
+                 (PicoSAT.Solution _, SAT _ _)  -> True
