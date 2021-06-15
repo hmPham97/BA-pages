@@ -13,6 +13,9 @@ import           Test.QuickCheck
 import           Test.QuickCheck.Monadic
 
 import qualified Picosat as PicoSAT
+import           Data.Coerce
+
+import qualified Debug.Trace as D
 
 spec :: Spec
 spec = do
@@ -53,14 +56,17 @@ spec = do
           property $ \clauses -> prop_picoSATcomparison clauses
 
 
-prop_picoSATcomparison :: [[Int]] -> Property
-prop_picoSATcomparison clauses = monadicIO $ do
+
+prop_picoSATcomparison :: [[NonZero Int]] -> Property
+prop_picoSATcomparison cl = monadicIO $ do
+  let clauses = coerce cl
   if null clauses || any null clauses
     then assert True
     else do
       picoSol <- run $ PicoSAT.solve clauses
-      let cdclSol = cdcl $ map (map fromIntegral) clauses
-      assert $ case (picoSol, cdclSol) of
-                 (PicoSAT.Unsatisfiable, UNSAT) -> True
-                 (PicoSAT.Unknown, _)           -> False
-                 (PicoSAT.Solution _, SAT _ _)  -> True
+      D.trace (show clauses ++ "\npicoSAT: " ++ show picoSol) $ do
+        let cdclSol = cdcl $ map (map fromIntegral) clauses
+        assert $ case (picoSol, cdclSol) of
+                   (PicoSAT.Unsatisfiable, UNSAT) -> True
+                   (PicoSAT.Unknown, _)           -> False
+                   (PicoSAT.Solution _, SAT _ _)  -> True
