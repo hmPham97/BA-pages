@@ -12,8 +12,8 @@ import           Test.Hspec
 import           Test.QuickCheck
 import           Test.QuickCheck.Monadic
 
-import qualified Picosat as PicoSAT
 import           Data.Coerce
+import qualified Picosat as PicoSAT
 
 import qualified Debug.Trace as D
 
@@ -45,7 +45,7 @@ spec = do
         it "cdcl should return UNSAT" $
             cdcl [[1],[-1]] `shouldBe` UNSAT
         it "calcReason should return [Variable 1]" $
-            calcReason (Level 1) [Variable 1, Variable 2] (Map.fromList[(Level 1, [((Variable 1, BFalse), Decision), ((Variable 2, BFalse), Reason [Variable 1, Variable (-2)])])]) `shouldBe` [Variable 1] 
+            calcReason (Level 1) [Variable 1, Variable 2] (Map.fromList[(Level 1, [((Variable 1, BFalse), Decision), ((Variable 2, BFalse), Reason [Variable 1, Variable (-2)])])]) `shouldBe` [Variable 1]
         it "cdcl should return SAT [Variable 1]" $
             cdcl [[1,2],[1,-2]] `shouldBe` SAT [(Variable 2, BTrue),(Variable 1,BTrue)] (Map.fromList [(Level 1, [((Variable 2, BTrue), Decision), ((Variable 1, BTrue), Reason [Variable 1, Variable (-2)])])]) 0
         it "cdcl should return UNSAT" $
@@ -59,10 +59,7 @@ spec = do
 
 prop_picoSATcomparison :: [[NonZero Int]] -> Property
 prop_picoSATcomparison cl = monadicIO $ do
-  let clauses = coerce cl
-  if null clauses || any null clauses
-    then assert True
-    else do
+  let clauses = coerce cl in do
       picoSol <- run $ PicoSAT.solve clauses
       D.trace (show clauses ++ "\npicoSAT: " ++ show picoSol) $ do
         let cdclSol = cdcl $ map (map fromIntegral) clauses

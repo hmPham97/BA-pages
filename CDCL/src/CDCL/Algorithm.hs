@@ -49,14 +49,15 @@ startBoundary = 20
 cdcl :: [[Integer]] -> CDCLResult
 cdcl clist
     | checked = UNSAT
+    | null clist = SAT [] Map.empty 0
     | otherwise = cdcl'
-                  aMap 
-                  (Level 0) 
+                  aMap
+                  (Level 0)
                   []
-                  Map.empty 
-                  transformedList 
-                  transformedList 
-                  transformedList 
+                  Map.empty
+                  transformedList
+                  transformedList
+                  transformedList
                   hardCoded
                   0
                   (startBoundary * 2)
@@ -64,7 +65,7 @@ cdcl clist
     where checked = any null clist
           transformedList = transformClauseList clist
           aMap = initialActivity transformedList Map.empty
-          
+
 
 -- | Function will first call the Unitpropagation Function.
 --   Afterwards it will check if every Clause is interpreted.
@@ -197,9 +198,6 @@ interpret t@(formel : xs) interpretation
     -- Case: Returns OK as Result
     | otherwise = interpreted --interpret' (snd formel) interpretation False
     where interpreted = interpret' (snd formel) interpretation False
-
-interpret [] (_:_) = NOK []
-interpret [] [] = NOK []
 
 -- | Interprets a single clause of a formula
 --   It will return either
