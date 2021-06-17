@@ -9,7 +9,7 @@
 -- Portability :
 --
 ---------------------------------------------------------------------
-module CDCL.Unitpropagation (getUnitClause, setVariable, unitSubsumption,
+module CDCL.Unitpropagation (getUnitClause, unitSubsumption,
     unitResolution, unitPropagation) where
 
 import           CDCL.Types (BoolVal (..), Clause, ClauseList, Level,
@@ -23,8 +23,12 @@ import           CDCL.MapLogic (pushToMappedTupleList)
 import           Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
 
+-- | The function is the base for the unitpropagation procedure. It checks first if an
+--   unitclause exists. If it does, it will set the variable so that the unitclause is solved.
 unitPropagation :: ClauseList -> TupleClauseList -> Level -> MappedTupleList -> TriTuple
 unitPropagation clist tlist lvl mapped
+
+    -- Case: no UnitClause found or no more clauses in ClauseList
     | null clist || null (fst unitClause) = (clist, tlist, mapped)
     | otherwise = unitPropagation resolutionC (tlist ++ [(calcTuple, ogClause)]) lvl updatedMap
     where unitClause = getUnitClause clist
@@ -50,19 +54,29 @@ setVariable clause = if getVariableValue (head clause) < 0
 -- | Remove clauses which have removableVar as variable.
 unitSubsumption :: ClauseList  -> TupleClause -> ClauseList
 unitSubsumption (firstList : xs) tuple
-    | not checked = filter (not . null) (firstList : unitSubsumption xs tuple)
-    | otherwise = filter (not . null) (unitSubsumption xs tuple)
+
+    -- Case: Variable is not found in current clause. Readd it to the ClauseList
+    | not checked = firstList : unitSubsumption xs tuple
+
+    -- Case: Variable was found. Remove the clause.
+    | otherwise = unitSubsumption xs tuple
     where val = if snd (fst tuple) == BTrue then fst (fst tuple) else negateVariableValue (fst (fst tuple))
           checked = val `elem` fst firstList -- checks if val is inside list
 
 unitSubsumption _ _ = []
 
--- | remove -variable of the variable which was set
+-- | remove negated variable of the variable which was set
+--   For example a negated variable was resolved, which would remove
+--   the positive ones.
 unitResolution :: ClauseList -> TupleClause -> ClauseList
 unitResolution (firstList : xs) tuple
-    | not checked = filter (not . null) (firstList : unitResolution xs tuple)
+
+    -- Case: Variable is not found in the current Clause. Dont adjust it.
+    | not checked = firstList : unitResolution xs tuple
+
+    -- Case: Variable was found in current clause. Adjust the clause and readd it.
     | otherwise = let list = filter (/= val) (fst firstList) in
-        filter (not . null) ((list,snd firstList) : unitResolution xs tuple)
+        (list,snd firstList) : unitResolution xs tuple
     where val = if snd (fst tuple) == BFalse then fst (fst tuple) else negateVariableValue (fst (fst tuple))
           checked = val `elem` fst firstList -- checks if val is inside list
 

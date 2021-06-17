@@ -1,8 +1,6 @@
 .stack-work/
 dist-newstyle/
 *.lyx~
+*.lyx#
 *.hi
 *.o
-*.prof
-*.html
-*.exe
