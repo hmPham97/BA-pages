@@ -1,3 +1,4 @@
+{-# OPTIONS_GHC -Wno-incomplete-patterns #-}
 ---------------------------------------------------------------------
 -- |
 -- Module      :   CDCL.Algorithm
@@ -48,19 +49,24 @@ startBoundary = 20
 --   cdcl [[1,2,3,4], [2,4], [4,5],[3,6,7],[3,9,1],[3,8,10]]
 --   The function will return the result of the cdcl' function.
 cdcl :: [[Integer]] -> CDCLResult
-cdcl clist = cdcl' aMap
-                   (Level 0)
-                   []
-                   Map.empty
-                   transformedList
-                   transformedList
-                   transformedList
-                   hardCoded
-                   0
-                   (startBoundary * 2)
-                   startBoundary
-    where transformedList = transformClauseList clist
+cdcl clist
+    | checked = UNSAT
+    | otherwise = cdcl'
+                  aMap 
+                  (Level 0) 
+                  []
+                  Map.empty 
+                  transformedList 
+                  transformedList 
+                  transformedList 
+                  hardCoded
+                  0
+                  (startBoundary * 2)
+                  startBoundary
+    where checked = any null clist
+          transformedList = transformClauseList clist
           aMap = initialActivity transformedList Map.empty
+          
 
 -- | Function will first call the Unitpropagation Function.
 --   Afterwards it will check if every Clause is interpreted.
@@ -132,7 +138,7 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist clist period conflic
                            currentBoundary
 
     -- Interpret retunred OK. Stop the algorithm.
-    | interpreted == OK = SAT (map fst tupleRes) updatedMap
+    | interpreted == OK = SAT (map fst tupleRes) updatedMap (toInteger (length learnedClist - length clistOG))
     | otherwise = cdcl' halvedActivity
                         newLvl
                         list
@@ -147,7 +153,7 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist clist period conflic
     where res = unitPropagation clist tlist (Level lvl) mappedTL
           tupleRes = getTupleClauseListFromTriTuple res
           updatedMap = getMappedTupleListFromTriTuple res
-          interpreted = interpret clistOG tupleRes
+          interpreted = interpret clist tupleRes
 
           periodUpdate = decreasePeriod period
           halvedActivity = if periodUpdate == Period 0 then halveActivityMap aMap (Map.keys aMap) else aMap
@@ -219,7 +225,6 @@ interpret' (formel : xs) interpretation boolValue
         where formelValue = getVariableValue formel
               varValue = if formelValue < 0 then negateVariableValue formel else formel
               tupelValue = searchTuple varValue interpretation
-
 
 -- | Get the set value from the tupelClauselist.
 searchTuple :: Variable -> TupleClauseList -> BoolVal

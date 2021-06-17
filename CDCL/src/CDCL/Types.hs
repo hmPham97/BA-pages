@@ -1,3 +1,4 @@
+{-# OPTIONS_GHC -Wno-incomplete-patterns #-}
 ---------------------------------------------------------------------
 -- |
 -- Module      :   CDCL.Types
@@ -18,14 +19,14 @@ import qualified Data.Map.Strict as Map
 data CDCLResult
     =
         -- | Formula resolved, with TupleList to show how it was solved
-        SAT TupleList MappedTupleList
+        SAT TupleList MappedTupleList Integer
     |
         -- | Formula not resolved
         UNSAT
     deriving(Eq, Ord)
 
 instance Show CDCLResult where
-    show (SAT tl mtl) = "SAT " ++ show tl ++ "\n\n" ++ show mtl ++ "\n"
+    show (SAT tl mtl int1) = "Result:\nSAT " ++ show tl ++ "\n\nDecisions:\n" ++ show mtl ++ "\n\nStatistics:\n" ++ "Amount of learned Clauses: " ++ show int1
     show UNSAT = "UNSAT"
 
 -- | Datatype for Reason
@@ -157,13 +158,11 @@ transformClauseList :: [[Integer]] -> ClauseList
 transformClauseList (xs : ys)
     | null ys = [transformClause xs []]
     | otherwise = transformClause xs [] : transformClauseList ys
-
 -- | Transforms a list of Integers into a ReducedClauseAndOGClause
 transformClause :: [Integer] -> Clause -> ReducedClauseAndOGClause
 transformClause (xs : ys) varList
     | null ys = (varList ++ [Variable xs], varList ++ [Variable xs])
     | otherwise = transformClause ys (varList ++ [Variable xs])
-
 -- | Checks if Interpretresult contains NOK.
 --   Return true if it does, else false
 getNOK :: InterpretResult -> Bool

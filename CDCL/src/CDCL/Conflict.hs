@@ -13,6 +13,15 @@ import           Data.List
 import           Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
 import           Data.Maybe
+import qualified Data.Set as Set
+
+-- | Complexity von O (n log n)
+rmdups :: Ord a => [a] -> [a]
+rmdups = rmdups' Set.empty where
+  rmdups' _ [] = []
+  rmdups' a (b : c) = if Set.member b a
+    then rmdups' a c
+    else b : rmdups' (Set.insert b a) c
 
 -- | NOT DONE
 -- | Example:
@@ -62,8 +71,9 @@ addClause :: Clause -> ClauseList -> ActivityMap  -> (ClauseList, ActivityMap)
 addClause cl cList aMap
     | null cl = (cList, aMap)
     | otherwise = (updated, updatedAMap)
-    where updated = (cl, cl) : cList
-          updatedAMap = updateActivity cl aMap
+    where nubCl = rmdups cl
+          updated = (nubCl, nubCl) : cList
+          updatedAMap = updateActivity nubCl aMap
 
 -- | Creates the new clause. Works by applying union to
 --   empty clause with the reason. Also calls function to remove
