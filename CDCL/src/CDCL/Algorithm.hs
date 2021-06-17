@@ -1,6 +1,4 @@
-{-# OPTIONS_GHC -Wno-incomplete-patterns #-}
----------------------------------------------------------------------
--- |
+----------------------------------------------------------------------- |
 -- Module      :   CDCL.Algorithm
 -- Copyright   :   (c) Thanh Nam Pham, 2021
 -- License     :   Apache-2.0
@@ -153,7 +151,7 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist clist period conflic
     where res = unitPropagation clist tlist (Level lvl) mappedTL
           tupleRes = getTupleClauseListFromTriTuple res
           updatedMap = getMappedTupleListFromTriTuple res
-          interpreted = interpret clist tupleRes
+          interpreted = interpret learnedClist tupleRes
 
           periodUpdate = decreasePeriod period
           halvedActivity = if periodUpdate == Period 0 then halveActivityMap aMap (Map.keys aMap) else aMap
@@ -199,6 +197,9 @@ interpret t@(formel : xs) interpretation
     -- Case: Returns OK as Result
     | otherwise = interpreted --interpret' (snd formel) interpretation False
     where interpreted = interpret' (snd formel) interpretation False
+
+interpret [] (_:_) = NOK []
+interpret [] [] = NOK []
 
 -- | Interprets a single clause of a formula
 --   It will return either

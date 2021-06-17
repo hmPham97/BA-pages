@@ -38,16 +38,16 @@ spec = do
         it "searchTuple should return BFalse" $
             searchTuple (Variable 1) [((Variable 1,BFalse), Decision),((Variable 2,BTrue), Decision),((Variable 3,BTrue), Decision),((Variable 4,BTrue), Decision)] `shouldBe` BFalse
         it "cdcl should return SAT [(2,1)] (fromList [(Level 1, [(Variable 1,0), (Variable 2,1)])]" $
-            cdcl [[1,2]] `shouldBe` SAT [(Variable 2,BFalse),(Variable 1,BTrue)] (Map.fromList [(Level 1,[((Variable 2,BFalse),Decision),((Variable 1,BTrue),Reason [Variable 1,Variable 2])])])
+            cdcl [[1,2]] `shouldBe` SAT [(Variable 2,BFalse),(Variable 1,BTrue)] (Map.fromList [(Level 1,[((Variable 2,BFalse),Decision),((Variable 1,BTrue),Reason [Variable 1,Variable 2])])]) 0
         it "cdcl should return SAT [(2,0),(3,1),(4,0)] (fromList [(Level 1,[(Variable 1,0),(Variable 2,1)])])" $
             cdcl [[1,2,3,4],[-2],[2,3],[-4,-3]] `shouldBe` SAT [(Variable 2,BFalse),(Variable 3,BTrue),(Variable 4,BFalse)]
-            (Map.fromList [(Level 0, [((Variable 2,BFalse), Reason [Variable (-2)]),((Variable 3,BTrue),Reason [Variable 2,Variable 3]), ((Variable 4,BFalse), Reason [Variable (-4), Variable (-3)])])])
+            (Map.fromList [(Level 0, [((Variable 2,BFalse), Reason [Variable (-2)]),((Variable 3,BTrue),Reason [Variable 2,Variable 3]), ((Variable 4,BFalse), Reason [Variable (-4), Variable (-3)])])]) 0
         it "cdcl should return UNSAT" $
             cdcl [[1],[-1]] `shouldBe` UNSAT
         it "calcReason should return [Variable 1]" $
-            calcReason (Level 1) [Variable 1, Variable 2] (Map.fromList[(Level 1, [((Variable 1, BFalse), Decision), ((Variable 2, BFalse), Reason [Variable 1, Variable (-2)])])]) `shouldBe` [Variable 1]
+            calcReason (Level 1) [Variable 1, Variable 2] (Map.fromList[(Level 1, [((Variable 1, BFalse), Decision), ((Variable 2, BFalse), Reason [Variable 1, Variable (-2)])])]) `shouldBe` [Variable 1] 
         it "cdcl should return SAT [Variable 1]" $
-            cdcl [[1,2],[1,-2]] `shouldBe` SAT [(Variable 2, BTrue),(Variable 1,BTrue)] (Map.fromList [(Level 1, [((Variable 2, BTrue), Decision), ((Variable 1, BTrue), Reason [Variable 1, Variable (-2)])])])
+            cdcl [[1,2],[1,-2]] `shouldBe` SAT [(Variable 2, BTrue),(Variable 1,BTrue)] (Map.fromList [(Level 1, [((Variable 2, BTrue), Decision), ((Variable 1, BTrue), Reason [Variable 1, Variable (-2)])])]) 0
         it "cdcl should return UNSAT" $
             cdcl [[1,2],[1,-2],[-1,2],[-1,-2]] `shouldBe` UNSAT
 
@@ -70,4 +70,4 @@ prop_picoSATcomparison cl = monadicIO $ do
          assert $ case (picoSol, cdclSol) of
                    (PicoSAT.Unsatisfiable, UNSAT) -> True
                    (PicoSAT.Unknown, _)           -> False
-                   (PicoSAT.Solution _, SAT _ _)  -> True
+                   (PicoSAT.Solution _, SAT {})  -> True
