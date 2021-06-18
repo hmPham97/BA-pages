@@ -3,7 +3,7 @@ module CDCL.Conflict (analyzeConflict, calcReason) where
 import           CDCL.Types (ActivityMap, Clause, ClauseList, Level (..),
                      MappedTupleList, Reason (..), TupleClauseList,
                      Variable (..), decreaseLvl, getLevel, getReason,
-                     negateVariableValue)
+                     negateVariableValue, Origin (LEARNED))
 
 import           CDCL.Decisionalalgorithm (updateActivity)
 
@@ -72,7 +72,7 @@ addClause cl cList aMap
     | null cl = (cList, aMap)
     | otherwise = (updated, updatedAMap)
     where nubCl = rmdups cl
-          updated = (nubCl, nubCl) : cList
+          updated = (nubCl, nubCl, LEARNED) : cList
           updatedAMap = updateActivity nubCl aMap
 
 -- | Creates the new clause. Works by applying union to

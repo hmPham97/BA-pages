@@ -1,3 +1,4 @@
+{-# OPTIONS_GHC -Wno-incomplete-patterns #-}
 ----------------------------------------------------------------------- |
 -- Module      :   CDCL.Algorithm
 -- Copyright   :   (c) Thanh Nam Pham, 2021
@@ -21,9 +22,10 @@ import           CDCL.Decisionalalgorithm (getHighestActivity,
 import           CDCL.Types (Activity (..), ActivityMap, BoolVal (..),
                      CDCLResult (..), Clause, ClauseList, InterpretResult (..),
                      Level (..), MappedTupleList, Period (..), TriTuple, Tuple,
-                     TupleClauseList, Variable (..), decreasePeriod,
-                     getEmptyClause, getNOK, getVariableValue, increaseLvl,
-                     negateVariableValue, transformClauseList)
+                     TupleClauseList, Variable (..), Origin (..), decreasePeriod,
+                     getEmptyClause, getNOK, getVariableValue, increaseLvl, transformToLearnedClauses,
+                     negateVariableValue, transformClauseList, getClauseFromReducedClauseAndOGClause,
+                     getOriginFromReducedClauseAndOGClause, getOGFromReducedClauseAndOGClause)
 import qualified CDCL.Types as TypeC
 
 import           CDCL.Unitpropagation (unitPropagation, unitResolution,
@@ -46,10 +48,12 @@ startBoundary = 20
 --   cdcl [[1,2,3],[2,5]]
 --   cdcl [[1,2,3,4], [2,4], [4,5],[3,6,7],[3,9,1],[3,8,10]]
 --   The function will return the result of the cdcl' function.
-cdcl :: [[Integer]] -> CDCLResult
-cdcl clist
+--   Function will immediately return SAT if ClauseList is null or UNSAT if an empty List is found within clist
+cdcl :: [[Integer]] -> Bool -> CDCLResult
+cdcl clist stats
     | checked = UNSAT
-    | null clist = SAT [] Map.empty 0
+    | null clist && stats = SAT_WITH_STATS [] Map.empty 0 []
+    | null clist = SAT []--[] Map.empty 0
     | otherwise = cdcl'
                   aMap
                   (Level 0)
@@ -62,6 +66,7 @@ cdcl clist
                   0
                   (startBoundary * 2)
                   startBoundary
+                  stats
     where checked = any null clist
           transformedList = transformClauseList clist
           aMap = initialActivity transformedList Map.empty
@@ -87,8 +92,9 @@ cdcl'
   -> Integer
   -> Integer
   -> Integer
+  -> Bool
   -> CDCLResult
-cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist clist period conflictIteration upperBound currentBoundary
+cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist clist period conflictIteration upperBound currentBoundary stats
 
     -- First and Second Case are part of Restart Algorithm with Luby Sequence
     -- current conflictiteration has same value like the current upper boundary. Restart the algorithm with higher upper boundary
@@ -103,6 +109,7 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist clist period conflic
                                               0
                                               (upperBound*2)
                                               startBoundary
+                                              stats
 
     -- current conflictiteration has same value like the current restart boundary. Restarts the algorithm with higher current boundary
     | conflictIteration == currentBoundary = cdcl' (initialActivity clistOG Map.empty)
@@ -116,6 +123,7 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist clist period conflic
                                                    0
                                                    upperBound
                                                    (currentBoundary * 2)
+                                                   stats
 
     -- Interpret returned a NOK. Start the conflict analysis.
     | getNOK interpreted =
@@ -135,9 +143,12 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist clist period conflic
                            (conflictIteration + 1)
                            upperBound
                            currentBoundary
+                           stats
 
     -- Interpret retunred OK. Stop the algorithm.
-    | interpreted == OK = SAT (map fst tupleRes) updatedMap (toInteger (length learnedClist - length clistOG))
+    | interpreted == OK && stats = SAT_WITH_STATS (map fst tupleRes) updatedMap (toInteger (length learnedClist - length clistOG))
+        (transformToLearnedClauses (filter (\x -> getOriginFromReducedClauseAndOGClause x == LEARNED) learnedClist) [])
+    | interpreted == OK = SAT (map fst tupleRes) -- updatedMap (toInteger (length learnedClist - length clistOG))
     | otherwise = cdcl' halvedActivity
                         newLvl
                         list
@@ -149,6 +160,7 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist clist period conflic
                         conflictIteration
                         upperBound
                         currentBoundary
+                        stats
     where res = unitPropagation clist tlist (Level lvl) mappedTL
           tupleRes = getTupleClauseListFromTriTuple res
           updatedMap = getMappedTupleListFromTriTuple res
@@ -163,7 +175,7 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist clist period conflic
           shortestCl = getShortestClauseViaActivity (getClauseListFromTriTuple res) [] highestActivity
           firstShortestCl = head shortestCl
 
-          assuredShortestClause = fst firstShortestCl
+          assuredShortestClause = getClauseFromReducedClauseAndOGClause firstShortestCl
           firstHighestActivityInClause = getHighestActivity [firstShortestCl] aMap [(Variable 0, Activity (-1))]
           decided = setVariableViaActivity assuredShortestClause (head firstHighestActivityInClause) -- Need change here? it takes first highest found VariableActivity in the clause.
           updateMapViaDecision = uncurry (pushToMappedTupleList updatedMap newLvl) decided
@@ -190,14 +202,14 @@ interpret t@(formel : xs) interpretation
     | null interpretation || interpreted == UNRESOLVED = UNRESOLVED
 
     -- Case: Clause found which evalutes to 0.
-    | getNOK interpreted = NOK (snd formel)
+    | getNOK interpreted = NOK (getOGFromReducedClauseAndOGClause formel)
 
     -- Case: None of the above cases appeared. Continue evaluating clauseList
     | not (null xs) = interpret xs interpretation
 
     -- Case: Returns OK as Result
     | otherwise = interpreted --interpret' (snd formel) interpretation False
-    where interpreted = interpret' (snd formel) interpretation False
+    where interpreted = interpret' (getOGFromReducedClauseAndOGClause formel) interpretation False
 
 -- | Interprets a single clause of a formula
 --   It will return either

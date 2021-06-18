@@ -14,8 +14,9 @@ module CDCL.Unitpropagation (getUnitClause, unitSubsumption,
 
 import           CDCL.Types (BoolVal (..), Clause, ClauseList, Level,
                      MappedTupleList, Reason (..), ReducedClauseAndOGClause,
-                     TriTuple, Tuple, TupleClause, TupleClauseList,
-                     getVariableValue, negateVariableValue)
+                     TriTuple, Tuple, TupleClause, TupleClauseList, Origin(..),
+                     getVariableValue, negateVariableValue, getOGFromReducedClauseAndOGClause,
+                     getClauseFromReducedClauseAndOGClause, getOriginFromReducedClauseAndOGClause)
 import qualified CDCL.Types as TypesC
 
 import           CDCL.MapLogic (pushToMappedTupleList)
@@ -29,22 +30,23 @@ unitPropagation :: ClauseList -> TupleClauseList -> Level -> MappedTupleList -> 
 unitPropagation clist tlist lvl mapped
 
     -- Case: no UnitClause found or no more clauses in ClauseList
-    | null clist || null (fst unitClause) = (clist, tlist, mapped)
+    | null clist || null fstElem = (clist, tlist, mapped)
     | otherwise = unitPropagation resolutionC (tlist ++ [(calcTuple, ogClause)]) lvl updatedMap
     where unitClause = getUnitClause clist
-          calcTuple = setVariable (fst unitClause)
+          fstElem = getClauseFromReducedClauseAndOGClause unitClause
+          calcTuple = setVariable fstElem
           fstTuple = fst calcTuple
-          ogClause = Reason (snd unitClause)
+          ogClause = Reason (getOGFromReducedClauseAndOGClause unitClause)
           updatedMap = pushToMappedTupleList mapped lvl calcTuple ogClause
           subsumptionC = unitSubsumption clist (calcTuple, ogClause)
           resolutionC = unitResolution subsumptionC (calcTuple, ogClause)
 
 -- | checks if an unit clause exists in the given list of lists. if one exists return the list.
 getUnitClause :: ClauseList  -> ReducedClauseAndOGClause
-getUnitClause (clause : xs) = let listLength = length (fst clause) in
+getUnitClause (clause : xs) = let listLength = length (getClauseFromReducedClauseAndOGClause clause) in
     if listLength == 1 then clause else getUnitClause xs
 
-getUnitClause _ = ([],[])
+getUnitClause _ = ([],[], ERR)
 
 -- | call this method on unit clauses only. If the value is less then 0 set a 0 in the tuple, else set 1
 setVariable :: Clause  -> Tuple
@@ -61,7 +63,7 @@ unitSubsumption (firstList : xs) tuple
     -- Case: Variable was found. Remove the clause.
     | otherwise = unitSubsumption xs tuple
     where val = if snd (fst tuple) == BTrue then fst (fst tuple) else negateVariableValue (fst (fst tuple))
-          checked = val `elem` fst firstList -- checks if val is inside list
+          checked = val `elem` getClauseFromReducedClauseAndOGClause firstList -- checks if val is inside list
 
 unitSubsumption _ _ = []
 
@@ -75,9 +77,11 @@ unitResolution (firstList : xs) tuple
     | not checked = firstList : unitResolution xs tuple
 
     -- Case: Variable was found in current clause. Adjust the clause and readd it.
-    | otherwise = let list = filter (/= val) (fst firstList) in
-        (list,snd firstList) : unitResolution xs tuple
+    | otherwise = let list = filter (/= val) (getClauseFromReducedClauseAndOGClause firstList) in
+        (list, ogClause, origin) : unitResolution xs tuple
     where val = if snd (fst tuple) == BFalse then fst (fst tuple) else negateVariableValue (fst (fst tuple))
-          checked = val `elem` fst firstList -- checks if val is inside list
+          checked = val `elem` getClauseFromReducedClauseAndOGClause firstList -- checks if val is inside list
+          origin = getOriginFromReducedClauseAndOGClause firstList
+          ogClause = getOGFromReducedClauseAndOGClause firstList
 
 unitResolution _ _ = []

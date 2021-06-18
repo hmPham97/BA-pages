@@ -19,14 +19,18 @@ import qualified Data.Map.Strict as Map
 data CDCLResult
     =
         -- | Formula resolved, with TupleList to show how it was solved
-        SAT TupleList MappedTupleList Integer
+        SAT TupleList
+    |
+        SAT_WITH_STATS TupleList MappedTupleList Integer [Clause]
     |
         -- | Formula not resolved
         UNSAT
     deriving(Eq, Ord)
 
 instance Show CDCLResult where
-    show (SAT tl mtl int1) = "Result:\nSAT " ++ show tl ++ "\n\nDecisions:\n" ++ show mtl ++ "\n\nStatistics:\n" ++ "Amount of learned Clauses: " ++ show int1
+    show (SAT tl) = "Result:\nSAT " ++ show tl
+    show (SAT_WITH_STATS tl mtl int1 learned) = "Result:\nSAT " ++ show tl ++ "\n\nStatistics:" ++ "\n\nDecisions:\n"
+     ++ show mtl ++ "\n\nAmount of learned Clauses: " ++ show int1 ++ "\nLearned Clauses: " ++ show learned
     show UNSAT = "UNSAT"
 
 -- | Datatype for Reason
@@ -65,6 +69,15 @@ data InterpretResult =
         UNRESOLVED
     deriving (Show, Eq, Ord)
 
+data Origin =
+
+        ORIGINAL
+    |
+        LEARNED
+    |
+        ERR
+    deriving (Show, Eq, Ord)
+
 -- | Variable defined as Integer
 newtype Variable = Variable Integer
     deriving (Show, Eq, Ord)
@@ -88,7 +101,9 @@ type Clause = [Variable]
 -- | Tuple of 2 Clauses
 --   First clause in tuple is reduced via Unitresolution
 --   Second clause is the clause in its original form
-type ReducedClauseAndOGClause = (Clause, Clause)
+type ReducedClauseAndOGClause = (Clause, Clause, Origin)
+
+type LearnedClauseList = [(Clause, Origin)]
 
 -- | ClauseList defined as a List of ReducedClauseAndOGClause
 type ClauseList = [ReducedClauseAndOGClause]
@@ -161,7 +176,7 @@ transformClauseList (xs : ys)
 -- | Transforms a list of Integers into a ReducedClauseAndOGClause
 transformClause :: [Integer] -> Clause -> ReducedClauseAndOGClause
 transformClause (xs : ys) varList
-    | null ys = (varList ++ [Variable xs], varList ++ [Variable xs])
+    | null ys = (varList ++ [Variable xs], varList ++ [Variable xs], ORIGINAL)
     | otherwise = transformClause ys (varList ++ [Variable xs])
 -- | Checks if Interpretresult contains NOK.
 --   Return true if it does, else false
@@ -180,3 +195,20 @@ getReason (Reason r) = r
 -- | Decrease a given Period by 1
 decreasePeriod :: Period -> Period
 decreasePeriod (Period r) = Period (r - 1)
+
+getClauseFromReducedClauseAndOGClause :: ReducedClauseAndOGClause -> Clause
+getClauseFromReducedClauseAndOGClause (x, _, _) = x
+
+getOGFromReducedClauseAndOGClause :: ReducedClauseAndOGClause -> Clause
+getOGFromReducedClauseAndOGClause (_, x, _) = x
+
+getOriginFromReducedClauseAndOGClause :: ReducedClauseAndOGClause -> Origin
+getOriginFromReducedClauseAndOGClause (_, _, x) = x
+
+transformToLearnedClauses :: ClauseList -> [Clause] -> [Clause]
+transformToLearnedClauses ys learned
+  = foldl
+      (\ learned xs
+         -> getOGFromReducedClauseAndOGClause xs
+              : learned)
+      learned ys
