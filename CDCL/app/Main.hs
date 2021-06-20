@@ -12,7 +12,8 @@ main = do
         h <- getLine
         putStrLn ("Reading file " ++ h)
         putStrLn ""
-        putStrLn "Do you want more statistics? Enter \'yes\' or \'no\'"
+        putStrLn "Do you want more statistics? Enter \'yes\' or \'no\'\n"
+        putStrLn "Statistic which are aditionally shown are:\nList of Decisions\nAmount of learned Clauses and the clause itself\nThe CPU time\n"
         check <- getLine 
-        timeIt $ readCdclFile h check
+        readCdclFile h check
         --readCdclFile "test.cnf"
