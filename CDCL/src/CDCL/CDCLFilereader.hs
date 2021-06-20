@@ -5,12 +5,8 @@ import           CDCL.Types (CDCLResult (..), ClauseList)
 import           Control.Monad
 import           System.IO
 
-readCdclFile :: String -> IO ()
-readCdclFile path = do
-    putStrLn ("Reading file " ++ path)
-    putStrLn ""
-    putStrLn "Do you want more statistics? Enter \'yes\' or \'no\'"
-    check <- getLine 
+readCdclFile :: String -> String -> IO ()
+readCdclFile path check = do
     handle <- openFile path ReadMode
     f <- loopCheck handle [] check
     case f of
@@ -47,7 +43,7 @@ loopCheck' handle clist stats = do
     else do
         firstChar <- hGetChar handle
         if firstChar == '%' then
-            pure (Just (cdcl clist False))
+            if stats == "yes" then pure (Just (cdcl clist True)) else pure (Just (cdcl clist False))
         else if checkComment firstChar || firstChar == '\n' then
             do
                 remove <- hGetLine handle
@@ -56,13 +52,12 @@ loopCheck' handle clist stats = do
             content <- hGetLine handle
             let word = words (firstChar : content)
             let list = createIntegerList word []
-            loopCheck' handle (clist ++ [list]) stats
+            loopCheck' handle (list : clist) stats
 
 createIntegerList :: [String] -> [Integer] -> [Integer]
 createIntegerList (xString : ysString) intList
     | m == 0 = intList
-    | otherwise = createIntegerList ysString lastList
+    | otherwise = createIntegerList ysString (m : intList)
     where m = read xString :: Integer
-          lastList = intList ++ [m]
 
 createIntegerList [] ys = ys

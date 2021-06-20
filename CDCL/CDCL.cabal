@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 64c56a3e88d56f12a0597e7b56da72a83c3278b52feab7d1531b8cbb31212e56
+-- hash: dd795ab8d82563cb6c3d610cf3e15bdfbef1ec0c4c6bf9b65b381e0b860abab8
 
 name:           CDCL
 version:        0.1.0.0
@@ -39,6 +39,7 @@ library
   build-depends:
       base >=4.7 && <5
     , containers
+    , timeit
   if false
     other-modules:
         Paths_CDCL
@@ -53,6 +54,7 @@ executable CDCL-exe
       CDCL
     , base >=4.7 && <5
     , containers
+    , timeit
   if false
     other-modules:
         Paths_CDCL
@@ -73,6 +75,7 @@ test-suite CDCL-test
     , containers
     , hspec
     , picosat
+    , timeit
   if false
     other-modules:
         Paths_CDCL

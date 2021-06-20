@@ -61,6 +61,7 @@ cdcl clist stats
                   Map.empty
                   transformedList
                   transformedList
+                  []
                   transformedList
                   hardCoded
                   0
@@ -87,6 +88,7 @@ cdcl'
   -> MappedTupleList
   -> ClauseList
   -> ClauseList
+  -> [Clause]
   -> ClauseList
   -> Period
   -> Integer
@@ -94,7 +96,7 @@ cdcl'
   -> Integer
   -> Bool
   -> CDCLResult
-cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist clist period conflictIteration upperBound currentBoundary stats
+cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist learnedClauses clist period conflictIteration upperBound currentBoundary stats
 
     -- First and Second Case are part of Restart Algorithm with Luby Sequence
     -- current conflictiteration has same value like the current upper boundary. Restart the algorithm with higher upper boundary
@@ -104,6 +106,7 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist clist period conflic
                                               Map.empty
                                               clistOG
                                               learnedClist
+                                              learnedClauses
                                               learnedClist
                                               hardCoded
                                               0
@@ -118,6 +121,7 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist clist period conflic
                                                    Map.empty
                                                    clistOG
                                                    learnedClist
+                                                   learnedClauses
                                                    learnedClist
                                                    hardCoded
                                                    0
@@ -128,7 +132,7 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist clist period conflic
     -- Interpret returned a NOK. Start the conflict analysis.
     | getNOK interpreted =
         let empty    = getEmptyClause interpreted
-            analyzed = analyzeConflict (Level lvl) empty updatedMap learnedClist halvedActivity
+            analyzed = analyzeConflict (Level lvl) empty updatedMap halvedActivity
         in
           if getLevelFromAnalyze analyzed == Level (-1) then UNSAT
                 else cdcl' (getActivityMapFromAnalyze analyzed)
@@ -136,8 +140,9 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist clist period conflic
                            (makeTupleClauseListFromAnalyze analyzed)
                            (getMappedTupleListFromAnalyze analyzed)
                            clistOG
-                           (getClauseListFromAnalyze analyzed)
-                           (calculateClauseList (getClauseListFromAnalyze analyzed)
+                           ((getClauseFromAnalyze analyzed, getClauseFromAnalyze analyzed, LEARNED) : learnedClist) -- learnedClist
+                           (getClauseFromAnalyze analyzed : learnedClauses)
+                           (calculateClauseList ((getClauseFromAnalyze analyzed, getClauseFromAnalyze analyzed, LEARNED) : learnedClist)
                            (makeTupleClauseListFromAnalyze analyzed))
                            periodUpdate2
                            (conflictIteration + 1)
@@ -146,8 +151,7 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist clist period conflic
                            stats
 
     -- Interpret retunred OK. Stop the algorithm.
-    | interpreted == OK && stats = SAT_WITH_STATS (map fst tupleRes) updatedMap (toInteger (length learnedClist - length clistOG))
-        (transformToLearnedClauses (filter (\x -> getOriginFromReducedClauseAndOGClause x == LEARNED) learnedClist) [])
+    | interpreted == OK && stats = SAT_WITH_STATS (map fst tupleRes) updatedMap (toInteger (length learnedClist - length clistOG)) learnedClauses
     | interpreted == OK = SAT (map fst tupleRes) -- updatedMap (toInteger (length learnedClist - length clistOG))
     | otherwise = cdcl' halvedActivity
                         newLvl
@@ -155,6 +159,7 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist clist period conflic
                         updateMapViaDecision
                         clistOG
                         learnedClist
+                        learnedClauses
                         (calculateClauseList (getClauseListFromTriTuple res) list)
                         periodUpdate2
                         conflictIteration
@@ -171,15 +176,15 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist clist period conflic
           periodUpdate2 = if periodUpdate == Period 0 then hardCoded else periodUpdate
 
           newLvl = increaseLvl (Level lvl)
-          highestActivity = getHighestActivity (getClauseListFromTriTuple res) aMap [(Variable 0, Activity (-1))]
+          highestActivity = getHighestActivity (getClauseListFromTriTuple res) aMap [(Var 0, Activity (-1))]
           shortestCl = getShortestClauseViaActivity (getClauseListFromTriTuple res) [] highestActivity
           firstShortestCl = head shortestCl
 
           assuredShortestClause = getClauseFromReducedClauseAndOGClause firstShortestCl
-          firstHighestActivityInClause = getHighestActivity [firstShortestCl] aMap [(Variable 0, Activity (-1))]
+          firstHighestActivityInClause = getHighestActivity [firstShortestCl] aMap [(Var 0, Activity (-1))]
           decided = setVariableViaActivity assuredShortestClause (head firstHighestActivityInClause) -- Need change here? it takes first highest found VariableActivity in the clause.
           updateMapViaDecision = uncurry (pushToMappedTupleList updatedMap newLvl) decided
-          list = tupleRes ++ [decided]
+          list = decided : tupleRes
 
 -- | calculates the clauselist which will be given to unitpropagation.
 --   returns when everything of tupelClauselist was calculated
@@ -260,21 +265,21 @@ getMappedTupleListFromTriTuple :: TriTuple -> MappedTupleList
 getMappedTupleListFromTriTuple (_, _, x) = x
 
 -- | returns the new level after analyzing the conflict
-getLevelFromAnalyze :: (Level, ClauseList, MappedTupleList, ActivityMap) -> Level
+getLevelFromAnalyze :: (Level, Clause, MappedTupleList, ActivityMap) -> Level
 getLevelFromAnalyze (x, _, _, _) = x
 
 -- | returns the new clauselist after analyzing the conflict
-getClauseListFromAnalyze :: (Level, ClauseList, MappedTupleList, ActivityMap) -> ClauseList
-getClauseListFromAnalyze (_, x, _, _) = x
+getClauseFromAnalyze :: (Level, Clause, MappedTupleList, ActivityMap) -> Clause
+getClauseFromAnalyze (_, x, _, _) = x
 
 -- | returns the new mappedtupleList after analyzing the conflict
-getMappedTupleListFromAnalyze :: (Level, ClauseList, MappedTupleList, ActivityMap) -> MappedTupleList
+getMappedTupleListFromAnalyze :: (Level, Clause, MappedTupleList, ActivityMap) -> MappedTupleList
 getMappedTupleListFromAnalyze (_, _, x, _) = x
 
 -- | function returns a tupleclauseList based on MappedTupleList from analyzing the conflict
-makeTupleClauseListFromAnalyze :: (Level, ClauseList, MappedTupleList, ActivityMap) -> TupleClauseList
+makeTupleClauseListFromAnalyze :: (Level, Clause, MappedTupleList, ActivityMap) -> TupleClauseList
 makeTupleClauseListFromAnalyze  = concat . getMappedTupleListFromAnalyze
 
 -- | returns the new activityMap after analyzing the conflict
-getActivityMapFromAnalyze :: (Level, ClauseList, MappedTupleList, ActivityMap) -> ActivityMap
+getActivityMapFromAnalyze :: (Level, Clause, MappedTupleList, ActivityMap) -> ActivityMap
 getActivityMapFromAnalyze (_, _, _, x) = x

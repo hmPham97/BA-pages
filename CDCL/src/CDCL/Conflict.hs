@@ -26,15 +26,15 @@ rmdups = rmdups' Set.empty where
 -- | NOT DONE
 -- | Example:
 --  f = analyzeConflict  (Level 1) [Variable (-1), Variable (-2)] (Map.fromList [(Level 1, [((Variable (-1), BTrue), Decision), ((Variable 2, BTrue), Reason [Variable (-1), Variable 2])])]) [([Variable (-1), Variable 2], [Variable (-1), Variable 2]), ([Variable (-1), Variable (-2)], [Variable (-1), Variable (-2)])] Map.Empty
-analyzeConflict :: Level -> Clause -> MappedTupleList -> ClauseList -> ActivityMap -> (Level, ClauseList, MappedTupleList, ActivityMap)
-analyzeConflict lvl emptyClause mtl cList aMap
+analyzeConflict :: Level -> Clause -> MappedTupleList -> ActivityMap -> (Level, Clause, MappedTupleList, ActivityMap)
+analyzeConflict lvl emptyClause mtl aMap
 
     -- Case: Given Level is 0. Return -1
-    | getLevel lvl == 0 = (Level (-1), cList, mtl, aMap)
+    | getLevel lvl == 0 = (Level (-1), [], mtl, aMap)
     | otherwise = (decreaseLvl lvl, fst newCl, updatedMtl, snd newCl)
     where reason = calcReason lvl emptyClause mtl
           updatedMtl = deleteLvl lvl mtl
-          newCl = addClause reason cList aMap
+          newCl = addClause reason aMap
 
 -- | Calculate the reason of conflict. Uses calcReason' to calculate the 1UIP Clause and returns it.
 --   E.G.
@@ -67,12 +67,12 @@ calcReason' cl tcl
 
 -- | Add the newly calculated Clause to the ClauseList and
 --   update the ActivityMap
-addClause :: Clause -> ClauseList -> ActivityMap  -> (ClauseList, ActivityMap)
-addClause cl cList aMap
-    | null cl = (cList, aMap)
+addClause :: Clause -> ActivityMap  -> (Clause, ActivityMap)
+addClause cl aMap
+    | null cl = (cl, aMap)
     | otherwise = (updated, updatedAMap)
     where nubCl = rmdups cl
-          updated = (nubCl, nubCl, LEARNED) : cList
+          updated = nubCl
           updatedAMap = updateActivity nubCl aMap
 
 -- | Creates the new clause. Works by applying union to

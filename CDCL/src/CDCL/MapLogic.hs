@@ -32,7 +32,7 @@ pushToMappedTupleList maptl lvl tupel reason
     | otherwise = maptl
     where f = Map.lookup lvl maptl
           check = filter (((== fst tupel) . fst).fst) (fromMaybe [] f)
-          m x = Just (fromMaybe [] f ++ [(tupel, reason)])
+          m x = Just (fromMaybe [] f ++ [(tupel, reason)]) -- Not allowed to change "++" to ":", as it will change the decision map
 
 -- | Function removes the given level
 deleteLvl :: Level -> MappedTupleList  -> MappedTupleList

@@ -79,7 +79,7 @@ data Origin =
     deriving (Show, Eq, Ord)
 
 -- | Variable defined as Integer
-newtype Variable = Variable Integer
+newtype Variable = Var Integer
     deriving (Show, Eq, Ord)
 
 -- | Level is associated with the decision level.
@@ -150,11 +150,11 @@ getLevel (Level i) = i
 
 -- | Get the Integervalue of the given Variable
 getVariableValue :: Variable -> Integer
-getVariableValue (Variable x) = x
+getVariableValue (Var x) = x
 
 -- | Multiply the given Integervalue with -1
 negateVariableValue :: Variable -> Variable
-negateVariableValue (Variable x) = Variable (-x)
+negateVariableValue (Var x) = Var (-x)
 
 -- | Get the Integervalue of the given Activity
 getActivityValue :: Activity -> Integer
@@ -176,8 +176,8 @@ transformClauseList (xs : ys)
 -- | Transforms a list of Integers into a ReducedClauseAndOGClause
 transformClause :: [Integer] -> Clause -> ReducedClauseAndOGClause
 transformClause (xs : ys) varList
-    | null ys = (varList ++ [Variable xs], varList ++ [Variable xs], ORIGINAL)
-    | otherwise = transformClause ys (varList ++ [Variable xs])
+    | null ys = (Var xs : varList, Var xs : varList, ORIGINAL)
+    | otherwise = transformClause ys (Var xs : varList)
 -- | Checks if Interpretresult contains NOK.
 --   Return true if it does, else false
 getNOK :: InterpretResult -> Bool
@@ -205,10 +205,12 @@ getOGFromReducedClauseAndOGClause (_, x, _) = x
 getOriginFromReducedClauseAndOGClause :: ReducedClauseAndOGClause -> Origin
 getOriginFromReducedClauseAndOGClause (_, _, x) = x
 
-transformToLearnedClauses :: ClauseList -> [Clause] -> [Clause]
-transformToLearnedClauses ys learned
-  = foldl
-      (\ learned xs
-         -> getOGFromReducedClauseAndOGClause xs
-              : learned)
-      learned ys
+transformToLearnedClauses :: ClauseList -> [[Integer]] -> [[Integer]]
+-- transformToLearnedClauses ys learned
+--   = foldl
+--       (\ learned xs
+--          -> getOGFromReducedClauseAndOGClause xs
+--               : learned)
+--       learned ys
+transformToLearnedClauses (xs : ys) learnedList = transformToLearnedClauses ys (map getVariableValue (getOGFromReducedClauseAndOGClause xs) : learnedList)
+transformToLearnedClauses [] learned = learned
