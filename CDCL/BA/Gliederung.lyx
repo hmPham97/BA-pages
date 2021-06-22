@@ -101,11 +101,11 @@ Hauptteil
 
 \begin_deeper
 \begin_layout Enumerate
-Funktionalle Programmierung(?)
+Funktionalle Programmierung(?) 2
 \end_layout
 
 \begin_layout Enumerate
-SAT
+SAT 3
 \end_layout
 
 \begin_deeper
@@ -127,19 +127,19 @@ MiniSAT / Related Works
 
 \end_deeper
 \begin_layout Enumerate
-CDCL
+CDCL 4
 \end_layout
 
 \begin_layout Enumerate
-Implementierung
+Implementierung 5
 \end_layout
 
 \begin_layout Enumerate
-Performance-Vergleiche mit anderen CDCL-Solver (?)
+Performance-Vergleiche mit anderen CDCL-Solver (?) 6
 \end_layout
 
 \begin_layout Enumerate
-Verbesserungsmöglichkeiten für die Implementierung
+Verbesserungsmöglichkeiten für die Implementierung 7
 \end_layout
 
 \end_deeper

@@ -5,7 +5,11 @@
 \save_transient_properties true
 \origin unavailable
 \textclass scrbook
+\begin_preamble
+
+\end_preamble
 \use_default_options true
+\master Thesis_CDCL_SAT_Solver.lyx
 \maintain_unincluded_children false
 \language ngerman
 \language_package default
@@ -94,65 +98,62 @@
 
 \begin_body
 
-\begin_layout Standard
-\begin_inset CommandInset include
-LatexCommand include
-filename "Titelseite.lyx"
+\begin_layout Chapter
+Funktionale Programmierung
+\end_layout
 
+\begin_layout Paragraph
+In diesem Abschnitt werden die zwei verschiedenen Programmierparadigmen
+ und die Programmiersprache Haskell kurz vorgestellt.
+ Anschließend wird erläutert, wieso funktionale Programmierung von Bedeutung
+ ist.
+\begin_inset Newline newline
 \end_inset
 
 
 \end_layout
 
 \begin_layout Standard
-\begin_inset CommandInset toc
-LatexCommand tableofcontents
+Programmiersprachen können in deklarativer oder imperativer Sprache untergeteilt
+ werden.
+ 
+\begin_inset Quotes gld
+\end_inset
+
+Imperativen Programme beschreiben einen Kontrollfluss durch Operationen
+ auf Zuständen
+\begin_inset Quotes grd
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "noauthor_was_nodate"
+literal "false"
 
 \end_inset
 
+.
+ Dazu gehören Sprachen wie z.B.
+ Java, C++ oder C.
+ Dagegen beschreiben deklarative Sprachen 
+\begin_inset Quotes gld
+\end_inset
 
-\end_layout
+Berechnungen durch eine Ein-/Ausgaberelation
+\begin_inset Quotes grd
+\end_inset
 
-\begin_layout Standard
-\begin_inset CommandInset include
-LatexCommand include
-filename "Einleitung.lyx"
+ 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "noauthor_was_nodate"
+literal "false"
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset include
-LatexCommand include
-filename "2_Funktionale_Programmierung.lyx"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset include
-LatexCommand include
-filename "Codedokumentation.lyx"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset bibtex
-LatexCommand bibtex
-btprint "btPrintAll"
-bibfiles "C:/Users/nam02/Desktop/Meine Bibliothek/Meine Bibliothek"
-options "biblatex"
-
-\end_inset
-
-
+.
+ 
 \end_layout
 
 \end_body

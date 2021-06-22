@@ -109,10 +109,10 @@ Satz von Cook
 \begin_layout Standard
 Die Entwicklung von effizienten SAT-Solvern ist seit dem Jahr 2002 stetig
  angestiegen.
- Jedoch wird für diese Solver hauptsächlich objektorientierte Programmiersprache
-n verwendet.
+ Jedoch wird für die Programmierung dieser Solver hauptsächlich eine objektorien
+tierte Programmiersprachen verwendet.
  Im Gegensatz dazu ist der Anteil von SAT-Solvern, welche komplett in einer
- rein funktionallen Programmiersprache geschriebe wurden, sehr gering.
+ rein funktionalen Programmiersprache geschriebe wurden, sehr gering.
  
 \begin_inset Newline newline
 \end_inset
@@ -130,7 +130,7 @@ Conflict-driven clause learning
 \begin_inset Quotes grd
 \end_inset
 
- (CDCL) SAT-Solvers in einer rein funktionellen Programmiersprache aussehen
+ (CDCL) SAT-Solvers in einer rein funktionalen Programmiersprache aussehen
  könnte.
  Das Ziel dieser Arbeit ist eine erste Implementierung eines CDCL SAT-Solvers
  in Haskell und mögliche Vorschläge wie deren Implementierung verbessert
@@ -143,7 +143,10 @@ Conflict-driven clause learning
 \end_layout
 
 \begin_layout Standard
-Anhand einer Literaturarbeit werden bestehende Algorithm untersucht u
+Anhand einer Literaturarbeit werden bestehende Algorithmen untersucht, wofür
+ verschiedene Arbeiten über CDCL und näherstehende Arbeiten betrachtet werden.
+ Die Literaturarbeit wurde gewählt, um bestehende Erforschungen in diesem
+ Fachbereich zu erhalten.
 \begin_inset Newline newline
 \end_inset
 
@@ -151,15 +154,34 @@ Anhand einer Literaturarbeit werden bestehende Algorithm untersucht u
 \end_layout
 
 \begin_layout Standard
-In dieser Arbeit werden zuerst SAT und ihre Solver erläutert, wobei auch
- ein Einblick in die SAT-Competitions gewährt wird.
- Im zweiten Kapitel wird der Unterschied zwischen dem CDCL-Algorithmus und
- dem Davis-Putnam-Logemann-Loveland-Algorithmus (DPLL) erläutert.
- Das dritte Kapitel beinhaltet eine Illustrierung für eine mögliche Umsetzung
- eines CDCL SAT-Solvers.
- Ein Vergleich der Implementierung mit anderen CDCL SAT-Solvern wird im
- vierten Kapitel durgeführt.
- 
+In dieser Arbeit werden zuerst die verschiedenen Programmierparadigmen und
+ die verwendete Programmiersprache Haskell in Kapitel 2 erläutert.
+ Daraufhin werden SAT und verschiedene SAT-Solver in Kapitel 3 vorgestellt,
+ wobei auch ein Einblick in die SAT-Competitions gewährt wird.
+ Danach wird der Unterschied zwischen dem CDCL-Algorithmus und dem Davis-Putnam-
+Logemann-Loveland-Algorithmus (DPLL) in Kapitel 4 erläutert.
+ Das darauffolgenden Kapitel 5 beinhaltet eine Beschreibung für eine erste
+ Umsetzung eines CDCL SAT-Solvers.
+ Ein Vergleich der Implementierung mit anderen CDCL SAT-Solvern wird in
+ Kapitel 6 durgeführt.
+ Anschließlich werden in Kapitel 7 mögliche Verbesserungsmöglichkeiten und
+ Algorithm für die Implementierung vorgestellt.
+ Im letzten Teil der Arbeit (Kapitel 8) wird ein Fazit über die gewonnenen
+ Erkenntnisse gezogen als auch ein Ausblick über Verbesserungsmöglichkeiten
+ für eine bessere Effizienz des SAT-Solvers gegeben.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Kapitel 7 vielleicht streichen?
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_body
