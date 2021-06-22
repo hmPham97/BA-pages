@@ -12,8 +12,16 @@ main = do
         h <- getLine
         putStrLn ("Reading file " ++ h)
         putStrLn ""
-        putStrLn "Do you want more statistics? Enter \'yes\' or \'no\'\n"
-        putStrLn "Statistic which are aditionally shown are:\nList of Decisions\nAmount of learned Clauses and the clause itself\nThe CPU time\n"
+        putStrLn "Do you want more statistics? Enter \'yes\',\'no\' or \'help\'\n"
         check <- getLine 
-        readCdclFile h check
+        checkInput h check
         --readCdclFile "test.cnf"
+
+checkInput :: String -> String -> IO()
+checkInput handle input = 
+        if input == "help" then do
+                putStrLn "Statistic which are aditionally shown are:\nList of Decisions\nAmount of learned Clauses and the clause itself\nThe CPU time\n"
+                putStrLn "Enter \'yes\',\'no\' or \'help\'\n"
+                check <- getLine
+                checkInput handle check
+        else readCdclFile handle input
