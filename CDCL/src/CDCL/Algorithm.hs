@@ -62,6 +62,7 @@ cdcl clist stats
                   transformedList
                   transformedList
                   []
+                  []
                   transformedList
                   hardCoded
                   0
@@ -89,6 +90,7 @@ cdcl'
   -> ClauseList
   -> ClauseList
   -> [Clause]
+  -> [Clause]
   -> ClauseList
   -> Period
   -> Integer
@@ -96,7 +98,7 @@ cdcl'
   -> Integer
   -> Bool
   -> CDCLResult
-cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist learnedClauses clist period conflictIteration upperBound currentBoundary stats
+cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist learnedClauses confClauses clist period conflictIteration upperBound currentBoundary stats
 
     -- First and Second Case are part of Restart Algorithm with Luby Sequence
     -- current conflictiteration has same value like the current upper boundary. Restart the algorithm with higher upper boundary
@@ -107,6 +109,7 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist learnedClauses clist
                                               clistOG
                                               learnedClist
                                               learnedClauses
+                                              confClauses
                                               learnedClist
                                               hardCoded
                                               0
@@ -122,6 +125,7 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist learnedClauses clist
                                                    clistOG
                                                    learnedClist
                                                    learnedClauses
+                                                   confClauses
                                                    learnedClist
                                                    hardCoded
                                                    0
@@ -134,14 +138,16 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist learnedClauses clist
         let empty    = getEmptyClause interpreted
             analyzed = analyzeConflict (Level lvl) empty updatedMap halvedActivity
         in
-          if getLevelFromAnalyze analyzed == Level (-1) then UNSAT
+          if getLevelFromAnalyze analyzed == Level (-1) then do
+              if not stats then UNSAT else UNSAT_WITH_STATS confClauses
                 else cdcl' (getActivityMapFromAnalyze analyzed)
                            (getLevelFromAnalyze analyzed)
                            (makeTupleClauseListFromAnalyze analyzed)
                            (getMappedTupleListFromAnalyze analyzed)
                            clistOG
                            ((getClauseFromAnalyze analyzed, getClauseFromAnalyze analyzed, LEARNED) : learnedClist) -- learnedClist
-                           (getClauseFromAnalyze analyzed : learnedClauses)
+                           (getClauseFromAnalyze analyzed : learnedClauses) -- learnedClauses
+                           (empty : confClauses) 
                            (calculateClauseList ((getClauseFromAnalyze analyzed, getClauseFromAnalyze analyzed, LEARNED) : learnedClist)
                            (makeTupleClauseListFromAnalyze analyzed))
                            periodUpdate2
@@ -160,6 +166,7 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist learnedClauses clist
                         clistOG
                         learnedClist
                         learnedClauses
+                        confClauses
                         (calculateClauseList (getClauseListFromTriTuple res) list)
                         periodUpdate2
                         conflictIteration
