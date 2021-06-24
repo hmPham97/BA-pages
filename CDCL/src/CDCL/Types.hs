@@ -26,7 +26,7 @@ data CDCLResult
         -- | Formula not resolved
         UNSAT
     |
-        UNSAT_WITH_STATS [Clause]
+        UNSAT_WITH_STATS [Clause] [Clause]
     deriving(Eq, Ord)
 
 instance Show CDCLResult where
@@ -34,7 +34,7 @@ instance Show CDCLResult where
     show (SAT_WITH_STATS tl mtl int1 learned) = "Result:\nSAT " ++ show tl ++ "\n\nStatistics:" ++ "\n\nDecisions:\n"
      ++ show mtl ++ "\n\nAmount of learned Clauses: " ++ show int1 ++ "\nLearned Clauses: " ++ show learned
     show UNSAT = "UNSAT"
-    show (UNSAT_WITH_STATS cl) = "UNSAT. Essential Clauses which caused the UNSAT: \n" ++ show cl  
+    show (UNSAT_WITH_STATS cl conf) = "UNSAT. Learned Clauses: \n" ++ show cl  ++ "\nClauses which caused conflict:\n" ++ show conf
 
 -- | Datatype for Reason
 --   Shows if it was a decision or if the set Variable has a clause as Reason
