@@ -104,13 +104,14 @@ Funktionale Programmierung
 
 \begin_layout Paragraph
 In diesem Abschnitt werden die zwei verschiedenen Programmierparadigmen
+ (imperative und deklarative Programmierung), funktionale Programmierung
  und die Programmiersprache Haskell kurz vorgestellt.
  Anschließend wird erläutert, wieso funktionale Programmierung von Bedeutung
  ist.
-\begin_inset Newline newline
-\end_inset
+\end_layout
 
-
+\begin_layout Section
+Imperative Programmierung
 \end_layout
 
 \begin_layout Standard
@@ -134,9 +135,43 @@ literal "false"
 \end_inset
 
 .
- Dazu gehören Sprachen wie z.B.
+ Dies bedeutet dass der Ablauf des Programmes durch die Reihenfolge der
+ Befehle maßgeblich für das erwartete Ergebnis ist 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "augsten_was_nodate"
+literal "false"
+
+\end_inset
+
+.
+ Sprachen, die zu diesem Paradigma gehören, sind z.B.
  Java, C++ oder C.
- Dagegen beschreiben deklarative Sprachen 
+\end_layout
+
+\begin_layout Standard
+Imperative Programmierung kann in weitere Paradigmen unterteilt werden.
+ Diese sind z.B.
+\end_layout
+
+\begin_layout Itemize
+strukturierte Programmierung
+\end_layout
+
+\begin_layout Itemize
+objektoriertierte Programmierung
+\end_layout
+
+\begin_layout Itemize
+modulare Programmierung
+\end_layout
+
+\begin_layout Section
+Deklarative Programmierung
+\end_layout
+
+\begin_layout Standard
+Deklarative Sprachen beschreiben 
 \begin_inset Quotes gld
 \end_inset
 
@@ -144,7 +179,10 @@ Berechnungen durch eine Ein-/Ausgaberelation
 \begin_inset Quotes grd
 \end_inset
 
- 
+.
+ Anders als imperative Sprachen kann der Programmablauf durch die Reihenfolge
+ der Funktionen beeinflusst werden, jedoch ist es nicht explizit möglich
+ auf den Kontrollfluss zuzugreifen 
 \begin_inset CommandInset citation
 LatexCommand citeyear
 key "noauthor_was_nodate"
@@ -154,6 +192,33 @@ literal "false"
 
 .
  
+\end_layout
+
+\begin_layout Standard
+Die deklarative Programmierung wird wie die imperative Programmierung auch
+ in verschiedene Unterkategorien eingeteilt.
+ Diese sind z.B.
+\end_layout
+
+\begin_layout Itemize
+logische Programmierung
+\end_layout
+
+\begin_layout Itemize
+Constraint Programmierung
+\end_layout
+
+\begin_layout Itemize
+funktionale Programmierung
+\end_layout
+
+\begin_layout Standard
+Prolog, Lisp und Haskell sind beispielhafte Programmiersprachen, die zu
+ diesem Paradigma gehören.
+\end_layout
+
+\begin_layout Section
+Funktionale Programmierung
 \end_layout
 
 \end_body
