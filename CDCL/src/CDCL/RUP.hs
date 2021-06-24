@@ -1,3 +1,7 @@
+-- | Dieses Modul wird wahrscheinlich gelöscht
+-- | Dieses Modul wird wahrscheinlich gelöscht
+-- | Dieses Modul wird wahrscheinlich gelöscht
+
 module CDCL.RUP where 
 
 import CDCL.Types
