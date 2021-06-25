@@ -30,7 +30,7 @@ analyzeConflict :: Level -> Clause -> MappedTupleList -> ActivityMap -> (Level, 
 analyzeConflict lvl emptyClause mtl aMap
 
     -- Case: Given Level is 0. Return -1
-    | getLevel lvl == 0 = (Level (-1), [], mtl, aMap)
+    | getLevel lvl == 0 = (Level (-1), fst newCl, mtl, aMap)
     | otherwise = (decreaseLvl lvl, fst newCl, updatedMtl, snd newCl)
     where reason = calcReason lvl emptyClause mtl
           updatedMtl = deleteLvl lvl mtl
