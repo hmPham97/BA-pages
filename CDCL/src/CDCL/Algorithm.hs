@@ -139,7 +139,7 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist learnedClauses confC
             analyzed = analyzeConflict (Level lvl) empty updatedMap halvedActivity
         in
           if getLevelFromAnalyze analyzed == Level (-1) then do
-              if not stats then UNSAT else UNSAT_WITH_STATS (getClauseFromAnalyze analyzed :learnedClauses) (empty :confClauses)
+              if not stats then UNSAT else UNSAT_WITH_STATS (reverse (getClauseFromAnalyze analyzed :learnedClauses)) (reverse (empty :confClauses))
                 else cdcl' (getActivityMapFromAnalyze analyzed)
                            (getLevelFromAnalyze analyzed)
                            (makeTupleClauseListFromAnalyze analyzed)

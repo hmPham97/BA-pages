@@ -115,14 +115,11 @@ Imperative Programmierung
 \end_layout
 
 \begin_layout Standard
-Programmiersprachen können in deklarativer oder imperativer Sprache untergeteilt
- werden.
- 
 \begin_inset Quotes gld
 \end_inset
 
-Imperativen Programme beschreiben einen Kontrollfluss durch Operationen
- auf Zuständen
+Imperative Programme beschreiben einen Kontrollfluss durch Operationen auf
+ Zuständen
 \begin_inset Quotes grd
 \end_inset
 
@@ -150,20 +147,10 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-Imperative Programmierung kann in weitere Paradigmen unterteilt werden.
- Diese sind z.B.
-\end_layout
-
-\begin_layout Itemize
-strukturierte Programmierung
-\end_layout
-
-\begin_layout Itemize
-objektoriertierte Programmierung
-\end_layout
-
-\begin_layout Itemize
-modulare Programmierung
+Die imperative Programmierung kann in weitere Paradigmen unterteilt werden,
+ wie z.B.
+ strukturierte Programmierung, objektoriertierte Programmierung, modulare
+ Programmierung
 \end_layout
 
 \begin_layout Section
@@ -198,27 +185,48 @@ literal "false"
 Die deklarative Programmierung wird wie die imperative Programmierung auch
  in verschiedene Unterkategorien eingeteilt.
  Diese sind z.B.
-\end_layout
+ logische Programmierung, Constraint Programmierung und funktionale Programmieru
+ng
+\begin_inset space ~
+\end_inset
 
-\begin_layout Itemize
-logische Programmierung
-\end_layout
 
-\begin_layout Itemize
-Constraint Programmierung
-\end_layout
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "augsten_was_nodate"
+literal "false"
 
-\begin_layout Itemize
-funktionale Programmierung
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
-Prolog, Lisp und Haskell sind beispielhafte Programmiersprachen, die zu
- diesem Paradigma gehören.
+Prolog, Lisp und SQL sind beispielhafte Programmiersprachen, die zu diesem
+ Paradigma gehören.
 \end_layout
 
 \begin_layout Section
 Funktionale Programmierung
+\end_layout
+
+\begin_layout Standard
+Wie im vorherigen Abschnitt erwähnt wurde, ist die funktionale Programmierung
+ ein Teil von der deklarativen Programmierparadigmen.
+ Ein Programm in diesem Schema besteht hauptsächlich aus einer Zusammensetzung
+ von Funktionen, verwendet unveränderliche Daten und vermeidet Zustandsänderunge
+n.
+\end_layout
+
+\begin_layout Standard
+Die Programmierung mit funktionalen Sprachen bringt mehrere Vorteile.
+ Beispiele für solche Vorteile sind Lazy Evaluation, Seiteneffektfrei und
+ Effizienz.
+ 
+\end_layout
+
+\begin_layout Standard
+Haskell ist eine der weitverbreitesten funktionalen Sprachen, welche 
 \end_layout
 
 \end_body

@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: b842b9a47cf2c2cf7019a520e48b45a20ed6fc835224ec801e0d9cbc34c3b183
+-- hash: 76164f7d59de8f843135988c83656a790c261031b785fe377990bfeaa60e183f
 
 name:           CDCL
 version:        0.1.0.0
@@ -32,7 +32,6 @@ library
       CDCL.Conflict
       CDCL.Decisionalalgorithm
       CDCL.MapLogic
-      CDCL.RUP
       CDCL.Types
       CDCL.Unitpropagation
   hs-source-dirs:
@@ -40,6 +39,7 @@ library
   build-depends:
       base >=4.7 && <5
     , containers
+    , optparse-applicative
     , timeit
   if false
     other-modules:
@@ -55,6 +55,7 @@ executable CDCL-exe
       CDCL
     , base >=4.7 && <5
     , containers
+    , optparse-applicative
     , timeit
   if false
     other-modules:
@@ -75,6 +76,7 @@ test-suite CDCL-test
     , base >=4.7 && <5
     , containers
     , hspec
+    , optparse-applicative
     , picosat
     , timeit
   if false
