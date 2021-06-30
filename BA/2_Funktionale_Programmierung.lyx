@@ -220,13 +220,65 @@ n.
 
 \begin_layout Standard
 Die Programmierung mit funktionalen Sprachen bringt mehrere Vorteile.
- Beispiele für solche Vorteile sind Lazy Evaluation, Seiteneffektfrei und
- Effizienz.
+ Beispiele für solche Vorteile sind 
+\begin_inset Quotes gld
+\end_inset
+
+Lazy Evaluation
+\begin_inset Quotes grd
+\end_inset
+
+, frei von Seiteneffekten und Effizienz.
  
 \end_layout
 
+\begin_layout Section
+Haskell
+\end_layout
+
 \begin_layout Standard
-Haskell ist eine der weitverbreitesten funktionalen Sprachen, welche 
+Haskell ist eine der weitverbreitesten funktionalen Sprachen, die 1988 ihren
+ Namen im 
+\begin_inset Quotes gld
+\end_inset
+
+Yale Meeting
+\begin_inset Quotes grd
+\end_inset
+
+ erhielt.
+ Der Name kam vom Mathematiker Haskell B.
+ Curry, wessen Arbeit einer der Anstöße zur Entwicklung von Haskell geführt
+ hat.
+ Im Jahr 1987 begann der Haskell Design Prozess in der 
+\begin_inset Quotes gld
+\end_inset
+
+Functional Programming and Computer Architecture Conference
+\begin_inset Quotes grd
+\end_inset
+
+ (FPCA) und am 01.
+ April 1990 wurde der 
+\begin_inset Quotes gld
+\end_inset
+
+Haskell version 1.0 report
+\begin_inset Quotes grd
+\end_inset
+
+ veröffentlicht.
+ Über die Jahre entwickelte sich die Sprache weiter und es wurde im Februar
+ 1999 der 
+\begin_inset Quotes gld
+\end_inset
+
+Haskell 98 Report
+\begin_inset Quotes grd
+\end_inset
+
+ veröffentlicht, wobei eine Revision im Dezember 2002 veröffentlicht wurde.
+ 
 \end_layout
 
 \end_body

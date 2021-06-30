@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//AdvaSoft//DTD HTML 3.2 extended 961018//EN"> <html><!--
+ Page saved with SingleFile 
+ url: https://www.infosun.fim.uni-passau.de/cl/lehre/funcprog05/wasistfp.html 
+ saved date: Tue Jun 22 2021 13:11:26 GMT+0200 (Mitteleuropäische Sommerzeit)
+--><meta charset=utf-8>
+<title>Was ist funktionale Programmierung?</title>
+<link type=image/x-icon rel="shortcut icon" href="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><link rel=canonical href=https://www.infosun.fim.uni-passau.de/cl/lehre/funcprog05/wasistfp.html></head>
+<body>
+<a href=http://www.uni-passau.de/>[Uni-Passau]</a>
+<a href=http://www.fmi.uni-passau.de/fmi>[FMI]</a>
+<a href=http://www.infosun.fim.uni-passau.de/>[Infosun]</a>
+<a href=http://www.infosun.fim.uni-passau.de/cl/>
+[Lehrstuhl für Programmierung]</a>
+<a href=http://www.infosun.fim.uni-passau.de/cl/passau/>[Lehrtätigkeit]</a>
+<hr>
+ 
+<h2><a name=FuncPro>Was ist <b>funktionale</b> Programmierung?</a></h2>
+Die Programmiersprachen kann man wie folgt einteilen. Sprachen für
+Spezialanwendungen, auch mit hohem Verbreitungsgrad (Datenbanken)
+sind darin nicht berücksichtigt.
+<ul>
+ <li><b>imperative Sprachen</b> (Fortran,C,C++,Java):<br>
+Imperative Programme beschreiben Programmabläufe durch Operationen
+auf Zuständen. Das Programm wird durch den Kontrollfluß gegliedert.
+Objektorientierung bewirkt eine Verbesserung durch Aufteilung des
+Zustandes und des Kontrollflusses auf die Objekte.</li>
+ <li><b>deklarative Sprachen:</b><br>
+Deklarative Programme beschreiben Berechnungen durch eine 
+Ein-/Ausgaberelation. Der Kontrollfluß ist dem Programmierer
+nicht explizit zugänglich; der Ablauf der Berechnung kann aber trotzdem
+durch den Programmaufbau beeinflußt werden. 
+<ul>
+ <li><b>Logiksprachen</b> (Prolog):<br>
+Sie bieten eine automatische Suche des Lösungsweges durch
+Unifikation und Backtracking.</li>
+ <li><b>funktionale Sprachen</b> (LISP,ML,Haskell):<br>
+Ein funktionales Programm ist eine Komposition von Funktionen.
+Die funktionalen Sprachen unterscheiden sich sehr stark in ihren
+Eigenschaften und Möglichkeiten.
+</ul>
+</ul>
+ In der Vorlesung wird die
+funktionale Sprache <a href=http://www.haskell.org/>Haskell</a> 
+verwendet, die folgende Eigenschaften hat:
+<ul>
+<li> Funktionen höherer Ordnung: Sie erlauben eine starke
+Wiederverwendung von Programmteilen.
+<li> Reinheit: Die Abwesenheit von Seiteneffekten erleichtert Beweise
+über Programmeigenschaften und optimierende Programmtransformationen.
+<li> Starkes Typsystem: Viele Fehler können bereits durch den Compiler
+erkannt werden.
+<li> Auswertung nach Bedarf (Laziness): Berechnungen werden nur dann
+durchgeführt, wenn ihr Ergebnis benötigt wird.
+</ul>
+<table border>
+ <caption align=top>Güte einiger Programmiersprachen (subjektiv)</caption>
+ <tbody><tr><td align=center> <b>Eigenschaft</b> <td align=center> C <td align=center> Java <td align=center> Fortran <td align=center> Prolog <td align=center> LISP <td align=center> ML <td align=center> Haskell </tr>
+ <tr><td align=center> Codeeffizienz <td align=center> + <td align=center> o <td align=center> + <td align=center> - <td align=center> o <td align=center> - <td align=center> o </tr>
+ <tr><td align=center> Toolsupport <td align=center> + <td align=center> + <td align=center> o <td align=center> - <td align=center> - <td align=center> o <td align=center> + </tr>
+ <tr><td align=center> Programmentwicklung <td align=center> - <td align=center> + <td align=center> o <td align=center> + <td align=center> - <td align=center> o <td align=center> + </tr>
+ <tr><td align=center> Wartbarkeit <td align=center> - <td align=center> o <td align=center> - <td align=center> + <td align=center> - <td align=center> + <td align=center> + </tr>
+ <tr><td align=center> I/O-Flexibilität <td align=center> + <td align=center> + <td align=center> o <td align=center> - <td align=center> o <td align=center> o <td align=center> o </tr>
+ <tr><td align=center> Speicherkontrolle <td align=center> + <td align=center> o <td align=center> + <td align=center> - <td align=center> - <td align=center> - <td align=center> o </tr>
+ 
+ <tr><td align=center> Seiteneffektfreiheit <td align=center> - <td align=center> - <td align=center> - <td align=center> o <td align=center> - <td align=center> o <td align=center> + </tr>
+ </table>
+ 
+<br><br>
+<table border>
+ <caption align=top> Ideale Anwendungsgebiete einiger Programmiersprachen: </caption>
+ <tbody><tr><td> <b>Sprache</b> <td> <b>Anwendungsgebiete</b> </tr>
+ <tr><td> C <td> Hardware-Treiber, Betriebssystemkern, Compiler-Zwischensprache </tr>
+ <tr><td> Java <td> Internet-Anwendungen, Graphische Benutzeroberflächen </tr>
+ <tr><td> Fortran <td> Lineare Algebra, Numerisches Lösen von DGl.Sys. </tr>
+ <tr><td> Prolog <td> Spracherkennung, Theorembeweiser </tr>
+ <tr><td> LISP <td> Skriptsprache, z.B. für Editoren, Computer-Algebra Systeme </tr>
+ <tr><td> ML <td> Theorembeweiser </tr>
+ <tr><td> Haskell <td> Rapid Prototyping, Compiler, Hardware-Simulation </tr>
+</table>
+<h2><a name=http://www.infosun.fim.uni-passau.de/cl/passau/funcprog01/wasistfp#Motivation>Warum <b>funktional</b> programmieren?</a></h2>
+siehe auch: <a href=https://www.infosun.fim.uni-passau.de/cl/lehre/funcprog05/whyfp.html>Why Functional Programming Matters</a> von John Hughes
+<br><br>
+Die funktionale Programmierung ist am leistungsstärksten für den
+Entwurf und die Implementierung von Berechnungsaufgaben, insbesondere solcher
+symbolischer Natur.
+Die funktionale Programmierung ermöglicht es,
+ein Programm als Komposition von Funktionsblöcken zu konstruieren
+und relativ schnell eine ausführbare Implementierung
+zu bekommen. Man kann dann die Implementierung
+schrittweise an den Stellen verfeinern, die effizienzkritisch sind.
+<br><br>
+Funktionale Programme galten lange Zeit als ineffizient und inflexibel.
+Die Situation hat sich inzwischen durch die Verfügbarkeit 
+leistungsfähiger Compiler geändert. 
+In Extremfällen kann auch eine Implementierung kleiner 
+Programmteile in einer hardwarenahen Programmiersprache wie C in
+Erwägung gezogen werden. Die Verbindung zwischen Haskell und C
+läuft in solchen Fällen über ein 
+Programmiersprachen-Interface. 
+<br><br>
+Besonders wichtig ist das Erlernen fortgeschrittener funktionaler
+Programmiertechniken. Die direkte Übertragung imperativen
+Programmierstils in die funktionale Programmierung führt zu
+ineffizienten und schwer lesbaren Programmen.
+In der modernen funktionalen Programmierung werden Rekursionen durch 
+ausdrucksstarke Programmskelette ersetzt und es stehen effiziente 
+Datenstrukturen zur Verfügung. Die Implementierung funktionaler 
+Programmiersprachen ist allerdings noch lange nicht ausgereizt,
+deshalb muß man zur Zeit noch Effizienzeinschränkungen
+gegenüber hardwarenahen Implementierungen in C oder Fortran 
+in Kauf nehmen. Der Vorteil der funktionalen Programmierung liegt
+aber in der wesentlich kürzeren Entwicklungszeit.
+<br><br>
+<address>
+<a href=http://www.infosun.fim.uni-passau.de/copyright.html>(C)opyright</a>
+by University of Passau
+</address>
