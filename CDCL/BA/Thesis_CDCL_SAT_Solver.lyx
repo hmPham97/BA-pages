@@ -26,7 +26,7 @@
 \graphics default
 \default_output_format default
 \output_sync 0
-\bibtex_command bibtex
+\bibtex_command biber
 \index_command default
 \float_placement H
 \paperfontsize 12
@@ -53,9 +53,11 @@
 \use_package stackrel 1
 \use_package stmaryrd 1
 \use_package undertilde 1
-\cite_engine natbib
+\cite_engine biblatex
 \cite_engine_type authoryear
 \biblio_style plain
+\biblatex_bibstyle numeric
+\biblatex_citestyle numeric
 \use_bibtopic false
 \use_indices false
 \paperorientation portrait
@@ -122,7 +124,13 @@ filename "Einleitung.lyx"
 \end_layout
 
 \begin_layout Standard
-Anhang.....
+\begin_inset CommandInset include
+LatexCommand include
+filename "2_Funktionale_Programmierung.lyx"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -136,15 +144,11 @@ filename "Codedokumentation.lyx"
 \end_layout
 
 \begin_layout Standard
-Anhang.....
-\end_layout
-
-\begin_layout Standard
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
 btprint "btPrintAll"
 bibfiles "C:/Users/nam02/Desktop/Meine Bibliothek/Meine Bibliothek"
-options "plain"
+options "biblatex"
 
 \end_inset
 

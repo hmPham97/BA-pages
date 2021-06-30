@@ -1,3 +1,4 @@
+{-# OPTIONS_GHC -Wno-incomplete-patterns #-}
 ---------------------------------------------------------------------
 -- |
 -- Module      :   CDCL.Decisionalgorithm
@@ -16,7 +17,7 @@ import           CDCL.Types (Activity (..), ActivityMap, BoolVal (..), Clause,
                      ClauseList, Reason (..), Tuple, TupleClause,
                      Variable (..), VariableActivity, divideActivity,
                      getActivityValue, getVariableValue, increaseActivity,
-                     negateVariableValue)
+                     negateVariableValue, getClauseFromReducedClauseAndOGClause)
 import qualified CDCL.Types as TypeC
 import           Data.List
 import           Data.Map.Strict (Map)
@@ -31,7 +32,7 @@ initialActivity :: ClauseList -> ActivityMap -> ActivityMap
 initialActivity cList@(xs : ys) aList
     | not (null ys) = initialActivity ys updated
     | otherwise = updated
-    where updated = updateActivity (fst xs) aList
+    where updated = updateActivity (getClauseFromReducedClauseAndOGClause xs) aList
 -- initialActivity x aList = updateActivity (fst (head x)) aList
 
 -- | updates the activitymap.
@@ -76,7 +77,7 @@ getHighestActivity cList@(xs : ys) aMap val
     -- Case: Found activity has the same value
     | getActivityValue (snd firstVal) == getActivityValue (snd foundAct) = getHighestActivity ys aMap list
     where firstVal = head val
-          highestValInClause = getHighestActivity' (fst xs) aMap val
+          highestValInClause = getHighestActivity' (getClauseFromReducedClauseAndOGClause xs) aMap val
           firstActVal = getActivityValue (snd firstVal)
           foundAct = head highestValInClause
           list = nub (val ++ highestValInClause)
@@ -139,10 +140,10 @@ getShortestClauseViaActivity (xs : ys) checkC vAct
 
     -- Case: See 3rd Case but ther are still other clauses which are either the same length or shorter.
     | xsLen < headLen = getShortestClauseViaActivity filterClause [xs] vAct
-    where checkClause = checkClauseForVariable (fst xs) vAct
-          xsLen = length (fst xs)
-          headLen = length (fst (head checkC))
-          filterClause = filter (\x -> length (fst x) <= length (fst xs)) ys
+    where checkClause = checkClauseForVariable (getClauseFromReducedClauseAndOGClause xs) vAct
+          xsLen = length (getClauseFromReducedClauseAndOGClause xs)
+          headLen = length (getClauseFromReducedClauseAndOGClause (head checkC))
+          filterClause = filter (\x -> length (getClauseFromReducedClauseAndOGClause  x) <= length (getClauseFromReducedClauseAndOGClause xs)) ys
 
     --  firstVal `elem` fst xs || negateVariableValue firstVal `elem` fst xs = Just (fst xs)
     --  otherwise = getShortestClauseViaActivity ys vAct
