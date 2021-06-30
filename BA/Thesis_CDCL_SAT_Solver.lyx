@@ -147,8 +147,7 @@ filename "Codedokumentation.lyx"
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
 btprint "btPrintAll"
-bibfiles "C:/Users/nam02/Desktop/Meine Bibliothek/Meine Bibliothek"
-options "biblatex"
+bibfiles "Bibliography/Bibliography"
 
 \end_inset
 

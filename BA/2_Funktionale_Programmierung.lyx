@@ -277,7 +277,16 @@ Haskell 98 Report
 \begin_inset Quotes grd
 \end_inset
 
- veröffentlicht, wobei eine Revision im Dezember 2002 veröffentlicht wurde.
+ veröffentlicht, wobei eine Revision im Dezember 2002 veröffentlicht wurde
+ 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "hudak_history_2007"
+literal "false"
+
+\end_inset
+
+.
  
 \end_layout
 
