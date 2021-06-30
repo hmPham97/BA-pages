@@ -6,13 +6,13 @@ import           Control.Monad
 import           System.IO
 import           System.TimeIt
 
-readCdclFile :: String -> String -> IO ()
+readCdclFile :: String -> Bool -> IO ()
 readCdclFile path check = do
     handle <- openFile path ReadMode
     f <- loopCheck handle []
     case f of
         Nothing -> putStrLn "Error. The given file doesn't contain a legitimate Content."
-        Just s -> if check == "yes" then timeIt $ print (cdcl s True) else print (cdcl s False)
+        Just s -> if check then timeIt $ print (cdcl s check) else print (cdcl s check)
     hClose handle
 
 checkComment :: Char -> Bool
@@ -40,12 +40,12 @@ loopCheck' :: Handle -> [[Integer]] -> IO (Maybe [[Integer]])
 loopCheck' handle clist = do
     end <- hIsEOF handle
     if end then
-        pure (Just clist)
+        pure (Just  (reverse clist))
         --if stats == "yes" then pure (Just (cdcl clist True)) else pure (Just (cdcl clist False)) 
     else do
         firstChar <- hGetChar handle
         if firstChar == '%' then
-            pure (Just clist)
+            pure (Just ( reverse clist))
             --if stats == "yes" then pure (Just (cdcl clist True)) else pure (Just (cdcl clist False))
         else if checkComment firstChar || firstChar == '\n' then
             do

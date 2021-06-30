@@ -1,27 +1,35 @@
 module Main where
 
 import           CDCL.CDCLFilereader (readCdclFile)
-import           Control.Monad
-import           Data.Char
-import           System.IO
-import           System.TimeIt
+import           Options.Applicative
+import           Data.Semigroup ((<>))
 
-main :: IO()
-main = do
-        putStrLn "Enter the path to the file you want to read\n"
-        h <- getLine
-        putStrLn ("Reading file " ++ h)
-        putStrLn ""
-        putStrLn "Do you want more statistics? Enter \'yes\',\'no\' or \'help\'\n"
-        check <- getLine 
-        checkInput h check
-        --readCdclFile "test.cnf"
+main :: IO ()
+main = input =<< execParser opts
+  where
+    opts = info (inputParse <**> helper)
+      ( fullDesc
+     <> progDesc "Print a CDCL Result for TARGETFILE"
+     <> header "Starting CDCL-SAT-Solver via Commandline " )
 
-checkInput :: String -> String -> IO()
-checkInput handle input = 
-        if input == "help" then do
-                putStrLn "Statistic which are aditionally shown are:\nList of Decisions\nAmount of learned Clauses and the clause itself\nThe CPU time\n"
-                putStrLn "Enter \'yes\',\'no\' or \'help\'\n"
-                check <- getLine
-                checkInput handle check
-        else readCdclFile handle input
+input :: CDCLInput -> IO ()
+input (CDCLInput target False) = readCdclFile target False
+input (CDCLInput target True) = readCdclFile target True
+
+
+data CDCLInput = CDCLInput
+  { file :: String
+  , opts :: Bool
+  }
+
+inputParse :: Parser CDCLInput
+inputParse = CDCLInput
+      <$> strOption
+          ( long "input"
+         <> short 'i'
+         <> metavar "TARGETFILE"
+         <> help "Target cnf-file which will be analysed from SAT-Solver" )
+      <*> switch
+          ( long "stats"
+         <> short 's'
+         <> help "Showing additional statistics")
