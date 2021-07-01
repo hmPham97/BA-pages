@@ -106,8 +106,7 @@ Funktionale Programmierung
 In diesem Abschnitt werden die zwei verschiedenen Programmierparadigmen
  (imperative und deklarative Programmierung), funktionale Programmierung
  und die Programmiersprache Haskell kurz vorgestellt.
- Anschließend wird erläutert, wieso funktionale Programmierung von Bedeutung
- ist.
+ 
 \end_layout
 
 \begin_layout Section
@@ -214,8 +213,15 @@ Funktionale Programmierung
 Wie im vorherigen Abschnitt erwähnt wurde, ist die funktionale Programmierung
  ein Teil von der deklarativen Programmierparadigmen.
  Ein Programm in diesem Schema besteht hauptsächlich aus einer Zusammensetzung
- von Funktionen, verwendet unveränderliche Daten und vermeidet Zustandsänderunge
-n.
+ von Funktionen 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "noauthor_was_nodate"
+literal "false"
+
+\end_inset
+
+, verwendet unveränderliche Daten und vermeidet Zustandsänderungen.
 \end_layout
 
 \begin_layout Standard
@@ -228,8 +234,28 @@ Lazy Evaluation
 \begin_inset Quotes grd
 \end_inset
 
-, frei von Seiteneffekten und Effizienz.
+, frei von Seiteneffekten und Effizienz 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "nita_functional_2019"
+literal "false"
+
+\end_inset
+
+.
  
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Soll ich Lazy Evaluation, etc kurz erklären? Oder wieso es Seiteneffektfrei
+ usw.
+ ist
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -287,7 +313,37 @@ literal "false"
 \end_inset
 
 .
+ Mit der Veröffentlichung des 
+\begin_inset Quotes gld
+\end_inset
+
+Haskell 2010 Language Report
+\begin_inset Quotes grd
+\end_inset
+
+ wurde eine wichtige Änderung für neue Revisionen beschlossen.
+ Jedes Jahr sollte mindenstens eine neue Revision veröffentlicht werden,
+ die eine kleine Anzahl an Änderungen und Erweiterungen beinhaltet 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "marlow_haskell_2021"
+literal "false"
+
+\end_inset
+
+.
  
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Reicht des für Haskell Abschnitt? Oder sollte noch irgendeine Info in den
+ Text rein?
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_body
