@@ -99,7 +99,7 @@
 \begin_body
 
 \begin_layout Chapter
-Funktionale Programmierung
+Programmierparadigmen, funktionale Programmierung und Haskell
 \end_layout
 
 \begin_layout Paragraph
@@ -114,11 +114,12 @@ Imperative Programmierung
 \end_layout
 
 \begin_layout Standard
+Folgende Definition von der Universität Passau für Imperative Programmierung
+ wurde wörtlich übernommen: 
 \begin_inset Quotes gld
 \end_inset
 
-Imperative Programme beschreiben einen Kontrollfluss durch Operationen auf
- Zuständen
+Imperative Programme beschreiben Programmabläufe durch Operationen auf Zuständen
 \begin_inset Quotes grd
 \end_inset
 
@@ -132,15 +133,7 @@ literal "false"
 
 .
  Dies bedeutet dass der Ablauf des Programmes durch die Reihenfolge der
- Befehle maßgeblich für das erwartete Ergebnis ist 
-\begin_inset CommandInset citation
-LatexCommand citeyear
-key "augsten_was_nodate"
-literal "false"
-
-\end_inset
-
-.
+ Befehle maßgeblich für das erwartete Ergebnis ist.
  Sprachen, die zu diesem Paradigma gehören, sind z.B.
  Java, C++ oder C.
 \end_layout
@@ -149,47 +142,7 @@ literal "false"
 Die imperative Programmierung kann in weitere Paradigmen unterteilt werden,
  wie z.B.
  strukturierte Programmierung, objektoriertierte Programmierung, modulare
- Programmierung
-\end_layout
-
-\begin_layout Section
-Deklarative Programmierung
-\end_layout
-
-\begin_layout Standard
-Deklarative Sprachen beschreiben 
-\begin_inset Quotes gld
-\end_inset
-
-Berechnungen durch eine Ein-/Ausgaberelation
-\begin_inset Quotes grd
-\end_inset
-
-.
- Anders als imperative Sprachen kann der Programmablauf durch die Reihenfolge
- der Funktionen beeinflusst werden, jedoch ist es nicht explizit möglich
- auf den Kontrollfluss zuzugreifen 
-\begin_inset CommandInset citation
-LatexCommand citeyear
-key "noauthor_was_nodate"
-literal "false"
-
-\end_inset
-
-.
- 
-\end_layout
-
-\begin_layout Standard
-Die deklarative Programmierung wird wie die imperative Programmierung auch
- in verschiedene Unterkategorien eingeteilt.
- Diese sind z.B.
- logische Programmierung, Constraint Programmierung und funktionale Programmieru
-ng
-\begin_inset space ~
-\end_inset
-
-
+ Programmierung 
 \begin_inset CommandInset citation
 LatexCommand citeyear
 key "augsten_was_nodate"
@@ -200,9 +153,51 @@ literal "false"
 .
 \end_layout
 
+\begin_layout Section
+Deklarative Programmierung
+\end_layout
+
 \begin_layout Standard
-Prolog, Lisp und SQL sind beispielhafte Programmiersprachen, die zu diesem
+Weiterführende Definition für Deklarative Programmierung wurde wortgetreu
+ von der Passauer Universität übernommen: 
+\begin_inset Quotes gld
+\end_inset
+
+Deklarative Programme beschreiben Berechnungen durch eine Ein-/Ausgaberelation.
+ Der Kontrollfluß ist dem Programmierer nicht explizit zugänglich; der Ablauf
+ der Berechnung kann aber trotzdem durch den Programmaufbau beeinflußt werden.
+\begin_inset Quotes grd
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "noauthor_was_nodate"
+literal "false"
+
+\end_inset
+
+ Sinngemäß bedeutet dies, dass nicht der Weg zum Ergebnis das Entscheidende
+ ist, sondern das Problem und Ergebnis selbst.
+\end_layout
+
+\begin_layout Standard
+Die deklarative Programmierung wird wie die imperative Programmierung auch
+ in verschiedene Unterkategorien eingeteilt.
+ Diese sind z.B.
+ logische Programmierung, Constraint Programmierung und funktionale Programmieru
+ng.
+ Prolog, Lisp und SQL sind beispielhafte Programmiersprachen, die zu diesem
  Paradigma gehören.
+ 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "augsten_was_nodate"
+literal "false"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Section

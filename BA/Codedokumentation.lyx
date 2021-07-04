@@ -82,7 +82,7 @@
 
 \begin_body
 
-\begin_layout Chapter
+\begin_layout Chapter*
 \noindent
 Dokumentation für Code
 \end_layout
@@ -95,7 +95,7 @@ Für eine umfangreichere Dokumentation des Codes wird auf Haddock Dokumentation
  Funktionen, die implementiert wurden.
 \end_layout
 
-\begin_layout Section
+\begin_layout Section*
 \noindent
 Types.hs
 \end_layout
@@ -687,7 +687,7 @@ Eine Tupel aus drei Elementen.
  Diese enthält ClauseList, TupleClauseList und MappedTupleList.
 \end_layout
 
-\begin_layout Section
+\begin_layout Section*
 \noindent
 Algorithm.hs
 \end_layout
@@ -833,7 +833,7 @@ Gibt den Wert eines Tupelpaares zurück basiered auf dem gegebenen Variablenwert
  Dabei wird ein BoolVal zurückgegeben.
 \end_layout
 
-\begin_layout Section
+\begin_layout Section*
 \noindent
 Unitpropagation.hs
 \end_layout
@@ -962,7 +962,7 @@ Löscht Variablen aus den Clauseln, die zu 0 evaluiert werden.
  Als Ergebnis wird die bearbeitete ClauseList weitergegeben.
 \end_layout
 
-\begin_layout Section
+\begin_layout Section*
 \noindent
 Decisionalalgorithm.hs
 \end_layout
@@ -1138,7 +1138,7 @@ SetVariableViaActivity benötigt eine Clause und VariableActivity.
  zurückgegeben.
 \end_layout
 
-\begin_layout Section
+\begin_layout Section*
 MapLogic.hs
 \end_layout
 
@@ -1294,7 +1294,7 @@ Berechnet mithilfe von Level, Clause und MappedTupleList eine 1UIP-Clause.
  
 \end_layout
 
-\begin_layout Section
+\begin_layout Section*
 CDCLFilereader.hs
 \end_layout
 

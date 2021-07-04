@@ -5,6 +5,11 @@
 \save_transient_properties true
 \origin unavailable
 \textclass scrbook
+\begin_preamble
+\usepackage{graphicx}
+\usepackage{caption}
+\end_preamble
+\options bibtotoc
 \use_default_options true
 \maintain_unincluded_children false
 \language ngerman
@@ -114,6 +119,14 @@ LatexCommand tableofcontents
 \end_layout
 
 \begin_layout Standard
+\begin_inset FloatList figure
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset CommandInset include
 LatexCommand include
 filename "Einleitung.lyx"
@@ -136,7 +149,47 @@ filename "2_Funktionale_Programmierung.lyx"
 \begin_layout Standard
 \begin_inset CommandInset include
 LatexCommand include
-filename "Codedokumentation.lyx"
+filename "3_SAT.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand include
+filename "4_Algorithmen.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand include
+filename "5_Implementierung.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand include
+filename "6_Vergleich.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand include
+filename "7_Fazit.lyx"
 
 \end_inset
 
