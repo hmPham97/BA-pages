@@ -97,26 +97,69 @@ Dieses Kapitel gibt eine kurze Einführung zum Thema SAT und einen Einblick
 SAT-Problem
 \end_layout
 
-\begin_layout Paragraph
-Definition von SAT-Problem
-\end_layout
+\begin_layout Standard
+Die SAT Assoziation definiert das SAT-Problem als ein Problem, in dem bestimmt
+ werden muss, ob es für ein Problem Wertzuweisungen existieren, die dieses
+ dann zu 1 evaluiert 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "satisfiability_application_and_theory_sat_ev_sat_nodate-1"
+literal "false"
 
-\begin_layout Paragraph
-Nochmal 
+\end_inset
+
+.
+ Stephen A.
+ Cook hat die NP-Vollständigkeit vom SAT-Problem 1971 in seiner Publikation
+ bewiesen 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "cook_complexity_1971"
+literal "false"
+
+\end_inset
+
+, welche 1973 nochmals von Leonid A.
+ Levin nachgewiesen wurde 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "levin_universal_1973"
+literal "false"
+
+\end_inset
+
+.
+ Deshalb wird der Beweis oft auch 
 \begin_inset Quotes gld
 \end_inset
 
-Satz von Levin Cook
+Satz von Cook-Levin
 \begin_inset Quotes grd
 \end_inset
 
- erwähnen
+ genannt.
+ 
 \end_layout
 
-\begin_layout Paragraph
-Beispiele wo das SAT-Problem in Industrie, etc.
- angewendet werden kann.
- 
+\begin_layout Standard
+Das SAT-Problem findet sich in vielen industriellen Bereichen wieder, die
+ sich mit Informatik beschäftigen.
+ Darunter zählen z.B.
+ Bounded Model Checking, künstliche Intelligenz und Theorembeweise 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "satisfiability_application_and_theory_sat_ev_sat_nodate-1"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Die SAT-Probleme können mit zwei Ergebnissen beurteilt werden.
+ Als Ergebnis können die Probleme entweder mit Satisfiable (SAT) oder Unsatisfia
+ble (UNSAT) evaluiert werden.
 \end_layout
 
 \begin_layout Section
@@ -130,7 +173,15 @@ Die internationale SAT-Competition findet seit dem Jahr 2002 statt.
  Dabei werden die Solver auch mit SAT-Solvern verglichen, die den Stand
  der Technik darstellen.
  Unter anderem existieren im Wettbewerb auch unterschiedliche Disziplinen,
- in denen sich die Solver messen können.
+ in denen sich die Solver messen können 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "satisfiability_application_and_theory_sat_ev_sat_nodate"
+literal "false"
+
+\end_inset
+
+.
 \begin_inset Newline newline
 \end_inset
 
@@ -222,7 +273,15 @@ Die aufgelisteten Solver in der Legende stellen die Gewinner von 2002 bis
  Es wird ersichtlich, dass die Performance zwischen den Solvern in der Benchmark
  von 2020 viel weiter auseinander liegen als in der Benchmark von 2011.
  Der Grund hierfür liegt darin, dass die Probleme schwieriger geworden sind
- und dadurch den Unterschied im Leistungsgrad ersichtlich machen.
+ und dadurch den Unterschied im Leistungsgrad ersichtlich machen 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "biere_kissat_nodate"
+literal "false"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -249,10 +308,12 @@ SAT-Solver
 Es existieren viele SAT-Solver, die gute Leistungen vollbringen beim Lösen
  von SAT-Problemen.
  In den folgenden Abschnitten werden zwei Solver vorgestellt, welche an
- der SAT-Competition teilgenommen und diese auch zu ihrer Zeit gewonnen
+ einer SAT-Competition teilgenommen und diese auch zu ihrer Zeit gewonnen
  haben.
  Die zwei SAT-Solver, die vorgestellt werden, sind zChaff und MiniSAT.
- Diese Solv
+ Einige Konzepte, die in den Solvern angewendet werden, werden für die Implentie
+rung teilweise verwendet.
+ 
 \end_layout
 
 \begin_layout Subsection
@@ -260,8 +321,8 @@ zChaff
 \end_layout
 
 \begin_layout Standard
-Der SAT-Solver zChaff basiert auf den Chaff-Algorithmus und wurde der Princeton
- Universität entwickelt und veröffentlicht.
+Der SAT-Solver zChaff basiert auf den Chaff-Algorithmus und wurde an der
+ Princeton Universität entwickelt und veröffentlicht.
  Der Chaff-Solver verwendet einen optimierten 
 \begin_inset Quotes gld
 \end_inset
@@ -295,7 +356,53 @@ Clause Deletion
 \begin_inset Quotes grd
 \end_inset
 
- an.
+ an 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "moskewicz_chaff_nodate"
+literal "false"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+zChaff hat 2004 im 
+\begin_inset Quotes gld
+\end_inset
+
+Industrial Track
+\begin_inset Quotes grd
+\end_inset
+
+ die 
+\begin_inset Quotes gld
+\end_inset
+
+ALL (SAT+UNSAT)
+\begin_inset Quotes grd
+\end_inset
+
+ und 
+\begin_inset Quotes gld
+\end_inset
+
+UNSAT
+\begin_inset Quotes grd
+\end_inset
+
+ Kategorien gewonnen 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "satisfiability_application_and_theory_sat_ev_sat_nodate"
+literal "false"
+
+\end_inset
+
+.
+ 
 \end_layout
 
 \begin_layout Subsection
@@ -315,7 +422,42 @@ Dynamic Variable Ordering
 \begin_inset Quotes grd
 \end_inset
 
- verwendet.
+ (VSIDS) verwendet 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "een_extensible_2003"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+MiniSAT gewann den ersten Platz im SAT-Race 2006 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "sinz_sat-race_nodate"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Bestandteile des SAT-Problems
+\end_layout
+
+\begin_layout Standard
+In dieser Arbeit werden nur SAT-Probleme betrachtet, die aus folgenden Elementen
+ bestehen.
+ Diese sind Literale, Klauseln und Formeln.
+ Ein Literal ist ein Zeichen, welches mit Wahr (T) oder Falsch (F) belegt
+ werden kann.
+ Eine Klausel besteht aus einer Menge von Literalen, während eine Formel
+ eine Menge von Klauseln ist.
+ 
 \end_layout
 
 \end_body

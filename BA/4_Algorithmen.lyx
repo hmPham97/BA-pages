@@ -97,12 +97,180 @@ In diesem Kapitel wird der DPLL-Algorithmus und CDCL-Algorithmus vorgestellt.
 DPLL-Algorithmus
 \end_layout
 
+\begin_layout Standard
+Martin Davis und Hilary Putnam entwickelten 1960 den Davis-Putnam-Algorithmus
+ (DP), der als Basis für das 1962 entwickelte DPLL-Verfahren verwendet wird.
+ Der Algorithmus wurde von Martin Davis, George Logemann und Donald Loveland
+ präsentiert und besitzt drei Regeln.
+ 
+\end_layout
+
+\begin_layout Standard
+Die erste Regel ist die Eliminierung von Klauseln mit nur einem Literal.
+ Mit dieser Regel wurden vier Teilregeln eingeführt.
+ Diese sind folgende:
+\end_layout
+
+\begin_layout Enumerate
+Existieren zwei atomare Klauseln mit gegenteiligen Literalen, wie z.B.
+ 
+\begin_inset Formula $\{p\}$
+\end_inset
+
+ und
+\begin_inset Formula $\{-p\}$
+\end_inset
+
+, so ist die Formel F UNSAT.
+\end_layout
+
+\begin_layout Enumerate
+Existiert eine atomare Klausel mit nur einem Literal p, so können alle Klauseln,
+ die ein p beinhalten, gelöscht werden und alle negierten p's können aus
+ den Klauseln entfernt werden.
+\end_layout
+
+\begin_layout Enumerate
+Die dritte Teilregel ist wie die zweite Teilregel, jedoch mit einer atomaren
+ Klausel, die ein negiertes p besitzt.
+\end_layout
+
+\begin_layout Enumerate
+Die Formel ist SAT, wenn F nach anwenden der Regeln leer wird.
+\end_layout
+
+\begin_layout Standard
+Die zweite Regel ist die 
+\begin_inset Quotes gld
+\end_inset
+
+Affirmative-Negative Rule
+\begin_inset Quotes grd
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Als dritte Regel wurde die Teilungs Regel vorgestellt.
+ 
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Soll man genauer auf die Regeln eingehen?
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+newpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Ein Beispiel wie die Regelns des Algorithmus funktionieren, wird an folgenden
+ Problem illustriert:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+F\,=\,1\,\wedge\,(-1\vee2)\,\wedge\,(1\vee2)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
+\end_inset
+
+Setze 1 = T 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\Leftrightarrow\,2\,\Longrightarrow SAT
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Die erste Teilregel der ersten Regel wird im ersten Schritt angewendet.
+ Diese löscht alle Klauseln, welche eine positive 1 besitzen, und alle negativen
+ 1 in allen Klauseln.
+ Dadurch kommt die Formel 
+\begin_inset Formula $(2)$
+\end_inset
+
+ im zweiten Schritt zustande.
+ Trivialerweise wird die Formel nach setzen von 
+\begin_inset Formula $2=T$
+\end_inset
+
+ leer, wodurch die gesamte Formel mit SAT evaluiert wird.
+ Wenn die Formel F jedoch noch eine Klausel 
+\begin_inset Formula $(-1)$
+\end_inset
+
+ besitzen würde, würde die Formel F als UNSAT evaluiert werden, da die erste
+ Teilregel von Regel 1 bei zwei atomaren Klauseln mit unterschiedlichen
+ Vorzeichen und gleichen Literalen die Formel als UNSAT beurteilt.
+\end_layout
+
 \begin_layout Section
 CDCL-Algorithmus
 \end_layout
 
 \begin_layout Standard
-
+Der CDCL-Algorithmus basiert auf den DPLL-Algorithmus und verwendet zusätzlich
+ zu den Regeln mehrere Optimierungen und einen Algorithmus, welches dem
+ CDCL seinem Namen verdankt.
+ 
 \end_layout
 
 \end_body

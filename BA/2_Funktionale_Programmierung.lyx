@@ -126,7 +126,7 @@ Imperative Programme beschreiben Programmabläufe durch Operationen auf Zuständ
  
 \begin_inset CommandInset citation
 LatexCommand citeyear
-key "noauthor_was_nodate"
+key "lengauer_was_nodate"
 literal "false"
 
 \end_inset
@@ -172,7 +172,7 @@ Deklarative Programme beschreiben Berechnungen durch eine Ein-/Ausgaberelation.
  
 \begin_inset CommandInset citation
 LatexCommand citeyear
-key "noauthor_was_nodate"
+key "lengauer_was_nodate"
 literal "false"
 
 \end_inset
@@ -211,7 +211,7 @@ Wie im vorherigen Abschnitt erwähnt wurde, ist die funktionale Programmierung
  von Funktionen 
 \begin_inset CommandInset citation
 LatexCommand citeyear
-key "noauthor_was_nodate"
+key "lengauer_was_nodate"
 literal "false"
 
 \end_inset
