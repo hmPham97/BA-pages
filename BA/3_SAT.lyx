@@ -451,9 +451,23 @@ Bestandteile des SAT-Problems
 
 \begin_layout Standard
 In dieser Arbeit werden nur SAT-Probleme betrachtet, die aus folgenden Elementen
- bestehen.
- Diese sind Literale, Klauseln und Formeln.
- Ein Literal ist ein Zeichen, welches mit Wahr (T) oder Falsch (F) belegt
+ bestehen:
+\end_layout
+
+\begin_layout Itemize
+Literale
+\end_layout
+
+\begin_layout Itemize
+Klauseln
+\end_layout
+
+\begin_layout Itemize
+Formeln
+\end_layout
+
+\begin_layout Standard
+Ein Literal ist ein Zeichen, welches mit Wahr (T) oder Falsch (F) belegt
  werden kann.
  Eine Klausel besteht aus einer Menge von Literalen, während eine Formel
  eine Menge von Klauseln ist.

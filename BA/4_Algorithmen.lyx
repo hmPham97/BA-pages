@@ -99,9 +99,25 @@ DPLL-Algorithmus
 
 \begin_layout Standard
 Martin Davis und Hilary Putnam entwickelten 1960 den Davis-Putnam-Algorithmus
- (DP), der als Basis für das 1962 entwickelte DPLL-Verfahren verwendet wird.
+ (DP) 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "davis_computing_1960"
+literal "false"
+
+\end_inset
+
+, der als Basis für das 1962 entwickelte DPLL-Verfahren verwendet wird.
  Der Algorithmus wurde von Martin Davis, George Logemann und Donald Loveland
- präsentiert und besitzt drei Regeln.
+ präsentiert und besitzt drei Regeln 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "davis_machine_1962"
+literal "false"
+
+\end_inset
+
+.
  
 \end_layout
 
@@ -131,8 +147,9 @@ Existiert eine atomare Klausel mit nur einem Literal p, so können alle Klauseln
 \end_layout
 
 \begin_layout Enumerate
-Die dritte Teilregel ist wie die zweite Teilregel, jedoch mit einer atomaren
- Klausel, die ein negiertes p besitzt.
+Die dritte Teilregel ist wie die zweite Teilregel, jedoch mit umgekehrten
+ Vorzeichen.
+ 
 \end_layout
 
 \begin_layout Enumerate
@@ -270,7 +287,7 @@ CDCL-Algorithmus
 Der CDCL-Algorithmus basiert auf den DPLL-Algorithmus und verwendet zusätzlich
  zu den Regeln mehrere Optimierungen und einen Algorithmus, welches dem
  CDCL seinem Namen verdankt.
- 
+ Optimierungen die mit 
 \end_layout
 
 \end_body
