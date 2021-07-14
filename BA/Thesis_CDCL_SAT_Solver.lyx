@@ -8,6 +8,27 @@
 \begin_preamble
 \usepackage{graphicx}
 \usepackage{caption}
+\usepackage{listings,xcolor}
+\definecolor{pl_background}{rgb}{0.95,0.95,0.95}
+\definecolor{pl_comment}{rgb}{0.12, 0.38, 0.18 }
+\definecolor{pl_ifelse}{rgb}{0.74,0.74,.29}
+\definecolor{pl_keyword}{rgb}{0.37, 0.08, 0.25}
+\definecolor{pl_string}{rgb}{0.06, 0.10, 0.98}
+\lstset{ language = Haskell,
+basicstyle = \fontsize{9}{10}\selectfont\ttfamily,
+backgroundcolor = \color{pl_background},
+stringstyle = \color{pl_string},
+keywordstyle = \color{pl_keyword}\bfseries,
+commentstyle = \color{pl_comment}\itshape,
+frame = lrbt,
+numbers = left,
+showstringspaces = false,
+breaklines = true,
+xleftmargin = 15pt,
+emph = [1]{php},
+emphstyle = [1]\color{black},
+emph = [2]{if,and,or,else},
+emphstyle = [2]\color{pl_ifelse}}
 \end_preamble
 \options bibtotoc
 \use_default_options true
@@ -200,6 +221,16 @@ filename "6_Vergleich.lyx"
 \begin_inset CommandInset include
 LatexCommand include
 filename "7_Fazit.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand include
+filename "Codedokumentation.lyx"
 
 \end_inset
 

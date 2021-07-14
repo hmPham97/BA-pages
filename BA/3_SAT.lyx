@@ -99,8 +99,8 @@ SAT-Problem
 
 \begin_layout Standard
 Die SAT Assoziation definiert das SAT-Problem als ein Problem, in dem bestimmt
- werden muss, ob es für ein Problem Wertzuweisungen existieren, die dieses
- dann zu 1 evaluiert 
+ werden muss, ob es für ein aussagelogisches Problem boolesche Wertzuweisungen
+ existieren, die dieses dann zu 1 evaluiert 
 \begin_inset CommandInset citation
 LatexCommand citeyear
 key "satisfiability_application_and_theory_sat_ev_sat_nodate-1"
@@ -110,7 +110,7 @@ literal "false"
 
 .
  Stephen A.
- Cook hat die NP-Vollständigkeit vom SAT-Problem 1971 in seiner Publikation
+ Cook hat die NP-Vollständigkeit des SAT-Problem 1971 in seiner Publikation
  bewiesen 
 \begin_inset CommandInset citation
 LatexCommand citeyear
@@ -138,7 +138,167 @@ Satz von Cook-Levin
 \end_inset
 
  genannt.
+ Durch diesen Beweis wurde das SAT als allererstes Problem die NP-Vollständigkei
+t bewiesen.
+\end_layout
+
+\begin_layout Standard
+Jedes aussagelogische Problem kann in 
+\begin_inset Quotes gld
+\end_inset
+
+Konjunktive Normalform
+\begin_inset Quotes grd
+\end_inset
+
+ oder zu Englisch 
+\begin_inset Quotes gld
+\end_inset
+
+Conjunctive Normal Form
+\begin_inset Quotes grd
+\end_inset
+
+ (CNF) umschrieben werden.
+ CNF hierbei ist eine Verundung ( 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{math}
+\backslash
+bigwedge
+\backslash
+end{math}
+\end_layout
+
+\end_inset
+
+ ) von Veroderungen ( 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{math}
+\backslash
+bigvee
+\backslash
+end{math}
+\end_layout
+
+\end_inset
+
+ ).
  
+\end_layout
+
+\begin_layout Standard
+Ein aussagelogisches Problem besteht aus folgenden Elementen:
+\end_layout
+
+\begin_layout Itemize
+Literale
+\end_layout
+
+\begin_layout Itemize
+Klauseln
+\end_layout
+
+\begin_layout Itemize
+Formeln
+\end_layout
+
+\begin_layout Standard
+In dieser Arbeit ist ein Literal ein Zeichen, welches mit Wahr (T) oder
+ Falsch (F) belegt werden kann und negiert (-) sein kann.
+ Eine Klausel besteht aus einer Menge von disjunkten Literalen, während
+ eine Formel eine Menge von konjunkten Klauseln ist.
+ Folgende Beispiele zeigen Formeln in CNF und Formeln, die nicht in CNF
+ sind.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+A\,\bigwedge\,(\,B\,\bigvee\,C\,)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+A\,\bigwedge\,-B
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+A\,\bigvee\,B
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+A\,\bigwedge\,(\,B\,\bigwedge\,-C\,)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+A\,\bigvee\,(\,B\,\bigwedge\,-C\,)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Die Beispiele 3.1, 3.2 und 3.3 sind in CNF Form, während 3.4 und 3.5 nicht in
+ CNF sind.
+ Der Grund hierfür liegt daran, dass die Literale innerhalb der Klausel
+ verundet sind.
+ Das Beispiel 3.2 ist in CNF, da die Literale 
+\begin_inset Formula $A$
+\end_inset
+
+ und 
+\begin_inset Formula $B$
+\end_inset
+
+ in disjunkter Form sind.
+ Diese Probleme können mit zwei Ergebnissen beurteilt werden.
+ Als Ergebnis können die Probleme entweder mit Satisfiable (SAT) oder Unsatisfia
+ble (UNSAT) evaluiert werden.
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -154,12 +314,6 @@ literal "false"
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Standard
-Die SAT-Probleme können mit zwei Ergebnissen beurteilt werden.
- Als Ergebnis können die Probleme entweder mit Satisfiable (SAT) oder Unsatisfia
-ble (UNSAT) evaluiert werden.
 \end_layout
 
 \begin_layout Section
@@ -265,26 +419,6 @@ captionof{figure}{Benchmark 2020}{Bildquelle: http://fmv.jku.at/kissat/winners-2
 \end_layout
 
 \begin_layout Standard
-\align block
-Die aufgelisteten Solver in der Legende stellen die Gewinner von 2002 bis
- 2020 dar.
- Die Graphen zeigen die gelösten SAT-Probleme innerhalb einer bestimmten
- Zeit an.
- Es wird ersichtlich, dass die Performance zwischen den Solvern in der Benchmark
- von 2020 viel weiter auseinander liegen als in der Benchmark von 2011.
- Der Grund hierfür liegt darin, dass die Probleme schwieriger geworden sind
- und dadurch den Unterschied im Leistungsgrad ersichtlich machen 
-\begin_inset CommandInset citation
-LatexCommand citeyear
-key "biere_kissat_nodate"
-literal "false"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
 \begin_inset ERT
 status open
 
@@ -298,6 +432,25 @@ end{center}
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Die x-Achse der Abbildungen 3.1 und 3.2 zeigt die Anzahl der gelösten SAT-Probleme
+, während die y-Achse die CPU Zeit darstellt.
+ Die Legende stellt die Gewinner der SAT-Competition von 2002 bis 2020 dar.
+ Verglichen mit der Abbildung 3.1 wird ersichtlich, dass die Benchmarks aus
+ Abbildung 3.2 komplexer wurden, was durch die Ausweitung der Graphen wiedergespi
+egelt wird.
+ Daraus kann geschlossen werden, dass die Solver mit den Jahren einen höhere
+ Leistungsgrad erzielen 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "biere_kissat_nodate"
+literal "false"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Section
@@ -446,31 +599,85 @@ literal "false"
 \end_layout
 
 \begin_layout Section
-Bestandteile des SAT-Problems
+DIMACS Format
 \end_layout
 
 \begin_layout Standard
-In dieser Arbeit werden nur SAT-Probleme betrachtet, die aus folgenden Elementen
- bestehen:
-\end_layout
-
-\begin_layout Itemize
-Literale
-\end_layout
-
-\begin_layout Itemize
-Klauseln
-\end_layout
-
-\begin_layout Itemize
-Formeln
+Damit die SAT-Solver ein generelles Dateiformat einlesen könnnen, um aussagenlog
+ische Probleme zu lösen, wurde das DIMACS Format eingeführt.
 \end_layout
 
 \begin_layout Standard
-Ein Literal ist ein Zeichen, welches mit Wahr (T) oder Falsch (F) belegt
- werden kann.
- Eine Klausel besteht aus einer Menge von Literalen, während eine Formel
- eine Menge von Klauseln ist.
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+c simpleExample.cnf
+\end_layout
+
+\begin_layout Plain Layout
+
+c
+\end_layout
+
+\begin_layout Plain Layout
+
+p cnf 3 2
+\end_layout
+
+\begin_layout Plain Layout
+
+1 2 -3 0
+\end_layout
+
+\begin_layout Plain Layout
+
+c Kommentare können auch hier sein
+\end_layout
+
+\begin_layout Plain Layout
+
+-2 -1 0
+\end_layout
+
+\begin_layout Plain Layout
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+DIMACS Format
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Kommentare werden mit einem kleinem 
+\begin_inset Quotes gld
+\end_inset
+
+c
+\begin_inset Quotes grd
+\end_inset
+
+ symbolisiert wie z.B.
+ in Zeile 1 und 5 im Beispiel, während kleine p's die Anzahl der Literale
+ und Klauseln zeigt.
+ Der erste Integer in Zeile 3 steht für die Anzahl der Literale und der
+ Zweite für die Anzahl der Klauseln.
+ Wenn nach der p-Zeile ein Integer oder ein Minus die Zeile anführt, so
+ beginnt eine Klausel.
+ Diese Klausel wird dann mit einer 0 beendet und es wird eine neue Zeile
+ eingelesen.
  
 \end_layout
 

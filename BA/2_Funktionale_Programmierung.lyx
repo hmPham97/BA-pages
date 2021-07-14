@@ -99,7 +99,7 @@
 \begin_body
 
 \begin_layout Chapter
-Programmierparadigmen, funktionale Programmierung und Haskell
+Funktionale Programmierung
 \end_layout
 
 \begin_layout Paragraph
@@ -114,8 +114,8 @@ Imperative Programmierung
 \end_layout
 
 \begin_layout Standard
-Folgende Definition von der Universität Passau für Imperative Programmierung
- wurde wörtlich übernommen: 
+Folgende Definition von der Universität Passau für imperative Programmierung
+ wurde verwendet: 
 \begin_inset Quotes gld
 \end_inset
 
@@ -158,8 +158,8 @@ Deklarative Programmierung
 \end_layout
 
 \begin_layout Standard
-Weiterführende Definition für Deklarative Programmierung wurde wortgetreu
- von der Passauer Universität übernommen: 
+Weiterführende Definition für deklarative Programmierung wurde von der Passauer
+ Universität übernommen: 
 \begin_inset Quotes gld
 \end_inset
 
@@ -178,7 +178,7 @@ literal "false"
 \end_inset
 
  Sinngemäß bedeutet dies, dass nicht der Weg zum Ergebnis das Entscheidende
- ist, sondern das Problem und Ergebnis selbst.
+ ist, sondern die Spezifaktion des Problemes und der Ergebnisse selbst.
 \end_layout
 
 \begin_layout Standard
@@ -229,7 +229,7 @@ Lazy Evaluation
 \begin_inset Quotes grd
 \end_inset
 
-, frei von Seiteneffekten und Effizienz 
+ und das explizierte Markieren von Seiteneffekten 
 \begin_inset CommandInset citation
 LatexCommand citeyear
 key "nita_functional_2019"
@@ -238,19 +238,40 @@ literal "false"
 \end_inset
 
 .
- 
-\begin_inset Foot
-status open
-
-\begin_layout Plain Layout
-Soll ich Lazy Evaluation, etc kurz erklären? Oder wieso es Seiteneffektfrei
- usw.
- ist
 \end_layout
+
+\begin_layout Standard
+Folgende Beschreibung für Lazy Evaluation wurde von Bloss, Hudak und Young
+ sinngemäß übernommen: Lazy Evaluation beurteilt einen Ausdruck erst, wenn
+ der Wert absolut benötigt wird 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "bloss_code_1988"
+literal "false"
 
 \end_inset
 
+.
+ Dies bedeutet, dass eine Parameterübergabe an eine andere Funktion eine
+ Evaluierung nicht auslöst.
+ Der Wert muss explizit für die Berechnung eines neuen Wertes aufgerufen
+ werden, damit dieser evaluiert werden kann.
+\end_layout
 
+\begin_layout Standard
+Eine Definition für Seiteneffekte wurde von Nokie übernommen: Seiteneffekte
+ sind Änderungen im Programmzustand.
+ Diese können z.B.
+ durch Funktionsaufrufe oder der Veränderung einer globalen Variablen ausgelöst
+ werden 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "nokie_side_nodate"
+literal "false"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Section
@@ -328,17 +349,153 @@ literal "false"
 
 .
  
-\begin_inset Foot
+\end_layout
+
+\begin_layout Standard
+Im Folgenden werden Beispielfunktionen in Haskell gezeigt, welche die in
+ Kapitel 2.3 vorgeführten Vorteile darstellt.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
 status open
 
 \begin_layout Plain Layout
-Reicht des für Haskell Abschnitt? Oder sollte noch irgendeine Info in den
- Text rein?
+
+
+\backslash
+newpage
 \end_layout
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+main :: IO ()
+\end_layout
+
+\begin_layout Plain Layout
+
+make = putStrLn 
+\begin_inset Quotes gld
+\end_inset
+
+Hello World
+\begin_inset Quotes grd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Ein einfaches 
+\begin_inset Quotes gld
+\end_inset
+
+Hello World
+\begin_inset Quotes grd
+\end_inset
+
+-Programm 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wie in Zeile 1 im Programmbeispiel 2.1 gezeigt wird, werden Seiteneffekte
+ in Haskell immer durch IO markiert.
+ Wenn eine Funktiondeklaration keine IO beinhaltet, so ist die Funktion
+ Seiteneffektfrei.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+lazy :: Int -> Int -> Int
+\end_layout
+
+\begin_layout Plain Layout
+
+lazy x y = x
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+lazy2 :: Int -> Int -> Int
+\end_layout
+
+\begin_layout Plain Layout
+
+lazy2 x y = if x > 2 then y else x
+\end_layout
+
+\begin_layout Plain Layout
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Beispiele für Lazy Evaluation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Im Programmbeispiel 2.2 würde die 
+\begin_inset Quotes gld
+\end_inset
+
+Eager Evaluation
+\begin_inset Quotes grd
+\end_inset
+
+ (das Gegenteil von Lazy Evaluation) x und y in Zeile 2 evaluieren.
+ Lazy Evaluation hingegen evaluiert nur den Parameter x, da y nicht verwendet
+ wird.
+ In der Beispielsfunktion 
+\begin_inset Quotes gld
+\end_inset
+
+lazy2
+\begin_inset Quotes grd
+\end_inset
+
+ wird y in Zeile 5 nur evaluiert, wenn x größer als 2 ist.
 \end_layout
 
 \end_body

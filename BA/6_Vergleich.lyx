@@ -87,5 +87,11 @@
 Vergleich der Implementierung
 \end_layout
 
+\begin_layout Paragraph
+In diesem Kapitel wird die Richtigkeit des SAT-Solvers mit dem PicoSAT-Solver
+ verglichen.
+  
+\end_layout
+
 \end_body
 \end_document

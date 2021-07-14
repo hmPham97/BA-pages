@@ -87,5 +87,166 @@
 Implementierung des SAT-Solvers
 \end_layout
 
+\begin_layout Paragraph
+In diesem Kapitel wird die Implementierung des SAT-Solvers diskutiert.
+ Hierbei werden zunächsts die notwendigen Datenstrukturen beschrieben und
+ danach werden die Algorithmen und der Aufbau des Programmes dargestellt.
+ 
+\end_layout
+
+\begin_layout Section
+Datenstrukturen
+\end_layout
+
+\begin_layout Standard
+In der Implementierung werden mehrere 
+\end_layout
+
+\begin_layout Section
+Algorithmen
+\end_layout
+
+\begin_layout Subsection
+Unitpropagation
+\end_layout
+
+\begin_layout Standard
+Die Unitpropagation ist einer der wichtigsten Algorithmen für moderne SAT-Solver.
+ In der Unitpropagation werden Klauseln, die nur ein unbelegtes Literal
+ besitzen und noch nicht als SAT evaluiert sind, so belegt, dass Sie wahr
+ werden (siehe Kapitel 4.1).
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+newpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+unitPropagation :: ClauseList -> TupleClauseList -> Level -> MappedTupleList
+ -> TriTuple
+\end_layout
+
+\begin_layout Plain Layout
+
+unitPropagation clist tlist lvl mapped
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    -- Case: no UnitClause found or no more clauses in ClauseList
+\end_layout
+
+\begin_layout Plain Layout
+
+    | null clist || null fstElem = (clist, tlist, mapped)
+\end_layout
+
+\begin_layout Plain Layout
+
+    | otherwise = unitPropagation resolutionC 
+\end_layout
+
+\begin_layout Plain Layout
+
+		(tlist ++ [(calcTuple, ogClause)]) lvl updatedMap
+\end_layout
+
+\begin_layout Plain Layout
+
+    where 
+\end_layout
+
+\begin_layout Plain Layout
+
+          unitClause = getUnitClause clist
+\end_layout
+
+\begin_layout Plain Layout
+
+          fstElem = getClauseFromReducedClauseAndOGClause unitClause
+\end_layout
+
+\begin_layout Plain Layout
+
+          calcTuple = setVariable fstElem
+\end_layout
+
+\begin_layout Plain Layout
+
+          ogClause = Reason (getOGFromReducedClauseAndOGClause unitClause)
+\end_layout
+
+\begin_layout Plain Layout
+
+          updatedMap = pushToMappedTupleList mapped lvl calcTuple ogClause
+\end_layout
+
+\begin_layout Plain Layout
+
+          subsumptionC = unitSubsumption clist calcTuple
+\end_layout
+
+\begin_layout Plain Layout
+
+          resolutionC = unitResolution subsumptionC calcTuple
+\end_layout
+
+\begin_layout Plain Layout
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Unitpropagation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Zunächst wird überprüft, ob die ClauseList Elemente besitzt.
+ Wenn dies der Fall ist, wird nach einer Klausel gesucht, die nur ein unbelegtes
+ Literal besitzt.
+ Wenn jedoch keine Elemente mehr vorhanden sind oder keine Unit-Clause gefunden
+ wird, werden die übergebenen Daten zurückgegeben und der Algorithmus wird
+ beendet.
+ Ansonsten setzt der Algorithmus das Literal so, dass die Klausel wahr wird
+ und wendet Subsumption auf die ClauseList an.
+ Die neue ClauseList wird dann mit Resolution verändert.
+ Gleichzeitig wird der Grund für die Entscheidung des Algorithmus in die
+ MappedTupleList aufgenommen..
+ Solange der erste Fall nicht eintritt, arbeitet der Algorithmus rekursiv
+ mit den bearbeiteten Daten weiter.
+\end_layout
+
 \end_body
 \end_document

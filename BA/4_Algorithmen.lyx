@@ -141,9 +141,9 @@ Existieren zwei atomare Klauseln mit gegenteiligen Literalen, wie z.B.
 \end_layout
 
 \begin_layout Enumerate
-Existiert eine atomare Klausel mit nur einem Literal p, so können alle Klauseln,
- die ein p beinhalten, gelöscht werden und alle negierten p's können aus
- den Klauseln entfernt werden.
+Existiert eine atomare Klausel mit nur einem positiven Literal p, so können
+ alle Klauseln, die ein p beinhalten, gelöscht werden und alle negierten
+ p's können aus den Klauseln entfernt werden.
 \end_layout
 
 \begin_layout Enumerate
@@ -166,22 +166,28 @@ Affirmative-Negative Rule
 \end_inset
 
 .
- 
+ Diese Regel ist ähnlich zur Regel 1.2 und 1.3.
+ Anstelle von atomaren Klauseln wird hier eine Entscheidung für ein Literal
+ in einer Klausel getroffen.
+ Wenn das Literal 
+\begin_inset Formula $p$
+\end_inset
+
+ mit T belegt wird, so werden alle Klauseln mit einem positiven 
+\begin_inset Formula $p$
+\end_inset
+
+ gelöscht, während alle negativen 
+\begin_inset Formula $p$
+\end_inset
+
+ aus den Klauseln gelöscht werden.
+ Dies geschieht auch umgekehrt mit einer Belegung von F.
 \end_layout
 
 \begin_layout Standard
 Als dritte Regel wurde die Teilungs Regel vorgestellt.
  
-\begin_inset Foot
-status open
-
-\begin_layout Plain Layout
-Soll man genauer auf die Regeln eingehen?
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard

@@ -150,12 +150,22 @@ Rückgabewert von CDCL Funktion.
 
 \begin_layout Itemize
 \noindent
-SAT TupleList MappedTupleList
+SAT TupleList
+\end_layout
+
+\begin_layout Itemize
+SAT_WITH_STATS TupleList MappedTupleList Integer [Clause] (Liste von Clause
+ sind gelernte Klauseln)
 \end_layout
 
 \begin_layout Itemize
 \noindent
 UNSAT
+\end_layout
+
+\begin_layout Itemize
+UNSAT_WITH_STATS [Clause] [Clause] (Die erste Liste sind gelernte Klauseln,
+ während die zweite Klauseln sind, die Konflikte hervorgeführt haben)
 \end_layout
 
 \begin_layout Standard
