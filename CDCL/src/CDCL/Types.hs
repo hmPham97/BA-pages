@@ -72,15 +72,6 @@ data InterpretResult =
         UNRESOLVED
     deriving (Show, Eq, Ord)
 
-data Origin =
-
-        ORIGINAL
-    |
-        LEARNED
-    |
-        ERR
-    deriving (Show, Eq, Ord)
-
 -- | Variable defined as Integer
 newtype Variable = Var Integer
     deriving (Show, Eq, Ord)
@@ -104,9 +95,7 @@ type Clause = [Variable]
 -- | Tuple of 2 Clauses
 --   First clause in tuple is reduced via Unitresolution
 --   Second clause is the clause in its original form
-type ReducedClauseAndOGClause = (Clause, Clause, Origin)
-
-type LearnedClauseList = [(Clause, Origin)]
+type ReducedClauseAndOGClause = (Clause, Clause)
 
 -- | ClauseList defined as a List of ReducedClauseAndOGClause
 type ClauseList = [ReducedClauseAndOGClause]
@@ -179,7 +168,7 @@ transformClauseList (xs : ys)
 -- | Transforms a list of Integers into a ReducedClauseAndOGClause
 transformClause :: [Integer] -> Clause -> ReducedClauseAndOGClause
 transformClause (xs : ys) varList
-    | null ys = (Var xs : varList, Var xs : varList, ORIGINAL)
+    | null ys = (Var xs : varList, Var xs : varList)
     | otherwise = transformClause ys (Var xs : varList)
 -- | Checks if Interpretresult contains NOK.
 --   Return true if it does, else false
@@ -200,13 +189,10 @@ decreasePeriod :: Period -> Period
 decreasePeriod (Period r) = Period (r - 1)
 
 getClauseFromReducedClauseAndOGClause :: ReducedClauseAndOGClause -> Clause
-getClauseFromReducedClauseAndOGClause (x, _, _) = x
+getClauseFromReducedClauseAndOGClause (x, _) = x
 
 getOGFromReducedClauseAndOGClause :: ReducedClauseAndOGClause -> Clause
-getOGFromReducedClauseAndOGClause (_, x, _) = x
-
-getOriginFromReducedClauseAndOGClause :: ReducedClauseAndOGClause -> Origin
-getOriginFromReducedClauseAndOGClause (_, _, x) = x
+getOGFromReducedClauseAndOGClause (_, x) = x
 
 transformToLearnedClauses :: ClauseList -> [[Integer]] -> [[Integer]]
 -- transformToLearnedClauses ys learned

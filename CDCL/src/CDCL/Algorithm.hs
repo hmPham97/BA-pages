@@ -22,10 +22,10 @@ import           CDCL.Decisionalalgorithm (getHighestActivity,
 import           CDCL.Types (Activity (..), ActivityMap, BoolVal (..),
                      CDCLResult (..), Clause, ClauseList, InterpretResult (..),
                      Level (..), MappedTupleList, Period (..), TriTuple, Tuple,
-                     TupleClauseList, Variable (..), Origin (..), decreasePeriod,
+                     TupleClauseList, Variable (..), decreasePeriod,
                      getEmptyClause, getNOK, getVariableValue, increaseLvl, transformToLearnedClauses,
                      negateVariableValue, transformClauseList, getClauseFromReducedClauseAndOGClause,
-                     getOriginFromReducedClauseAndOGClause, getOGFromReducedClauseAndOGClause)
+                     getOGFromReducedClauseAndOGClause)
 import qualified CDCL.Types as TypeC
 
 import           CDCL.Unitpropagation (unitPropagation, unitResolution,
@@ -145,10 +145,10 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist learnedClauses confC
                            (makeTupleClauseListFromAnalyze analyzed)
                            (getMappedTupleListFromAnalyze analyzed)
                            clistOG
-                           ((getClauseFromAnalyze analyzed, getClauseFromAnalyze analyzed, LEARNED) : learnedClist) -- learnedClist
+                           ((getClauseFromAnalyze analyzed, getClauseFromAnalyze analyzed) : learnedClist) -- learnedClist
                            (getClauseFromAnalyze analyzed : learnedClauses) -- learnedClauses
                            (empty : confClauses) 
-                           (calculateClauseList ((getClauseFromAnalyze analyzed, getClauseFromAnalyze analyzed, LEARNED) : learnedClist)
+                           (calculateClauseList ((getClauseFromAnalyze analyzed, getClauseFromAnalyze analyzed) : learnedClist)
                            (makeTupleClauseListFromAnalyze analyzed))
                            periodUpdate2
                            (conflictIteration + 1)
@@ -199,8 +199,8 @@ calculateClauseList :: ClauseList -> TupleClauseList -> ClauseList
 calculateClauseList cl tlist@(xs : ys)
     | null ys = reso
     | otherwise = calculateClauseList reso ys
-    where sub = unitSubsumption cl xs
-          reso = unitResolution sub xs
+    where sub = unitSubsumption cl (fst xs)
+          reso = unitResolution sub (fst xs)
 calculateClauseList cl [] = cl
 
 -- | Interprets a given ClauseList based on a given TupleClauseList. Will call itself recursively

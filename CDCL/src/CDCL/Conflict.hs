@@ -3,7 +3,7 @@ module CDCL.Conflict (analyzeConflict, calcReason) where
 import           CDCL.Types (ActivityMap, Clause, ClauseList, Level (..),
                      MappedTupleList, Reason (..), TupleClauseList,
                      Variable (..), decreaseLvl, getLevel, getReason,
-                     negateVariableValue, Origin (LEARNED))
+                     negateVariableValue)
 
 import           CDCL.Decisionalalgorithm (updateActivity)
 
