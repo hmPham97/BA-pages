@@ -31,22 +31,20 @@ loopCheck handle clist = do
         if checkCNFStart f then
             do
                 m <- hGetLine handle
-                loopCheck' handle clist 
+                loopCheck' handle clist
         else do
             m <- hGetLine handle
-            loopCheck handle clist 
+            loopCheck handle clist
 
 loopCheck' :: Handle -> [[Integer]] -> IO (Maybe [[Integer]])
 loopCheck' handle clist = do
     end <- hIsEOF handle
     if end then
         pure (Just  (reverse clist))
-        --if stats == "yes" then pure (Just (cdcl clist True)) else pure (Just (cdcl clist False)) 
     else do
         firstChar <- hGetChar handle
         if firstChar == '%' then
             pure (Just ( reverse clist))
-            --if stats == "yes" then pure (Just (cdcl clist True)) else pure (Just (cdcl clist False))
         else if checkComment firstChar || firstChar == '\n' then
             do
                 remove <- hGetLine handle

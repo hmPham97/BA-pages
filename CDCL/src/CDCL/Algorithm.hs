@@ -23,9 +23,10 @@ import           CDCL.Types (Activity (..), ActivityMap, BoolVal (..),
                      CDCLResult (..), Clause, ClauseList, InterpretResult (..),
                      Level (..), MappedTupleList, Period (..), TriTuple, Tuple,
                      TupleClauseList, Variable (..), decreasePeriod,
-                     getEmptyClause, getNOK, getVariableValue, increaseLvl, transformToLearnedClauses,
-                     negateVariableValue, transformClauseList, getClauseFromReducedClauseAndOGClause,
-                     getOGFromReducedClauseAndOGClause)
+                     getClauseFromReducedClauseAndOGClause, getEmptyClause,
+                     getNOK, getOGFromReducedClauseAndOGClause,
+                     getVariableValue, increaseLvl, negateVariableValue,
+                     transformClauseList)
 import qualified CDCL.Types as TypeC
 
 import           CDCL.Unitpropagation (unitPropagation, unitResolution,
@@ -147,7 +148,7 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist learnedClauses confC
                            clistOG
                            ((getClauseFromAnalyze analyzed, getClauseFromAnalyze analyzed) : learnedClist) -- learnedClist
                            (getClauseFromAnalyze analyzed : learnedClauses) -- learnedClauses
-                           (empty : confClauses) 
+                           (empty : confClauses)
                            (calculateClauseList ((getClauseFromAnalyze analyzed, getClauseFromAnalyze analyzed) : learnedClist)
                            (makeTupleClauseListFromAnalyze analyzed))
                            periodUpdate2

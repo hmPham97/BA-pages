@@ -16,8 +16,8 @@ module CDCL.Decisionalalgorithm (initialActivity, updateActivity, halveActivityM
 import           CDCL.Types (Activity (..), ActivityMap, BoolVal (..), Clause,
                      ClauseList, Reason (..), Tuple, TupleClause,
                      Variable (..), VariableActivity, divideActivity,
-                     getActivityValue, getVariableValue, increaseActivity,
-                     negateVariableValue, getClauseFromReducedClauseAndOGClause)
+                     getActivityValue, getClauseFromReducedClauseAndOGClause,
+                     getVariableValue, increaseActivity, negateVariableValue)
 import qualified CDCL.Types as TypeC
 import           Data.List
 import           Data.Map.Strict (Map)

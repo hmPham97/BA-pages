@@ -193,13 +193,3 @@ getClauseFromReducedClauseAndOGClause (x, _) = x
 
 getOGFromReducedClauseAndOGClause :: ReducedClauseAndOGClause -> Clause
 getOGFromReducedClauseAndOGClause (_, x) = x
-
-transformToLearnedClauses :: ClauseList -> [[Integer]] -> [[Integer]]
--- transformToLearnedClauses ys learned
---   = foldl
---       (\ learned xs
---          -> getOGFromReducedClauseAndOGClause xs
---               : learned)
---       learned ys
-transformToLearnedClauses (xs : ys) learnedList = transformToLearnedClauses ys (map getVariableValue (getOGFromReducedClauseAndOGClause xs) : learnedList)
-transformToLearnedClauses [] learned = learned

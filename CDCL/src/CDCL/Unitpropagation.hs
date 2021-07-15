@@ -14,9 +14,10 @@ module CDCL.Unitpropagation (getUnitClause, unitSubsumption,
 
 import           CDCL.Types (BoolVal (..), Clause, ClauseList, Level,
                      MappedTupleList, Reason (..), ReducedClauseAndOGClause,
-                     TriTuple, Tuple, TupleClauseList, getVariableValue, 
-                     negateVariableValue, getOGFromReducedClauseAndOGClause,
-                     getClauseFromReducedClauseAndOGClause)
+                     TriTuple, Tuple, TupleClauseList,
+                     getClauseFromReducedClauseAndOGClause,
+                     getOGFromReducedClauseAndOGClause, getVariableValue,
+                     negateVariableValue)
 import qualified CDCL.Types as TypesC
 
 import           CDCL.MapLogic (pushToMappedTupleList)
@@ -32,7 +33,7 @@ unitPropagation clist tlist lvl mapped
     -- Case: no UnitClause found or no more clauses in ClauseList
     | null clist || null fstElem = (clist, tlist, mapped)
     | otherwise = unitPropagation resolutionC (tlist ++ [(calcTuple, ogClause)]) lvl updatedMap
-    where 
+    where
           unitClause = getUnitClause clist
           fstElem = getClauseFromReducedClauseAndOGClause unitClause
           calcTuple = setVariable fstElem

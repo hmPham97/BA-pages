@@ -1,8 +1,8 @@
 module Main where
 
 import           CDCL.CDCLFilereader (readCdclFile)
-import           Options.Applicative
 import           Data.Semigroup ((<>))
+import           Options.Applicative
 
 main :: IO ()
 main = input =<< execParser opts
