@@ -99,7 +99,7 @@ SAT-Problem
 
 \begin_layout Standard
 Die SAT Assoziation definiert das SAT-Problem als ein Problem, in dem bestimmt
- werden muss, ob es für ein aussagelogisches Problem boolesche Wertzuweisungen
+ werden muss, ob es für ein aussagenlogisches Problem boolesche Wertzuweisungen
  existieren, die dieses dann zu 1 evaluiert 
 \begin_inset CommandInset citation
 LatexCommand citeyear
@@ -110,7 +110,7 @@ literal "false"
 
 .
  Stephen A.
- Cook hat die NP-Vollständigkeit des SAT-Problem 1971 in seiner Publikation
+ Cook hat die NP-Vollständigkeit des SAT-Problems 1971 in seiner Publikation
  bewiesen 
 \begin_inset CommandInset citation
 LatexCommand citeyear
@@ -143,7 +143,7 @@ t bewiesen.
 \end_layout
 
 \begin_layout Standard
-Jedes aussagelogische Problem kann in 
+Jedes aussagenlogische Problem kann in 
 \begin_inset Quotes gld
 \end_inset
 
@@ -160,7 +160,7 @@ Conjunctive Normal Form
 \end_inset
 
  (CNF) umschrieben werden.
- CNF hierbei ist eine Verundung ( 
+ CNF hierbei ist eine Konjunktion ( 
 \begin_inset ERT
 status open
 
@@ -177,7 +177,7 @@ end{math}
 
 \end_inset
 
- ) von Veroderungen ( 
+ ) von Disjunktionen ( 
 \begin_inset ERT
 status open
 
@@ -199,7 +199,7 @@ end{math}
 \end_layout
 
 \begin_layout Standard
-Ein aussagelogisches Problem besteht aus folgenden Elementen:
+Ein aussagenlogisches Problem besteht aus folgenden Elementen:
 \end_layout
 
 \begin_layout Itemize
@@ -224,9 +224,25 @@ In dieser Arbeit ist ein Literal ein Zeichen, welches mit Wahr (T) oder
 \end_layout
 
 \begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+newpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-A\,\bigwedge\,(\,B\,\bigvee\,C\,)
+A\wedge(B\vee C)
 \end{equation}
 
 \end_inset
@@ -237,7 +253,7 @@ A\,\bigwedge\,(\,B\,\bigvee\,C\,)
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-A\,\bigwedge\,-B
+A\wedge-B
 \end{equation}
 
 \end_inset
@@ -248,7 +264,7 @@ A\,\bigwedge\,-B
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-A\,\bigvee\,B
+A\vee B
 \end{equation}
 
 \end_inset
@@ -259,7 +275,7 @@ A\,\bigvee\,B
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-A\,\bigwedge\,(\,B\,\bigwedge\,-C\,)
+A\wedge(B\wedge-C)
 \end{equation}
 
 \end_inset
@@ -270,7 +286,7 @@ A\,\bigwedge\,(\,B\,\bigwedge\,-C\,)
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-A\,\bigvee\,(\,B\,\bigwedge\,-C\,)
+A\vee(B\wedge-C)
 \end{equation}
 
 \end_inset
@@ -442,7 +458,7 @@ Die x-Achse der Abbildungen 3.1 und 3.2 zeigt die Anzahl der gelösten SAT-Probl
  Abbildung 3.2 komplexer wurden, was durch die Ausweitung der Graphen wiedergespi
 egelt wird.
  Daraus kann geschlossen werden, dass die Solver mit den Jahren einen höhere
- Leistungsgrad erzielen 
+ Leistungsgrad erzielt haben 
 \begin_inset CommandInset citation
 LatexCommand citeyear
 key "biere_kissat_nodate"
@@ -464,9 +480,6 @@ Es existieren viele SAT-Solver, die gute Leistungen vollbringen beim Lösen
  einer SAT-Competition teilgenommen und diese auch zu ihrer Zeit gewonnen
  haben.
  Die zwei SAT-Solver, die vorgestellt werden, sind zChaff und MiniSAT.
- Einige Konzepte, die in den Solvern angewendet werden, werden für die Implentie
-rung teilweise verwendet.
- 
 \end_layout
 
 \begin_layout Subsection
@@ -484,7 +497,15 @@ Boolean Constrainst Propagation
 \begin_inset Quotes grd
 \end_inset
 
--Algorithmus (BCP) und 
+-Algorithmus (BCP) mit 
+\begin_inset Quotes gld
+\end_inset
+
+Watched Literals
+\begin_inset Quotes grd
+\end_inset
+
+ und 
 \begin_inset Quotes gld
 \end_inset
 
@@ -555,7 +576,16 @@ literal "false"
 \end_inset
 
 .
+ Viele Ideen von zChaff wurden von dem 2003 entwickelten MiniSAT übernommen
  
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "een_extensible_2003"
+literal "false"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Subsection
@@ -596,6 +626,8 @@ literal "false"
 \end_inset
 
 .
+ Durch das Konzept von MiniSAT sind viele SAT-Solver entstanden, die MiniSAT
+ als Basis verwenden.
 \end_layout
 
 \begin_layout Section
@@ -603,8 +635,24 @@ DIMACS Format
 \end_layout
 
 \begin_layout Standard
-Damit die SAT-Solver ein generelles Dateiformat einlesen könnnen, um aussagenlog
-ische Probleme zu lösen, wurde das DIMACS Format eingeführt.
+Damit SAT-Solver ein generelles Dateiformat einlesen könnnen, um aussagenlogisch
+e Probleme zu lösen, wurde das DIMACS Format eingeführt.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+newpage
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard

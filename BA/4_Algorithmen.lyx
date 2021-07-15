@@ -122,7 +122,16 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-Die erste Regel ist die Eliminierung von Klauseln mit nur einem Literal.
+Die erste Regel ist die Eliminierung von Klauseln mit nur einem Literal
+ 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "davis_computing_1960"
+literal "false"
+
+\end_inset
+
+.
  Mit dieser Regel wurden vier Teilregeln eingeführt.
  Diese sind folgende:
 \end_layout
@@ -165,6 +174,14 @@ Affirmative-Negative Rule
 \begin_inset Quotes grd
 \end_inset
 
+ 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "davis_computing_1960"
+literal "false"
+
+\end_inset
+
 .
  Diese Regel ist ähnlich zur Regel 1.2 und 1.3.
  Anstelle von atomaren Klauseln wird hier eine Entscheidung für ein Literal
@@ -173,7 +190,11 @@ Affirmative-Negative Rule
 \begin_inset Formula $p$
 \end_inset
 
- mit T belegt wird, so werden alle Klauseln mit einem positiven 
+ mit 
+\begin_inset Formula $T$
+\end_inset
+
+ belegt wird, so werden alle Klauseln mit einem positiven 
 \begin_inset Formula $p$
 \end_inset
 
@@ -182,12 +203,66 @@ Affirmative-Negative Rule
 \end_inset
 
  aus den Klauseln gelöscht werden.
- Dies geschieht auch umgekehrt mit einer Belegung von F.
+ Dies geschieht auch umgekehrt mit einer Belegung von 
+\begin_inset Formula $F$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
-Als dritte Regel wurde die Teilungs Regel vorgestellt.
- 
+Als dritte Regel wurde die Teilungs Regel vorgestellt 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "davis_machine_1962"
+literal "false"
+
+\end_inset
+
+.
+ In dieser Regel wird eine Formel F in 
+\begin_inset Formula $(A\vee p)\wedge(B\vee-p)\wedge R$
+\end_inset
+
+ aufgeteilt, wobei 
+\begin_inset Formula $p$
+\end_inset
+
+ nicht in 
+\begin_inset Formula $A,B$
+\end_inset
+
+ und 
+\begin_inset Formula $R$
+\end_inset
+
+ ist.
+ F wird UNSAT, wenn 
+\begin_inset Formula $A\wedge R$
+\end_inset
+
+ und 
+\begin_inset Formula $B\wedge R$
+\end_inset
+
+ beide inkonsistent sind.
+ Dies bedeutet, wenn 
+\begin_inset Formula $p=F$
+\end_inset
+
+ und 
+\begin_inset Formula $A\wedge R$
+\end_inset
+
+ und 
+\begin_inset Formula $p=T$
+\end_inset
+
+ und 
+\begin_inset Formula $B\wedge R$
+\end_inset
+
+ inkonsistenz aufzeigen, so ist F UNSAT.
 \end_layout
 
 \begin_layout Standard
@@ -207,14 +282,14 @@ newpage
 \end_layout
 
 \begin_layout Standard
-Ein Beispiel wie die Regelns des Algorithmus funktionieren, wird an folgenden
- Problem illustriert:
+Ein Beispiel wie die Regeln 1 und 2 funktionieren, wird an folgendem Problem
+ gezeigt:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-F\,=\,1\,\wedge\,(-1\vee2)\,\wedge\,(1\vee2)
+F\,=\,1\,\wedge\,(-1\vee-2)\,\wedge\,(1\vee2)\,\wedge\,(3\vee4)\,\wedge\,(4\vee5)
 \end{equation}
 
 \end_inset
@@ -254,7 +329,7 @@ end{center}
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\Leftrightarrow\,2\,\Longrightarrow SAT
+\Leftrightarrow2\,\wedge\,(3\vee4)\,\wedge\,(4\vee5)
 \end{equation}
 
 \end_inset
@@ -263,20 +338,187 @@ end{center}
 \end_layout
 
 \begin_layout Standard
-Die erste Teilregel der ersten Regel wird im ersten Schritt angewendet.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
+\end_inset
+
+Setze 2 = T 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\Leftrightarrow(3\vee4)\,\wedge\,(4\vee5)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
+\end_inset
+
+Setze 4 = T 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\Rightarrow SAT
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Die zweite Teilregel der ersten Regel wird im ersten Schritt angewendet.
  Diese löscht alle Klauseln, welche eine positive 1 besitzen, und alle negativen
  1 in allen Klauseln.
  Dadurch kommt die Formel 
-\begin_inset Formula $(2)$
+\begin_inset Formula $2\wedge(3\vee4)\wedge(4\vee5)$
 \end_inset
 
  im zweiten Schritt zustande.
- Trivialerweise wird die Formel nach setzen von 
-\begin_inset Formula $2=T$
+ Nach der Anwendung der dritten Teilregel für das Literal 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+(-2
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+) kommt die Formel 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $(3\vee4)\wedge(4\vee5)$
 \end_inset
 
- leer, wodurch die gesamte Formel mit SAT evaluiert wird.
- Wenn die Formel F jedoch noch eine Klausel 
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ als Ergebnis heraus.
+ Mit dem Einsetzen von 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $4=T$
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ wird die zweite Regel benutzt, wodurch die leere Menge entsteht.
+ Dadurch wird die gesamte Formel mit SAT evaluiert.
+\end_layout
+
+\begin_layout Standard
+Wenn die Formel F jedoch noch eine atomare Klausel 
 \begin_inset Formula $(-1)$
 \end_inset
 

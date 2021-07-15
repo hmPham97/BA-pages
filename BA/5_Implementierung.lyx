@@ -106,6 +106,11 @@ In der Implementierung werden mehrere
 Algorithmen
 \end_layout
 
+\begin_layout Standard
+Die wichtigsten Algorithmen in der Implementierung basieren auf Konzepte
+ von zChaff und MiniSAT.
+\end_layout
+
 \begin_layout Subsection
 Unitpropagation
 \end_layout
