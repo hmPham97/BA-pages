@@ -23,8 +23,8 @@ rmdups = rmdups' Set.empty where
     then rmdups' a c
     else b : rmdups' (Set.insert b a) c
 
--- | NOT DONE
--- | Example:
+-- | Analyze Function. Calls the conflict analyse, updates MappedTupleList and adds the new learned clause
+--  Example:
 --  f = analyzeConflict  (Level 1) [Variable (-1), Variable (-2)] (Map.fromList [(Level 1, [((Variable (-1), BTrue), Decision), ((Variable 2, BTrue), Reason [Variable (-1), Variable 2])])]) [([Variable (-1), Variable 2], [Variable (-1), Variable 2]), ([Variable (-1), Variable (-2)], [Variable (-1), Variable (-2)])] Map.Empty
 analyzeConflict :: Level -> Clause -> MappedTupleList -> ActivityMap -> (Level, Clause, MappedTupleList, ActivityMap)
 analyzeConflict lvl emptyClause mtl aMap
@@ -40,9 +40,7 @@ analyzeConflict lvl emptyClause mtl aMap
 --   E.G.
 --   calcReason (Level 1) [Variable (-1), Variable 2] (Map.fromList [(Level 1, [ ((Variable (-1), BTrue), Decision), ((Variable 2, BFalse), Reason [Variable (-1), Variable (-2)]) ] )] )
 --   calcReason (Level 1) [Variable 1] (Map.fromList [(Level 1, [((Variable 1, BFalse), Decision)])])
---
 --   calcReason (Level 1) [Variable 1, Variable 2] (Map.fromList [(Level 1, [((Variable 1, BFalse), Decision), ((Variable 2, BTrue), Reason [Variable 2])])])
-
 -- calcReason (Level 1) [Variable (-2), Variable (-3)] (Map.fromList [(Level 1, [((Variable 2, BTrue), Decision), ((Variable 3, BTrue), Reason [Variable (-2), Variable 3])])])
 calcReason :: Level -> Clause -> MappedTupleList -> Clause
 calcReason lvl emptyClause mtl
