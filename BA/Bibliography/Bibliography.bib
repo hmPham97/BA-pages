@@ -177,23 +177,6 @@
 	file = {SAT-Race 2006:files/52/results.html:text/html},
 }
 
-@incollection{biere_chapter_2021,
-	title = {Chapter 18. {Bounded} {Model} {Checking}},
-	isbn = {978-1-64368-160-3 978-1-64368-161-0},
-	url = {http://ebooks.iospress.nl/doi/10.3233/FAIA201002},
-	abstract = {One of the most important industrial applications of SAT is currently Bounded Model Checking (BMC). This technique is typically used for formal hardware verification in the context of Electronic Design Automation. But BMC has successfully been applied to many other domains as well. In practice, BMC is mainly used for falsification, which is concerned with violations of temporal properties. In addition, a considerable part of this chapter discusses complete extensions, including k-induction and interpolation. These extensions also allow to prove properties.},
-	language = {en},
-	urldate = {2021-07-09},
-	booktitle = {Frontiers in {Artificial} {Intelligence} and {Applications}},
-	publisher = {IOS Press},
-	author = {Biere, Armin},
-	editor = {Biere, Armin and Heule, Marijn and van Maaren, Hans and Walsh, Toby},
-	month = feb,
-	year = {2021},
-	doi = {10.3233/FAIA201002},
-	file = {FAIA185-0457.pdf:files/53/FAIA185-0457.pdf:application/pdf},
-}
-
 @article{davis_computing_1960,
 	title = {A {Computing} {Procedure} for {Quantification} {Theory}},
 	volume = {7},
@@ -236,4 +219,42 @@
 	urldate = {2021-07-14},
 	author = {Nokie, Edward G.},
 	file = {Side Effects:files/63/side.effects.html:text/html},
+}
+
+@article{marques-silva_grasp_1999,
+	title = {{GRASP}: a search algorithm for propositional satisfiability},
+	volume = {48},
+	issn = {00189340},
+	shorttitle = {{GRASP}},
+	url = {http://ieeexplore.ieee.org/document/769433/},
+	doi = {10.1109/12.769433},
+	abstract = {{\DH}This paper introduces GRASP (Generic seaRch Algorithm for the Satisfiability Problem), a new search algorithm for Propositional Satisfiability (SAT). GRASP incorporates several search-pruning techniques that proved to be quite powerful on a wide variety of SAT problems. Some of these techniques are specific to SAT, whereas others are similar in spirit to approaches in other fields of Artificial Intelligence. GRASP is premised on the inevitability of conflicts during the search and its most distinguishing feature is the augmentation of basic backtracking search with a powerful conflict analysis procedure. Analyzing conflicts to determine their causes enables GRASP to backtrack nonchronologically to earlier levels in the search tree, potentially pruning large portions of the search space. In addition, by {\textordfeminine}recording{\textordmasculine} the causes of conflicts, GRASP can recognize and preempt the occurrence of similar conflicts later on in the search. Finally, straightforward bookkeeping of the causality chains leading up to conflicts allows GRASP to identify assignments that are necessary for a solution to be found. Experimental results obtained from a large number of benchmarks indicate that application of the proposed conflict analysis techniques to SAT algorithms can be extremely effective for a large number of representative classes of SAT instances.},
+	language = {en},
+	number = {5},
+	urldate = {2021-07-16},
+	journal = {IEEE Transactions on Computers},
+	author = {Marques-Silva, J.P. and Sakallah, K.A.},
+	month = may,
+	year = {1999},
+	pages = {506--521},
+	file = {Marques-Silva und Sakallah - 1999 - GRASP a search algorithm for propositional satisf.pdf:files/64/Marques-Silva und Sakallah - 1999 - GRASP a search algorithm for propositional satisf.pdf:application/pdf},
+}
+
+@inproceedings{marques_graspnew_1996,
+	title = {{GRASP}{\textemdash}{A} {New} {Search} {Algorithm} for {Satisfiability}},
+	abstract = {This report introduces GRASP (Generic seaRch Algorithm for the Satisfiability Problem), an integrated algorithmic framework for SAT that unifies several previously proposed search-pruning techniques and facilitates identification of additional ones. GRASP is premised on the inevitability of conflicts during search and its most distinguishing feature is the augmentation of basic backtracking search with a powerful conflict analysis procedure. Analyzing conflicts to determine their causes enables GRASP to backtrack non-chronologically to earlier levels in the search tree, potentially pruning large portions of the search space. In addition, by "recording" the causes of conflicts, GRASP can recognize and preempt the occurrence of similar conflicts later on in the search. Finally, straightforward bookkeeping of the causality chains leading up to conflicts allows GRASP to identify assignments that are necessary for a solution to be found. Experimental results obtained from a large number of ...},
+	booktitle = {in {Proceedings} of the {International} {Conference} on {Computer}-{Aided} {Design}},
+	author = {Marques, Jo and Silva, Jo??o P. Marques and Silva, Jo??o P. Marques and Sakallah, Karem A. and Sakallah, Karem A.},
+	year = {1996},
+	pages = {220--227},
+	file = {Citeseer - Full Text PDF:files/67/Marques et al. - 1996 - GRASP{\textemdash}A New Search Algorithm for Satisfiability.pdf:application/pdf;Citeseer - Snapshot:files/68/download.html:text/html},
+}
+
+@article{jr_using_nodate,
+	title = {Using {CSP} {Look}-{Back} {Techniques} to {Solve} {Real}-{World} {SAT} {Instances}},
+	abstract = {We report on the performance of an enhanced version of the {\textquotedblleft}Davis-Putnam{\textquotedblright} (DP) proof procedure for propositional satisfiability (SAT) on large instances derived from realworld problems in planning, scheduling, and circuit diagnosis and synthesis. Our results show that incorporating CSP lookback techniques -- especially the relatively new technique of relevance-bounded learning -- renders easy many problems which otherwise are beyond DP{\textquoteright}s reach. Frequently they make DP, a systematic algorithm, perform as well or better than stochastic SAT algorithms such as GSAT or WSAT. We recommend that such techniques be included as options in implementations of DP, just as they are in systematic algorithms for the more general constraint satisfaction problem.},
+	language = {en},
+	author = {Jr, Roberto J Bayardo and Schrag, Robert C},
+	pages = {6},
+	file = {Jr und Schrag - Using CSP Look-Back Techniques to Solve Real-World.pdf:files/69/Jr und Schrag - Using CSP Look-Back Techniques to Solve Real-World.pdf:application/pdf},
 }

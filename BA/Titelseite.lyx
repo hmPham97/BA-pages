@@ -113,6 +113,14 @@ Rein funktionelle Implementierung eines CDCL SAT-Solvers
 \end_layout
 
 \begin_layout Standard
+\align center
+
+\series bold
+\size huge
+Purely functional implementation of a CDCL SAT solver
+\end_layout
+
+\begin_layout Standard
 \begin_inset VSpace 3cm
 \end_inset
 
@@ -125,6 +133,29 @@ Rein funktionelle Implementierung eines CDCL SAT-Solvers
 \series bold
 \size large
 Bachelorarbeit
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace 1cm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Thanh Nam Pham
+\end_layout
+
+\begin_layout Standard
+Matrikelnummer
+\end_layout
+
+\begin_layout Standard
+Katharina-Mair-Straße 142
+\end_layout
+
+\begin_layout Standard
+85356 Freising
 \end_layout
 
 \end_body

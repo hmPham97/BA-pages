@@ -219,8 +219,7 @@ In dieser Arbeit ist ein Literal ein Zeichen, welches mit Wahr (T) oder
  Falsch (F) belegt werden kann und negiert (-) sein kann.
  Eine Klausel besteht aus einer Menge von disjunkten Literalen, während
  eine Formel eine Menge von konjunkten Klauseln ist.
- Folgende Beispiele zeigen Formeln in CNF und Formeln, die nicht in CNF
- sind.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -237,6 +236,10 @@ newpage
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Folgende Beispiele zeigen Formeln, die in CNF oder nicht in CNF sind.
 \end_layout
 
 \begin_layout Standard
@@ -539,7 +542,16 @@ literal "false"
 \end_inset
 
 .
- 
+ Viele von diesen Ideen wurden später für den 2003 entwickelten MiniSAT
+ übernommen 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "een_extensible_2003"
+literal "false"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -576,16 +588,7 @@ literal "false"
 \end_inset
 
 .
- Viele Ideen von zChaff wurden von dem 2003 entwickelten MiniSAT übernommen
  
-\begin_inset CommandInset citation
-LatexCommand citeyear
-key "een_extensible_2003"
-literal "false"
-
-\end_inset
-
-.
 \end_layout
 
 \begin_layout Subsection
@@ -614,6 +617,8 @@ literal "false"
 \end_inset
 
 .
+ Durch dieses Konzept sind viele SAT-Solver entstanden, die MiniSAT als
+ Basis für ihre Entwicklung verwendet haben.
 \end_layout
 
 \begin_layout Standard
@@ -626,17 +631,7 @@ literal "false"
 \end_inset
 
 .
- Durch das Konzept von MiniSAT sind viele SAT-Solver entstanden, die MiniSAT
- als Basis verwenden.
-\end_layout
-
-\begin_layout Section
-DIMACS Format
-\end_layout
-
-\begin_layout Standard
-Damit SAT-Solver ein generelles Dateiformat einlesen könnnen, um aussagenlogisch
-e Probleme zu lösen, wurde das DIMACS Format eingeführt.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -653,6 +648,15 @@ newpage
 \end_inset
 
 
+\end_layout
+
+\begin_layout Section
+DIMACS Format
+\end_layout
+
+\begin_layout Standard
+Damit SAT-Solver ein generelles Dateiformat einlesen könnnen, um aussagenlogisch
+e Probleme zu lösen, wurde das DIMACS Format eingeführt.
 \end_layout
 
 \begin_layout Standard
@@ -718,15 +722,32 @@ c
 \end_inset
 
  symbolisiert wie z.B.
- in Zeile 1 und 5 im Beispiel, während kleine p's die Anzahl der Literale
- und Klauseln zeigt.
+ in Zeile 1 und 5 im Beispiel, während kleine p's die Spezifikationen des
+ SAT-Problemes zeigen.
  Der erste Integer in Zeile 3 steht für die Anzahl der Literale und der
  Zweite für die Anzahl der Klauseln.
  Wenn nach der p-Zeile ein Integer oder ein Minus die Zeile anführt, so
  beginnt eine Klausel.
- Diese Klausel wird dann mit einer 0 beendet und es wird eine neue Zeile
- eingelesen.
+ Integer in diesen Zeilen können entweder positive oder negative Literale
+ darstellen.
+ Wenn eine 0 eingelesen wird, ist die Klausel vollständig und es wird eine
+ neue Zeile eingelesen.
  
+\end_layout
+
+\begin_layout Standard
+Die decodierte Formel für das obige Beispiel sieht folgendermaßen aus: 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+(1\vee2\vee-3)\wedge(-2\vee-1)
+\]
+
+\end_inset
+
+
 \end_layout
 
 \end_body

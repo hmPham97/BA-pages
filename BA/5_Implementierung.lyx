@@ -107,8 +107,8 @@ Algorithmen
 \end_layout
 
 \begin_layout Standard
-Die wichtigsten Algorithmen in der Implementierung basieren auf Konzepte
- von zChaff und MiniSAT.
+Die wichtigsten Algorithmen in der Implementierung basieren auf Konzepte,
+ die von zChaff und MiniSAT verwendet werden.
 \end_layout
 
 \begin_layout Subsection

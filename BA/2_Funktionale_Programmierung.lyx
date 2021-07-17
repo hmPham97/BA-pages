@@ -352,11 +352,6 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-Im Folgenden werden Beispielfunktionen in Haskell gezeigt, welche die in
- Kapitel 2.3 vorgeführten Vorteile darstellt.
-\end_layout
-
-\begin_layout Standard
 \begin_inset ERT
 status open
 
@@ -370,6 +365,11 @@ newpage
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Im Folgenden werden Beispielfunktionen in Haskell gezeigt, welche die in
+ Kapitel 2.3 vorgeführten Vorteile darstellt.
 \end_layout
 
 \begin_layout Standard
@@ -484,9 +484,9 @@ Eager Evaluation
 \begin_inset Quotes grd
 \end_inset
 
- (das Gegenteil von Lazy Evaluation) x und y in Zeile 2 evaluieren.
- Lazy Evaluation hingegen evaluiert nur den Parameter x, da y nicht verwendet
- wird.
+ (das Gegenteil von Lazy Evaluation) die Parameter x und y in Zeile 2 evaluieren.
+ Lazy Evaluation hingegen evaluiert nur den Parameter x, da y nicht weiter
+ verwendet wird in der Funktion.
  In der Beispielsfunktion 
 \begin_inset Quotes gld
 \end_inset
@@ -495,7 +495,7 @@ lazy2
 \begin_inset Quotes grd
 \end_inset
 
- wird y in Zeile 5 nur evaluiert, wenn x größer als 2 ist.
+ wird der Parameter y in Zeile 5 nur evaluiert, wenn x größer als 2 ist.
 \end_layout
 
 \end_body

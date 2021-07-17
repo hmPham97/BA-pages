@@ -266,27 +266,12 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-newpage
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
 Ein Beispiel wie die Regeln 1 und 2 funktionieren, wird an folgendem Problem
  gezeigt:
 \end_layout
 
 \begin_layout Standard
+\paragraph_spacing onehalf
 \begin_inset Formula 
 \begin{equation}
 F\,=\,1\,\wedge\,(-1\vee-2)\,\wedge\,(1\vee2)\,\wedge\,(3\vee4)\,\wedge\,(4\vee5)
@@ -298,28 +283,11 @@ F\,=\,1\,\wedge\,(-1\vee-2)\,\wedge\,(1\vee2)\,\wedge\,(3\vee4)\,\wedge\,(4\vee5
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{center}
-\end_layout
-
-\end_inset
-
-Setze 1 = T 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{center}
-\end_layout
+\paragraph_spacing onehalf
+\begin_inset Formula 
+\[
+Setze\,1=T
+\]
 
 \end_inset
 
@@ -327,6 +295,7 @@ end{center}
 \end_layout
 
 \begin_layout Standard
+\paragraph_spacing onehalf
 \begin_inset Formula 
 \begin{equation}
 \Leftrightarrow2\,\wedge\,(3\vee4)\,\wedge\,(4\vee5)
@@ -338,28 +307,11 @@ end{center}
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{center}
-\end_layout
-
-\end_inset
-
-Setze 2 = T 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{center}
-\end_layout
+\paragraph_spacing onehalf
+\begin_inset Formula 
+\[
+Setze\,2=T
+\]
 
 \end_inset
 
@@ -367,6 +319,7 @@ end{center}
 \end_layout
 
 \begin_layout Standard
+\paragraph_spacing onehalf
 \begin_inset Formula 
 \begin{equation}
 \Leftrightarrow(3\vee4)\,\wedge\,(4\vee5)
@@ -378,28 +331,11 @@ end{center}
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{center}
-\end_layout
-
-\end_inset
-
-Setze 4 = T 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{center}
-\end_layout
+\paragraph_spacing onehalf
+\begin_inset Formula 
+\[
+Setze\,4=T
+\]
 
 \end_inset
 
@@ -407,6 +343,7 @@ end{center}
 \end_layout
 
 \begin_layout Standard
+\paragraph_spacing onehalf
 \begin_inset Formula 
 \begin{equation}
 \Rightarrow SAT
@@ -527,6 +464,22 @@ Wenn die Formel F jedoch noch eine atomare Klausel
  Vorzeichen und gleichen Literalen die Formel als UNSAT beurteilt.
 \end_layout
 
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+newpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 CDCL-Algorithmus
 \end_layout
@@ -535,7 +488,31 @@ CDCL-Algorithmus
 Der CDCL-Algorithmus basiert auf den DPLL-Algorithmus und verwendet zusätzlich
  zu den Regeln mehrere Optimierungen und einen Algorithmus, welches dem
  CDCL seinem Namen verdankt.
- Optimierungen die mit 
+ CDCL wurde in Publikationen von Marques-Silva und Sakallah 1996 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "marques_graspnew_1996"
+literal "false"
+
+\end_inset
+
+ und 1999 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "marques-silva_grasp_1999"
+literal "false"
+
+\end_inset
+
+ und Bayardo und Schrag 1997 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "jr_using_nodate"
+literal "false"
+
+\end_inset
+
+ vorgeschlagen.
 \end_layout
 
 \end_body
