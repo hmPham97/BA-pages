@@ -112,14 +112,43 @@ Die wichtigsten Algorithmen in der Implementierung basieren auf Konzepte,
 \end_layout
 
 \begin_layout Subsection
+Entscheidungsalgorithmus / Decision 
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Entscheidungsalgorithmus"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
 Unitpropagation
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Unitpropagation"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-Die Unitpropagation ist einer der wichtigsten Algorithmen für moderne SAT-Solver.
+Die Unitpropagation, oder auch BCP, ist einer der wichtigsten Algorithmen
+ für moderne SAT-Solver.
  In der Unitpropagation werden Klauseln, die nur ein unbelegtes Literal
  besitzen und noch nicht als SAT evaluiert sind, so belegt, dass Sie wahr
- werden (siehe Kapitel 4.1).
+ werden (siehe 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:DPLL-Algorithmus"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
  
 \end_layout
 
@@ -251,6 +280,14 @@ Zunächst wird überprüft, ob die ClauseList Elemente besitzt.
  MappedTupleList aufgenommen..
  Solange der erste Fall nicht eintritt, arbeitet der Algorithmus rekursiv
  mit den bearbeiteten Daten weiter.
+\end_layout
+
+\begin_layout Subsection
+Konfliktanalyse / Conflict analysis
+\end_layout
+
+\begin_layout Subsection
+Programmaufbau
 \end_layout
 
 \end_body

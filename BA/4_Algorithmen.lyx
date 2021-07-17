@@ -94,7 +94,14 @@ In diesem Kapitel wird der DPLL-Algorithmus und CDCL-Algorithmus vorgestellt.
 \end_layout
 
 \begin_layout Section
-DPLL-Algorithmus
+DPLL-Algorithmus 
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:DPLL-Algorithmus"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -485,7 +492,7 @@ CDCL-Algorithmus
 \end_layout
 
 \begin_layout Standard
-Der CDCL-Algorithmus basiert auf den DPLL-Algorithmus und verwendet zusätzlich
+CDCL SAT-Solver basieren auf den DPLL-Algorithmus und verwenden zusätzlich
  zu den Regeln mehrere Optimierungen und einen Algorithmus, welches dem
  CDCL seinem Namen verdankt.
  CDCL wurde in Publikationen von Marques-Silva und Sakallah 1996 
@@ -513,6 +520,190 @@ literal "false"
 \end_inset
 
  vorgeschlagen.
+ Der CDCL-Algorithmus wird immer dann angewendet, wenn nach der Anwendung
+ des Entscheidungsalgorithmus (siehe 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Entscheidungsalgorithmus"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) und 
+\begin_inset Quotes gld
+\end_inset
+
+Boolean Constraint Propagation
+\begin_inset Quotes grd
+\end_inset
+
+ (BCP, siehe 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Unitpropagation"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) ein Konflikt auftritt.
+ Ein Konflikt ensteht, wenn eine Zuweisung von Literalen bei einer Klausel
+ kein logisches wahre Aussage ergibt.
+ Das folgendes Beispiel soll diesen Fall zeigen:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+F\,=\,(-1\vee-2)\wedge(-1\vee2)\wedge(1\vee2)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Setze\,1=T\,(Entscheidung)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\Leftrightarrow-2\wedge2
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Setze\,2=F
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Rightarrow Konflikt\,bei\,Klausel\,(-1\vee2)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Die Klausel 
+\begin_inset Formula $(-1\vee2)$
+\end_inset
+
+ hat einen Konflikt für die Belegungen 
+\begin_inset Formula $1=T$
+\end_inset
+
+ und 
+\begin_inset Formula $2=F$
+\end_inset
+
+ verursacht.
+ Diese wird auch als Konfliktklausel bezeichnet.
+ In der Publikation von Marques-Silva und Sakallah 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "marques-silva_grasp_1999"
+literal "false"
+
+\end_inset
+
+ wird ein Implikationsgraph vorgeschlagen, um diesen Konflikt zu lösen.
+ Für die Formel in 4.5 würde der Graph folgendermaßen aussehen:
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename Abbildungen/example.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+captionof{figure}{Beispiel eines Implikationsgraphen}{Die Plusse stellen
+ 
+\backslash
+begin{math} 
+\backslash
+vee 
+\backslash
+end{math} dar} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+NICHT FERTIG
 \end_layout
 
 \end_body

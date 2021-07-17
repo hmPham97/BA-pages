@@ -84,13 +84,15 @@
 \begin_body
 
 \begin_layout Chapter
-Vergleich der Implementierung
+Auswertung der Implementierung
 \end_layout
 
 \begin_layout Paragraph
 In diesem Kapitel wird die Richtigkeit des SAT-Solvers mit dem PicoSAT-Solver
  verglichen.
-  
+ Nach dem Vergleich wird eine Auswertungen der Zeiten für das Lösen von
+ SAT-Problemen erstellt, wobei die Implementierung mit zChaff und MiniSAT
+ verglichen wird.
 \end_layout
 
 \end_body
