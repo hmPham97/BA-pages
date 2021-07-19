@@ -1,9 +1,9 @@
 module CDCL.Conflict (analyzeConflict, calcReason) where
 
 import           CDCL.Types (ActivityMap, Clause, ClauseList, Level (..),
-                     MappedTupleList, Reason (..), TupleClauseList,
-                     Variable (..), decreaseLvl, getLevel, getReason,
-                     negateVariableValue)
+                     Literal (..), MappedTupleList, Reason (..),
+                     TupleClauseList, decreaseLvl, getLevel, getReason,
+                     negateLiteralValue)
 
 import           CDCL.Decisionalalgorithm (updateActivity)
 
@@ -25,7 +25,7 @@ rmdups = rmdups' Set.empty where
 
 -- | Analyze Function. Calls the conflict analyse, updates MappedTupleList and adds the new learned clause
 --  Example:
---  f = analyzeConflict  (Level 1) [Variable (-1), Variable (-2)] (Map.fromList [(Level 1, [((Variable (-1), BTrue), Decision), ((Variable 2, BTrue), Reason [Variable (-1), Variable 2])])]) [([Variable (-1), Variable 2], [Variable (-1), Variable 2]), ([Variable (-1), Variable (-2)], [Variable (-1), Variable (-2)])] Map.Empty
+--  f = analyzeConflict  (Level 1) [Literal (-1), Literal (-2)] (Map.fromList [(Level 1, [((Literal (-1), BTrue), Decision), ((Literal 2, BTrue), Reason [Literal (-1), Literal 2])])]) [([Literal (-1), Literal 2], [Literal (-1), Literal 2]), ([Literal (-1), Literal (-2)], [Literal (-1), Literal (-2)])] Map.Empty
 analyzeConflict :: Level -> Clause -> MappedTupleList -> ActivityMap -> (Level, Clause, MappedTupleList, ActivityMap)
 analyzeConflict lvl emptyClause mtl aMap
 
@@ -38,10 +38,10 @@ analyzeConflict lvl emptyClause mtl aMap
 
 -- | Calculate the reason of conflict. Uses calcReason' to calculate the 1UIP Clause and returns it.
 --   E.G.
---   calcReason (Level 1) [Variable (-1), Variable 2] (Map.fromList [(Level 1, [ ((Variable (-1), BTrue), Decision), ((Variable 2, BFalse), Reason [Variable (-1), Variable (-2)]) ] )] )
---   calcReason (Level 1) [Variable 1] (Map.fromList [(Level 1, [((Variable 1, BFalse), Decision)])])
---   calcReason (Level 1) [Variable 1, Variable 2] (Map.fromList [(Level 1, [((Variable 1, BFalse), Decision), ((Variable 2, BTrue), Reason [Variable 2])])])
--- calcReason (Level 1) [Variable (-2), Variable (-3)] (Map.fromList [(Level 1, [((Variable 2, BTrue), Decision), ((Variable 3, BTrue), Reason [Variable (-2), Variable 3])])])
+--   calcReason (Level 1) [Literal (-1), Literal 2] (Map.fromList [(Level 1, [ ((Literal (-1), BTrue), Decision), ((Literal 2, BFalse), Reason [Literal (-1), Literal (-2)]) ] )] )
+--   calcReason (Level 1) [Literal 1] (Map.fromList [(Level 1, [((Literal 1, BFalse), Decision)])])
+--   calcReason (Level 1) [Literal 1, Literal 2] (Map.fromList [(Level 1, [((Literal 1, BFalse), Decision), ((Literal 2, BTrue), Reason [Literal 2])])])
+-- calcReason (Level 1) [Literal (-2), Literal (-3)] (Map.fromList [(Level 1, [((Literal 2, BTrue), Decision), ((Literal 3, BTrue), Reason [Literal (-2), Literal 3])])])
 calcReason :: Level -> Clause -> MappedTupleList -> Clause
 calcReason lvl emptyClause mtl
 
@@ -75,16 +75,16 @@ addClause cl aMap
 
 -- | Creates the new clause. Works by applying union to
 --   empty clause with the reason. Also calls function to remove
---   the variable which causes the conflict
-unionClause :: Clause -> Clause -> Variable -> Clause
+--   the Literal which causes the conflict
+unionClause :: Clause -> Clause -> Literal -> Clause
 unionClause cl1 cl2 v = let list =  cl1 `union` cl2 in
-    removeVariable list v
+    removeLiteral list v
 
--- | remove the variable which was the cause for the conflict from
+-- | remove the Literal which was the cause for the conflict from
 --   the clause.
-removeVariable :: Clause -> Variable -> Clause
-removeVariable [] v = []
-removeVariable clause@(xs : ys) v
-    | xs == v || xs == negateVariableValue v = removeVariable ys v
-    | otherwise = xs : removeVariable ys v
+removeLiteral :: Clause -> Literal -> Clause
+removeLiteral [] v = []
+removeLiteral clause@(xs : ys) v
+    | xs == v || xs == negateLiteralValue v = removeLiteral ys v
+    | otherwise = xs : removeLiteral ys v
 

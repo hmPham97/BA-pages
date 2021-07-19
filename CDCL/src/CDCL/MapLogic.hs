@@ -13,8 +13,7 @@ module CDCL.MapLogic (pushToMappedTupleList, deleteLvl) where
 
 import           CDCL.Types (BoolVal (..), Clause, ClauseList, Level (..),
                      MappedTupleList, Reason (..), ReducedClauseAndOGClause,
-                     TriTuple, Tuple, TupleClause, TupleClauseList,
-                     getVariableValue, negateVariableValue)
+                     TriTuple, Tuple, TupleClause, TupleClauseList)
 import qualified CDCL.Types as TypesC
 
 import           Data.Map.Strict (Map)

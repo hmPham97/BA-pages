@@ -37,10 +37,10 @@ instance Show CDCLResult where
     show (UNSAT_WITH_STATS cl conf) = "UNSAT. Learned Clauses: \n" ++ show cl  ++ "\nClauses which caused conflict:\n" ++ show conf
 
 -- | Datatype for Reason
---   Shows if it was a decision or if the set Variable has a clause as Reason
+--   Shows if it was a decision or if the set Literal has a clause as Reason
 --   for the set BoolVal
 data Reason =
-        -- | The algorithm decided that the variable will have the value it has
+        -- | The algorithm decided that the Literal will have the value it has
         Decision
     |
         -- | The algorithm calculated the BoolVal based on the other set BoolVal
@@ -48,7 +48,7 @@ data Reason =
     deriving (Show, Eq, Ord)
 
 -- | Datatyp for BoolVal
---   Is used to show which value the set Variable has
+--   Is used to show which value the set Literal has
 data BoolVal =
         -- | Valuewise 0
         BFalse
@@ -68,12 +68,12 @@ data InterpretResult =
         -- | Valuewise 0. The conflict clause will be shown in Clause
         NOK Clause
     |
-        -- | Valuewise -1. A variable isn't set, which can solve the clause.
+        -- | Valuewise -1. A Literal isn't set, which can solve the clause.
         UNRESOLVED
     deriving (Show, Eq, Ord)
 
--- | Variable defined as Integer
-newtype Variable = Var Integer
+-- | Literal defined as Integer
+newtype Literal = Lit Integer
     deriving (Show, Eq, Ord)
 
 -- | Level is associated with the decision level.
@@ -89,8 +89,8 @@ newtype Activity = Activity Integer
 newtype Period = Period Integer
     deriving (Eq)
 
--- | Clause defined as a List of Variables
-type Clause = [Variable]
+-- | Clause defined as a List of Literals
+type Clause = [Literal]
 
 -- | Tuple of 2 Clauses
 --   First clause in tuple is reduced via Unitresolution
@@ -100,9 +100,9 @@ type ReducedClauseAndOGClause = (Clause, Clause)
 -- | ClauseList defined as a List of ReducedClauseAndOGClause
 type ClauseList = [ReducedClauseAndOGClause]
 
--- | Tuple is defined as a Tuple of (Variables, Integer).
+-- | Tuple is defined as a Tuple of (Literals, Integer).
 --   Integers in this case are only 0 or 1 valuewise.
-type Tuple = (Variable, BoolVal)
+type Tuple = (Literal, BoolVal)
 
 -- | List containing Tupels.
 type TupleList = [Tuple]
@@ -116,13 +116,13 @@ type TupleClauseList = [TupleClause]
 -- | Defined as Map.Map Integer TupleList
 type MappedTupleList = Map.Map Level TupleClauseList
 
--- | Shows how often a variable is found in the formulas
--- | Defined as Map.Map Variable Activity
-type ActivityMap = Map.Map Variable Activity
+-- | Shows how often a Literal is found in the formulas
+-- | Defined as Map.Map Literal Activity
+type ActivityMap = Map.Map Literal Activity
 
--- | Is a single Tuple containing the variable and activty
---   Defined as (Variable, Activty)
-type VariableActivity = (Variable, Activity)
+-- | Is a single Tuple containing the Literal and activty
+--   Defined as (Literal, Activty)
+type LiteralActivity = (Literal, Activity)
 
 -- | Defined by using three Types.
 --   These are ClauseList, TupelClauseList and MappedTupleList
@@ -140,13 +140,13 @@ decreaseLvl (Level i) = Level (i - 1)
 getLevel :: Level -> Integer
 getLevel (Level i) = i
 
--- | Get the Integervalue of the given Variable
-getVariableValue :: Variable -> Integer
-getVariableValue (Var x) = x
+-- | Get the Integervalue of the given Literal
+getLiteralValue :: Literal -> Integer
+getLiteralValue (Lit x) = x
 
 -- | Multiply the given Integervalue with -1
-negateVariableValue :: Variable -> Variable
-negateVariableValue (Var x) = Var (-x)
+negateLiteralValue :: Literal -> Literal
+negateLiteralValue (Lit x) = Lit (-x)
 
 -- | Get the Integervalue of the given Activity
 getActivityValue :: Activity -> Integer
@@ -168,8 +168,8 @@ transformClauseList (xs : ys)
 -- | Transforms a list of Integers into a ReducedClauseAndOGClause
 transformClause :: [Integer] -> Clause -> ReducedClauseAndOGClause
 transformClause (xs : ys) varList
-    | null ys = (Var xs : varList, Var xs : varList)
-    | otherwise = transformClause ys (Var xs : varList)
+    | null ys = (Lit xs : varList, Lit xs : varList)
+    | otherwise = transformClause ys (Lit xs : varList)
 -- | Checks if Interpretresult contains NOK.
 --   Return true if it does, else false
 getNOK :: InterpretResult -> Bool

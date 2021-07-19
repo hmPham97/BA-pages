@@ -17,16 +17,16 @@ module CDCL.Algorithm (cdcl, interpret, searchTuple) where
 
 import           CDCL.Decisionalalgorithm (getHighestActivity,
                      getShortestClauseViaActivity, halveActivityMap,
-                     initialActivity, setVariableViaActivity, updateActivity)
+                     initialActivity, setLiteralViaActivity, updateActivity)
 
 import           CDCL.Types (Activity (..), ActivityMap, BoolVal (..),
                      CDCLResult (..), Clause, ClauseList, InterpretResult (..),
-                     Level (..), MappedTupleList, Period (..), TriTuple, Tuple,
-                     TupleClauseList, Variable (..), decreasePeriod,
+                     Level (..), Literal (..), MappedTupleList, Period (..),
+                     TriTuple, Tuple, TupleClauseList, decreasePeriod,
                      getClauseFromReducedClauseAndOGClause, getEmptyClause,
-                     getNOK, getOGFromReducedClauseAndOGClause,
-                     getVariableValue, increaseLvl, negateVariableValue,
-                     transformClauseList)
+                     getLiteralValue, getNOK,
+                     getOGFromReducedClauseAndOGClause, increaseLvl,
+                     negateLiteralValue, transformClauseList)
 import qualified CDCL.Types as TypeC
 
 import           CDCL.Unitpropagation (unitPropagation, unitResolution,
@@ -184,13 +184,13 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist learnedClauses confC
           periodUpdate2 = if periodUpdate == Period 0 then hardCoded else periodUpdate
 
           newLvl = increaseLvl (Level lvl)
-          highestActivity = getHighestActivity (getClauseListFromTriTuple res) aMap [(Var 0, Activity (-1))]
+          highestActivity = getHighestActivity (getClauseListFromTriTuple res) aMap [(Lit 0, Activity (-1))]
           shortestCl = getShortestClauseViaActivity (getClauseListFromTriTuple res) [] highestActivity
           firstShortestCl = head shortestCl
 
           assuredShortestClause = getClauseFromReducedClauseAndOGClause firstShortestCl
-          firstHighestActivityInClause = getHighestActivity [firstShortestCl] aMap [(Var 0, Activity (-1))]
-          decided = setVariableViaActivity assuredShortestClause (head firstHighestActivityInClause) -- Need change here? it takes first highest found VariableActivity in the clause.
+          firstHighestActivityInClause = getHighestActivity [firstShortestCl] aMap [(Lit 0, Activity (-1))]
+          decided = setLiteralViaActivity assuredShortestClause (head firstHighestActivityInClause) -- Need change here? it takes first highest found LiteralActivity in the clause.
           updateMapViaDecision = uncurry (pushToMappedTupleList updatedMap newLvl) decided
           list = decided : tupleRes
 
@@ -227,8 +227,8 @@ interpret t@(formel : xs) interpretation
 -- | Interprets a single clause of a formula
 --   It will return either
 --   OK
---   NOK (emptyClause) <-- Clause which returns 0 with the set variables.
---   UNRESOLVED <-- No Variable evaluated the clause to 1.
+--   NOK (emptyClause) <-- Clause which returns 0 with the set Literals.
+--   UNRESOLVED <-- No Literal evaluated the clause to 1.
 interpret' :: Clause -> TupleClauseList -> Bool -> InterpretResult
 interpret' (formel : xs) interpretation boolValue
 
@@ -238,20 +238,20 @@ interpret' (formel : xs) interpretation boolValue
     -- tupelValue not set but xs isn't null. Continue with the iteration.
     | tupelValue == BNothing  && not (null xs) = interpret' xs interpretation True
 
-    -- The given Variable evalutes to 1. Returns OK
+    -- The given Literal evalutes to 1. Returns OK
     | (formelValue >= 0 && tupelValue == BTrue) || (formelValue < 0 && tupelValue == BFalse) = OK
 
-    -- Current Variable evalutes to 0 and xs is null. If it never entered to the second case it will return NOK. Otherwise it will enter below case to return UNRESOLVED
+    -- Current Literal evalutes to 0 and xs is null. If it never entered to the second case it will return NOK. Otherwise it will enter below case to return UNRESOLVED
     | ((formelValue >= 0 && tupelValue == BFalse) || (formelValue < 0 && tupelValue == BTrue))  && null xs && not boolValue = NOK  (formel :  xs)
 
     | boolValue && null xs = UNRESOLVED
     | otherwise = interpret' xs interpretation boolValue
-        where formelValue = getVariableValue formel
-              varValue = if formelValue < 0 then negateVariableValue formel else formel
+        where formelValue = getLiteralValue formel
+              varValue = if formelValue < 0 then negateLiteralValue formel else formel
               tupelValue = searchTuple varValue interpretation
 
 -- | Get the set value from the tupelClauselist.
-searchTuple :: Variable -> TupleClauseList -> BoolVal
+searchTuple :: Literal -> TupleClauseList -> BoolVal
 searchTuple xval (xs : ys)
     | fst tuple == xval = snd tuple
     | not (null ys) = searchTuple xval ys

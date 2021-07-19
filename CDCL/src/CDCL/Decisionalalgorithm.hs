@@ -11,13 +11,13 @@
 --
 ---------------------------------------------------------------------
 module CDCL.Decisionalalgorithm (initialActivity, updateActivity, halveActivityMap,
-    getHighestActivity, setVariableViaActivity, getShortestClauseViaActivity) where
+    getHighestActivity, setLiteralViaActivity, getShortestClauseViaActivity) where
 
 import           CDCL.Types (Activity (..), ActivityMap, BoolVal (..), Clause,
-                     ClauseList, Reason (..), Tuple, TupleClause,
-                     Variable (..), VariableActivity, divideActivity,
-                     getActivityValue, getClauseFromReducedClauseAndOGClause,
-                     getVariableValue, increaseActivity, negateVariableValue)
+                     ClauseList, Literal (..), LiteralActivity, Reason (..),
+                     Tuple, TupleClause, divideActivity, getActivityValue,
+                     getClauseFromReducedClauseAndOGClause, getLiteralValue,
+                     increaseActivity, negateLiteralValue)
 import qualified CDCL.Types as TypeC
 import           Data.List
 import           Data.Map.Strict (Map)
@@ -42,18 +42,18 @@ updateActivity :: Clause -> ActivityMap -> ActivityMap
 updateActivity [] aMap = aMap
 updateActivity clause@(xs : ys) aMap
 
-    -- Current Variable is already in Map.
+    -- Current Literal is already in Map.
     | Map.member xValue aMap = let updatedMap = Map.adjust increaseActivity xValue aMap in
         updateActivity ys updatedMap
 
-    -- Current Variable is not in the Map.
+    -- Current Literal is not in the Map.
     |  Map.notMember xValue aMap = let updatedMap = Map.insert xValue (Activity 1) aMap in
          updateActivity ys updatedMap
-    where xValue = if getVariableValue xs < 0 then negateVariableValue xs else xs
+    where xValue = if getLiteralValue xs < 0 then negateLiteralValue xs else xs
 
 
 -- | periodically call this function to half the activities in the map.
-halveActivityMap :: ActivityMap -> [Variable] -> ActivityMap
+halveActivityMap :: ActivityMap -> [Literal] -> ActivityMap
 halveActivityMap = foldr (Map.adjust divideActivity)
 -- above code does following thing:
 -- halveActivityMap aMap (xs : ys) = let updateMap = Map.adjust divideActivity xs aMap
@@ -62,10 +62,10 @@ halveActivityMap = foldr (Map.adjust divideActivity)
 
 -- | Return the highest Activity which can be found in the ClauseList. Calls itself recursively
 --   until every clauses was calculated.
---   example : getHighestActivity [([Variable (-1), Variable 3, Variable 5],[Variable (-1), Variable 3, Variable 5]) ,
---   ([Variable 3, Variable 7],[Variable 3, Variable 7])]
---   (Map.fromList [(Variable 1, Activity 5),(Variable 3, Activity 6),(Variable 5,Activity 2),(Variable 7,Activity 7)]) (Variable 0, Activity 0)
-getHighestActivity :: ClauseList -> ActivityMap -> [VariableActivity] -> [VariableActivity]
+--   example : getHighestActivity [([Literal (-1), Literal 3, Literal 5],[Literal (-1), Literal 3, Literal 5]) ,
+--   ([Literal 3, Literal 7],[Literal 3, Literal 7])]
+--   (Map.fromList [(Literal 1, Activity 5),(Literal 3, Activity 6),(Literal 5,Activity 2),(Literal 7,Activity 7)]) (Literal 0, Activity 0)
+getHighestActivity :: ClauseList -> ActivityMap -> [LiteralActivity] -> [LiteralActivity]
 getHighestActivity cList@(xs : ys) aMap val
 
     -- Case: Found Activity is higher then current activity
@@ -88,7 +88,7 @@ getHighestActivity [] aMap val = val
 --   example getHighestActivity' [-1,3,5] (Map.fromList [(1,5),(3,6),(5,2)]) (0,0)
 --   getHighestActivity' [-1,2] (Map.fromList [(1,1),(2,1)]) (0,0)
 --   returns (3,6)
-getHighestActivity' :: Clause -> ActivityMap -> [VariableActivity] -> [VariableActivity]
+getHighestActivity' :: Clause -> ActivityMap -> [LiteralActivity] -> [LiteralActivity]
 getHighestActivity' cl@(xs : ys) aMap val
 
     -- Case: found activity is higher then current activity
@@ -100,36 +100,36 @@ getHighestActivity' cl@(xs : ys) aMap val
     -- Case: found activity has lower activity value
     | otherwise = getHighestActivity' ys aMap val
     where firstVal = head val
-          x = if getVariableValue xs < 0 then negateVariableValue xs else xs
+          x = if getLiteralValue xs < 0 then negateLiteralValue xs else xs
           actVal = Map.findWithDefault (Activity 0) x aMap
 getHighestActivity' [] _ x = x
 
--- | Set the Tupelvalue based on the Variable.
---   If the Variable with the highest activity has a minus prefix the tupel value will
---   be set to 1 with the variable getting a positive prefix in the tupel.
---   Else the tupel will be set to the variable with a 0 as second value.
-setVariableViaActivity :: Clause -> VariableActivity -> TupleClause
-setVariableViaActivity (xs : ys) vAct
+-- | Set the Tupelvalue based on the Literal.
+--   If the Literal with the highest activity has a minus prefix the tupel value will
+--   be set to 1 with the Literal getting a positive prefix in the tupel.
+--   Else the tupel will be set to the Literal with a 0 as second value.
+setLiteralViaActivity :: Clause -> LiteralActivity -> TupleClause
+setLiteralViaActivity (xs : ys) vAct
 
-    -- Case: the current Variable is a positive one and is found in vAct.
+    -- Case: the current Literal is a positive one and is found in vAct.
     | xs == fst vAct = ((xs, BFalse), Decision)
 
-    -- Case: the current Variable is a negative one and is found in vAct when negated.
-    | negateVariableValue xs == fst vAct = ((negateVariableValue xs, BTrue), Decision)
-    | otherwise = setVariableViaActivity ys vAct
-    where varValue = getVariableValue xs
-setVariableViaActivity [] vAct = error "wrong input in VariableActivity or Clause"--((Variable (-1), BNothing), Reason [Variable (-1)])
+    -- Case: the current Literal is a negative one and is found in vAct when negated.
+    | negateLiteralValue xs == fst vAct = ((negateLiteralValue xs, BTrue), Decision)
+    | otherwise = setLiteralViaActivity ys vAct
+    where varValue = getLiteralValue xs
+setLiteralViaActivity [] vAct = error "wrong input in LiteralActivity or Clause"--((Literal (-1), BNothing), Reason [Literal (-1)])
 
 -- | Get the shortest clause which contains the highest activity.
---   Do this based on the given ClauseList and VariableActivity. Returns
+--   Do this based on the given ClauseList and LiteralActivity. Returns
 --   a ClauseList
-getShortestClauseViaActivity :: ClauseList -> ClauseList -> [VariableActivity] -> ClauseList
+getShortestClauseViaActivity :: ClauseList -> ClauseList -> [LiteralActivity] -> ClauseList
 getShortestClauseViaActivity (xs : ys) checkC vAct
 
-    -- Case: checkC is null and checkClause found Clause which contains a VariableActivity inside vAct
+    -- Case: checkC is null and checkClause found Clause which contains a LiteralActivity inside vAct
     | null checkC && checkClause = getShortestClauseViaActivity ys [xs] vAct
 
-    -- Case: either checkClause doesnt find VariableActivty in clause or the length of current clause is bigger then current shortest Clause
+    -- Case: either checkClause doesnt find LiteralActivty in clause or the length of current clause is bigger then current shortest Clause
     | not checkClause || xsLen > headLen = getShortestClauseViaActivity ys checkC vAct
 
     -- Case: Current Clause is shorter then the ones in checkC. Also no other clause has the same length
@@ -140,20 +140,20 @@ getShortestClauseViaActivity (xs : ys) checkC vAct
 
     -- Case: See 3rd Case but ther are still other clauses which are either the same length or shorter.
     | xsLen < headLen = getShortestClauseViaActivity filterClause [xs] vAct
-    where checkClause = checkClauseForVariable (getClauseFromReducedClauseAndOGClause xs) vAct
+    where checkClause = checkClauseForLiteral (getClauseFromReducedClauseAndOGClause xs) vAct
           xsLen = length (getClauseFromReducedClauseAndOGClause xs)
           headLen = length (getClauseFromReducedClauseAndOGClause (head checkC))
           filterClause = filter (\x -> length (getClauseFromReducedClauseAndOGClause  x) <= length (getClauseFromReducedClauseAndOGClause xs)) ys
 
-    --  firstVal `elem` fst xs || negateVariableValue firstVal `elem` fst xs = Just (fst xs)
+    --  firstVal `elem` fst xs || negateLiteralValue firstVal `elem` fst xs = Just (fst xs)
     --  otherwise = getShortestClauseViaActivity ys vAct
     --where firstVal = fst vAct
 getShortestClauseViaActivity [] checkC _ = checkC
 
--- | Checks if the given Clause contains a given VariableActivity. Returns true if it does
+-- | Checks if the given Clause contains a given LiteralActivity. Returns true if it does
 --   else return false.
-checkClauseForVariable :: Clause -> [VariableActivity] -> Bool
-checkClauseForVariable cl (x : ys)
-    | fst x `elem` cl || negateVariableValue (fst x) `elem` cl = True
-    | otherwise = checkClauseForVariable cl ys
-checkClauseForVariable cl [] = False
+checkClauseForLiteral :: Clause -> [LiteralActivity] -> Bool
+checkClauseForLiteral cl (x : ys)
+    | fst x `elem` cl || negateLiteralValue (fst x) `elem` cl = True
+    | otherwise = checkClauseForLiteral cl ys
+checkClauseForLiteral cl [] = False
