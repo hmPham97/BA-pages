@@ -21,7 +21,9 @@ data CDCLResult
         -- | Formula resolved, with TupleList to show how it was solved
         SAT TupleList
     |
-        SAT_WITH_STATS TupleList MappedTupleList Integer [Clause]
+        SAT_WITH_STATS TupleList Integer Integer Integer
+    |
+        SAT_WITH_FULL_STATS TupleList MappedTupleList [Clause] Integer Integer Integer
     |
         -- | Formula not resolved
         UNSAT
@@ -31,9 +33,16 @@ data CDCLResult
 
 instance Show CDCLResult where
     show (SAT tl) = "Result:\nSAT " ++ show tl
-    show (SAT_WITH_STATS tl mtl int1 learned) = "Result:\nSAT " ++ show tl ++ "\n\nStatistics:" ++ "\n\nDecisions:\n"
-     ++ show mtl ++ "\n\nAmount of learned Clauses: " ++ show int1 ++ "\nLearned Clauses: " ++ show learned
+
+    show (SAT_WITH_STATS tl decisions learned restarts) = "Result:\nSAT " ++ show tl ++ "\nStatistics:" ++ "\nDecisions:"
+     ++ show decisions ++ "\nAmount of learned Clauses: " ++ show learned ++ "\nAmount of Restarts: " ++ show restarts
+
+    show (SAT_WITH_FULL_STATS tl mtl learned decisions int1 restarts) = "Result:\nSAT " ++ show tl ++ "\n\nStatistics:" ++
+     "\n\nDecisions:\n" ++ show mtl ++ "\nLearned Clauses: " ++ show learned ++ "\n\nAmount of Decisions: " ++ show decisions ++
+     "\nAmount of learned Clauses: "  ++ show int1 ++ "\nAmount of Restarts: " ++ show restarts
+
     show UNSAT = "UNSAT"
+
     show (UNSAT_WITH_STATS cl conf) = "UNSAT. Learned Clauses: \n" ++ show cl  ++ "\nClauses which caused conflict:\n" ++ show conf
 
 -- | Datatype for Reason

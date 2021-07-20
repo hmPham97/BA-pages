@@ -2,8 +2,8 @@ module AlgorithmSpec where
 import           CDCL.Algorithm (cdcl, interpret, searchTuple)
 import           CDCL.Conflict (calcReason)
 import           CDCL.Types (Activity (..), BoolVal (..), CDCLResult (..),
-                     InterpretResult (..), Level (..), Reason (..), Tuple,
-                     Variable (..), transformClauseList)
+                     InterpretResult (..), Level (..), Literal (..),
+                     Reason (..), Tuple, transformClauseList)
 import           Control.Exception (evaluate)
 import           Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
@@ -59,7 +59,7 @@ prop_picoSATcomparison :: [[NonZero Int]] -> Property
 prop_picoSATcomparison cl = withMaxSuccess 1000 $ monadicIO $ do
   let clauses = coerce cl
   picoSol <- run $ PicoSAT.solve clauses
-  let cdclSol = cdcl (map (map fromIntegral) clauses) False
+  let cdclSol = cdcl (map (map fromIntegral) clauses) False False
   assert $ case (picoSol, cdclSol) of
              (PicoSAT.Unsatisfiable, UNSAT) -> True
              (PicoSAT.Unknown, _)           -> False

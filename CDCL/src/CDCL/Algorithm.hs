@@ -22,9 +22,9 @@ import           CDCL.Decisionalalgorithm (getHighestActivity,
 import           CDCL.Types (Activity (..), ActivityMap, BoolVal (..),
                      CDCLResult (..), Clause, ClauseList, InterpretResult (..),
                      Level (..), Literal (..), MappedTupleList, Period (..),
-                     TriTuple, Tuple, TupleClauseList, decreasePeriod,
-                     getClauseFromReducedClauseAndOGClause, getEmptyClause,
-                     getLiteralValue, getNOK,
+                     Reason (..), TriTuple, Tuple, TupleClauseList,
+                     decreasePeriod, getClauseFromReducedClauseAndOGClause,
+                     getEmptyClause, getLiteralValue, getNOK,
                      getOGFromReducedClauseAndOGClause, increaseLvl,
                      negateLiteralValue, transformClauseList)
 import qualified CDCL.Types as TypeC
@@ -50,10 +50,11 @@ startBoundary = 20
 --   cdcl [[1,2,3,4], [2,4], [4,5],[3,6,7],[3,9,1],[3,8,10]]
 --   The function will return the result of the cdcl' function.
 --   Function will immediately return SAT if ClauseList is null or UNSAT if an empty List is found within clist
-cdcl :: [[Integer]] -> Bool -> CDCLResult
-cdcl clist stats
+cdcl :: [[Integer]] -> Bool -> Bool -> CDCLResult
+cdcl clist stats fullStats
     | checked = UNSAT
-    | null clist && stats = SAT_WITH_STATS [] Map.empty 0 []
+    | null clist && fullStats = SAT_WITH_FULL_STATS [] Map.empty [] 0 0 0
+    | null clist && stats = SAT_WITH_STATS [] 0 0 0
     | null clist = SAT []--[] Map.empty 0
     | otherwise = cdcl'
                   aMap
@@ -70,6 +71,8 @@ cdcl clist stats
                   (startBoundary * 2)
                   startBoundary
                   stats
+                  fullStats
+                  0
     where checked = any null clist
           transformedList = transformClauseList clist
           aMap = initialActivity transformedList Map.empty
@@ -98,8 +101,10 @@ cdcl'
   -> Integer
   -> Integer
   -> Bool
+  -> Bool
+  -> Integer
   -> CDCLResult
-cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist learnedClauses confClauses clist period conflictIteration upperBound currentBoundary stats
+cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist learnedClauses confClauses clist period conflictIteration upperBound currentBoundary stats fullStats restarts
 
     -- First and Second Case are part of Restart Algorithm with Luby Sequence
     -- current conflictiteration has same value like the current upper boundary. Restart the algorithm with higher upper boundary
@@ -117,6 +122,8 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist learnedClauses confC
                                               (upperBound*2)
                                               startBoundary
                                               stats
+                                              fullStats
+                                              (restarts + 1)
 
     -- current conflictiteration has same value like the current restart boundary. Restarts the algorithm with higher current boundary
     | conflictIteration == currentBoundary = cdcl' (initialActivity clistOG Map.empty)
@@ -133,6 +140,8 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist learnedClauses confC
                                                    upperBound
                                                    (currentBoundary * 2)
                                                    stats
+                                                   fullStats
+                                                   (restarts + 1)
 
     -- Interpret returned a NOK. Start the conflict analysis.
     | getNOK interpreted =
@@ -156,9 +165,13 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist learnedClauses confC
                            upperBound
                            currentBoundary
                            stats
+                           fullStats
+                           restarts
 
     -- Interpret retunred OK. Stop the algorithm.
-    | interpreted == OK && stats = SAT_WITH_STATS (map fst tupleRes) updatedMap (toInteger (length learnedClist - length clistOG)) learnedClauses
+    | interpreted == OK && fullStats = SAT_WITH_FULL_STATS (map fst tupleRes) updatedMap learnedClauses
+        (getDecisions updatedMap 0 0) (toInteger (length learnedClist - length clistOG)) restarts
+    | interpreted == OK && stats = SAT_WITH_STATS (map fst tupleRes) (getDecisions updatedMap 0 0)  (toInteger (length learnedClauses)) restarts
     | interpreted == OK = SAT (map fst tupleRes) -- updatedMap (toInteger (length learnedClist - length clistOG))
     | otherwise = cdcl' halvedActivity
                         newLvl
@@ -174,6 +187,8 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist learnedClauses confC
                         upperBound
                         currentBoundary
                         stats
+                        fullStats
+                        restarts
     where res = unitPropagation clist tlist (Level lvl) mappedTL
           tupleRes = getTupleClauseListFromTriTuple res
           updatedMap = getMappedTupleListFromTriTuple res
@@ -291,3 +306,12 @@ makeTupleClauseListFromAnalyze  = concat . getMappedTupleListFromAnalyze
 -- | returns the new activityMap after analyzing the conflict
 getActivityMapFromAnalyze :: (Level, Clause, MappedTupleList, ActivityMap) -> ActivityMap
 getActivityMapFromAnalyze (_, _, _, x) = x
+
+getDecisions :: MappedTupleList -> Integer -> Integer -> Integer
+getDecisions mtl int found
+    | null arr = found
+    | snd (head arr) == Decision = getDecisions mtl (int + 1) (found + 1)
+    | otherwise = getDecisions mtl (int + 1) (found)
+    where arr = fromMaybe [] (Map.lookup (Level int) mtl)
+
+

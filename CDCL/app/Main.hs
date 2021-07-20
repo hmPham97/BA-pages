@@ -13,13 +13,15 @@ main = input =<< execParser opts
      <> header "Starting CDCL-SAT-Solver via Commandline " )
 
 input :: CDCLInput -> IO ()
-input (CDCLInput target False) = readCdclFile target False
-input (CDCLInput target True) = readCdclFile target True
-
+input (CDCLInput target False False) = readCdclFile target False False
+input (CDCLInput target True True) = readCdclFile target True True
+input (CDCLInput target False True) = readCdclFile target False True
+input (CDCLInput target True False) = readCdclFile target True False
 
 data CDCLInput = CDCLInput
   { file :: String
   , opts :: Bool
+  , optsF :: Bool
   }
 
 inputParse :: Parser CDCLInput
@@ -33,3 +35,7 @@ inputParse = CDCLInput
           ( long "stats"
          <> short 's'
          <> help "Showing additional statistics")
+      <*> switch
+          ( long "full stats"
+         <> short 'f'
+         <> help "Showing all statistics")
