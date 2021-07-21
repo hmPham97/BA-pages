@@ -169,10 +169,13 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist learnedClauses confC
                            restarts
 
     -- Interpret retunred OK. Stop the algorithm.
+    -- Returns everx statistics
     | interpreted == OK && fullStats = SAT_WITH_FULL_STATS (map fst tupleRes) updatedMap learnedClauses
         (getDecisions updatedMap 0 0) (toInteger (length learnedClist - length clistOG)) restarts
+    -- Returns some statistics
     | interpreted == OK && stats = SAT_WITH_STATS (map fst tupleRes) (getDecisions updatedMap 0 0)  (toInteger (length learnedClauses)) restarts
-    | interpreted == OK = SAT (map fst tupleRes) -- updatedMap (toInteger (length learnedClist - length clistOG))
+    -- Returns no statistics
+    | interpreted == OK = SAT (map fst tupleRes) 
     | otherwise = cdcl' halvedActivity
                         newLvl
                         list
@@ -307,11 +310,12 @@ makeTupleClauseListFromAnalyze  = concat . getMappedTupleListFromAnalyze
 getActivityMapFromAnalyze :: (Level, Clause, MappedTupleList, ActivityMap) -> ActivityMap
 getActivityMapFromAnalyze (_, _, _, x) = x
 
+-- | Returns the amount of decisions taken.
 getDecisions :: MappedTupleList -> Integer -> Integer -> Integer
 getDecisions mtl int found
     | null arr = found
     | snd (head arr) == Decision = getDecisions mtl (int + 1) (found + 1)
-    | otherwise = getDecisions mtl (int + 1) (found)
+    | otherwise = getDecisions mtl (int + 1) found
     where arr = fromMaybe [] (Map.lookup (Level int) mtl)
 
 

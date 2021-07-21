@@ -21,8 +21,10 @@ data CDCLResult
         -- | Formula resolved, with TupleList to show how it was solved
         SAT TupleList
     |
+        -- | Formula resolved. Followed with TupleList, #Decisions, #LearnedClauses, #Restarts
         SAT_WITH_STATS TupleList Integer Integer Integer
     |
+        -- | Formula resolved. Followed with TupleList, MappedTupleList, LearnedClauses, #Decisions, #Learned Clauses, #Restarts
         SAT_WITH_FULL_STATS TupleList MappedTupleList [Clause] Integer Integer Integer
     |
         -- | Formula not resolved
@@ -197,8 +199,10 @@ getReason (Reason r) = r
 decreasePeriod :: Period -> Period
 decreasePeriod (Period r) = Period (r - 1)
 
+-- | Returns the Reduced Clause from the ClauseTuple
 getClauseFromReducedClauseAndOGClause :: ReducedClauseAndOGClause -> Clause
 getClauseFromReducedClauseAndOGClause (x, _) = x
 
+-- | Returns the OG State of the Clause from the ClauseTuple
 getOGFromReducedClauseAndOGClause :: ReducedClauseAndOGClause -> Clause
 getOGFromReducedClauseAndOGClause (_, x) = x
