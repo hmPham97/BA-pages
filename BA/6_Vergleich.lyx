@@ -5,6 +5,9 @@
 \save_transient_properties true
 \origin unavailable
 \textclass scrbook
+\begin_preamble
+
+\end_preamble
 \use_default_options true
 \master Thesis_CDCL_SAT_Solver.lyx
 \maintain_unincluded_children false
@@ -93,6 +96,124 @@ In diesem Kapitel wird die Richtigkeit des SAT-Solvers mit dem PicoSAT-Solver
  Nach dem Vergleich wird eine Auswertungen der Zeiten für das Lösen von
  SAT-Problemen erstellt, wobei die Implementierung mit zChaff und MiniSAT
  verglichen wird.
+\end_layout
+
+\begin_layout Section
+Vergleich mit PicoSAT
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align block
+Um auf die Richtigkeit der Implementierung zu Prüfen, wird der SAT-Solver
+ gegen den PicoSAT-Solver geprüft.
+ Der PicoSAT-Solver wurde hierfür ausgewählt, weil dieser eine einfache
+ Anbindung zu Haskell besitzt.
+ Zur Generieren der Tests wird das Haskellpaket Test.QuickCheck und die Unterkomp
+onente Test.QuickCheck.Monadic verwendet.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+prop_picoSATcomparison :: [[NonZero Int]] -> Property
+\end_layout
+
+\begin_layout Plain Layout
+
+prop_picoSATcomparison cl = withMaxSuccess 10000 $ monadicIO $ do
+\end_layout
+
+\begin_layout Plain Layout
+
+  let clauses = coerce cl
+\end_layout
+
+\begin_layout Plain Layout
+
+  picoSol <- run (PicoSAT.solve clauses)
+\end_layout
+
+\begin_layout Plain Layout
+
+  let cdclSol = cdcl (map (map fromIntegral) clauses) False False
+\end_layout
+
+\begin_layout Plain Layout
+
+  assert ( case (picoSol, cdclSol) of
+\end_layout
+
+\begin_layout Plain Layout
+
+             (PicoSAT.Unsatisfiable, UNSAT) -> True
+\end_layout
+
+\begin_layout Plain Layout
+
+             (PicoSAT.Unknown, _)           -> False
+\end_layout
+
+\begin_layout Plain Layout
+
+             (PicoSAT.Solution _, SAT _)    -> True
+\end_layout
+
+\begin_layout Plain Layout
+
+             _                              -> False )
+\end_layout
+
+\begin_layout Plain Layout
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Code zum Vergleich der Richtigkeit der Implementierung
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Die Funktion erstellt zufällig 10000 verschiedene Probleme, wobei die SAT-Solver
+ die generierten Probleme auf ihre Ergebnisse vergleichsweise prüfen.
+ Dabei werden die SAT-Instanzen auf vier verschiedene Fälle verglichen.
+ Wenn beide Solver entsprechende Ergebnisse mit UNSAT für ein Problem melden,
+ so ist der Test für diese eine Instanz erfolgreich.
+ Dies ist auch der Fall, wenn PicoSAT Solution [Integer] und die Implementierung
+ SAT TupleList als Ergebnis ausrechnen.
+ Falls PicoSAT ein Unknown Ergebnis kalkuliert oder keine der beiden ersten
+ genannten Fälle in einem SAT-Problem ausgerechnet werden, so wird der Test
+ als fehlgeschlagen ausgewertet.
+ Wenn ein einziger Test dabei fehlschlägt, so wird der ganze Test abgebrochen
+ und meldet eine fehlerhafte Implementierung für den entsprechenden Fall.
+\end_layout
+
+\begin_layout Standard
+Mit der Eingabe des Befehls 
+\begin_inset Quotes gld
+\end_inset
+
+stack test
+\begin_inset Quotes grd
+\end_inset
+
+ in der Kommando-Zeile innerhalb des Implementierungsordners wird der Test
+ gestartet.
+ 
 \end_layout
 
 \end_body

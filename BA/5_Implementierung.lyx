@@ -92,6 +92,28 @@ In diesem Kapitel wird die Implementierung des SAT-Solvers diskutiert.
  Hierbei werden zunächsts die notwendigen Datenstrukturen beschrieben und
  danach werden die Algorithmen und der Aufbau des Programmes dargestellt.
  
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Ist die Struktur von Kapitel 5.2 so ok? Oder wäre es besser, wenn Programmaufbau
+ das erste Unterkapitel ist.
+ Im Programmaufbau würde ich die auf die anderen Unterkapitel wieder aufgreifen.
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Die wichtigsten Algorithmen in der Implementierung basieren auf Konzepte,
+ die von zChaff und MiniSAT verwendet werden.
 \end_layout
 
 \begin_layout Section
@@ -99,16 +121,122 @@ Datenstrukturen
 \end_layout
 
 \begin_layout Standard
-In der Implementierung werden mehrere 
+In der Implementierung werden verschiedene Datenstrukturen verwendet.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- | Literal defined as Integer
+\end_layout
+
+\begin_layout Plain Layout
+
+newtype Literal = Lit Integer
+\end_layout
+
+\begin_layout Plain Layout
+
+    deriving (Show, Eq, Ord)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- | Clause defined as a List of Literal
+\end_layout
+
+\begin_layout Plain Layout
+
+type Clause = [Literal]
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- | Tuple of 2 Clauses
+\end_layout
+
+\begin_layout Plain Layout
+
+--   First clause in tuple is reduced via Unitresolution
+\end_layout
+
+\begin_layout Plain Layout
+
+--   Second clause is the clause in its original form
+\end_layout
+
+\begin_layout Plain Layout
+
+type ReducedClauseAndOGClause = (Clause, Clause)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- | ClauseList defined as a List of ReducedClauseAndOGClause
+\end_layout
+
+\begin_layout Plain Layout
+
+type ClauseList = [ReducedClauseAndOGClause]
+\end_layout
+
+\begin_layout Plain Layout
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Wichtige Datenstrukturen für die Implementierung
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Zum Zeitpunkt der Implementierung wurde entschieden keine 
+\begin_inset Quotes gld
+\end_inset
+
+Watched Literals
+\begin_inset Quotes grd
+\end_inset
+
+ zu implementieren, da die Permutation von Listen in Haskell kompliziert
+ ist.
+ Der Grund hierfür ist, das Haskell keine Kontrollstrukturen, wie z.B.
+ for-Schleifen, besitzt und nicht direkt auf die einzelnen Listenelemente
+ zugreifen kann.
+ Aus diesem Grund wird stattdessen ReducedClauseAndOGClause verwendet, wobei
+ das erste Element eine veränderliche Klausel darstellt, während das zweite
+ Element eine unveränderte Klausel ist.
+ 
 \end_layout
 
 \begin_layout Section
 Algorithmen
-\end_layout
-
-\begin_layout Standard
-Die wichtigsten Algorithmen in der Implementierung basieren auf Konzepte,
- die von zChaff und MiniSAT verwendet werden.
 \end_layout
 
 \begin_layout Subsection
@@ -269,7 +397,7 @@ Unitpropagation
 \begin_layout Standard
 Zunächst wird überprüft, ob die ClauseList Elemente besitzt.
  Wenn dies der Fall ist, wird nach einer Klausel gesucht, die nur ein unbelegtes
- Literal besitzt.
+ Literal (Unit-Clause) besitzt.
  Wenn jedoch keine Elemente mehr vorhanden sind oder keine Unit-Clause gefunden
  wird, werden die übergebenen Daten zurückgegeben und der Algorithmus wird
  beendet.
@@ -280,6 +408,21 @@ Zunächst wird überprüft, ob die ClauseList Elemente besitzt.
  MappedTupleList aufgenommen..
  Solange der erste Fall nicht eintritt, arbeitet der Algorithmus rekursiv
  mit den bearbeiteten Daten weiter.
+\end_layout
+
+\begin_layout Standard
+Subsumption ist das Löschen einer ganzen Klausel, während die Resolution
+ das Löschen eines gegenteiligen Literals ist (siehe 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:Teilregel_1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+)
 \end_layout
 
 \begin_layout Subsection

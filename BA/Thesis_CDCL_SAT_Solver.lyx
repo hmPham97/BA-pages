@@ -240,7 +240,7 @@ filename "Codedokumentation.lyx"
 \begin_layout Standard
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
-btprint "btPrintAll"
+btprint "btPrintCited"
 bibfiles "Bibliography/Bibliography"
 
 \end_inset

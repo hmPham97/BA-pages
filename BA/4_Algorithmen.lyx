@@ -160,6 +160,14 @@ Existieren zwei atomare Klauseln mit gegenteiligen Literalen, wie z.B.
 Existiert eine atomare Klausel mit nur einem positiven Literal p, so können
  alle Klauseln, die ein p beinhalten, gelöscht werden und alle negierten
  p's können aus den Klauseln entfernt werden.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:Teilregel_1"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Enumerate
@@ -227,7 +235,11 @@ literal "false"
 \end_inset
 
 .
- In dieser Regel wird eine Formel F in 
+ In dieser Regel wird eine Formel 
+\begin_inset Formula $F$
+\end_inset
+
+ in 
 \begin_inset Formula $(A\vee p)\wedge(B\vee-p)\wedge R$
 \end_inset
 
@@ -243,17 +255,29 @@ literal "false"
 \begin_inset Formula $R$
 \end_inset
 
- ist.
- F wird UNSAT, wenn 
-\begin_inset Formula $A\wedge R$
+ vorhanden ist.
+ 
+\begin_inset Formula $A$
 \end_inset
 
  und 
-\begin_inset Formula $B\wedge R$
+\begin_inset Formula $B$
 \end_inset
 
- beide inkonsistent sind.
- Dies bedeutet, wenn 
+ stellen hierbei andere Literale dar, während 
+\begin_inset Formula $R$
+\end_inset
+
+ andere Klauseln in 
+\begin_inset Formula $F$
+\end_inset
+
+ darstellen.
+ 
+\begin_inset Formula $F$
+\end_inset
+
+ wird UNSAT, wenn für die Belegungen 
 \begin_inset Formula $p=F$
 \end_inset
 
@@ -269,7 +293,7 @@ literal "false"
 \begin_inset Formula $B\wedge R$
 \end_inset
 
- inkonsistenz aufzeigen, so ist F UNSAT.
+ die Klauseln in der Formel inkonsistenz aufzeigen.
 \end_layout
 
 \begin_layout Standard
@@ -551,7 +575,7 @@ noprefix "false"
 
 ) ein Konflikt auftritt.
  Ein Konflikt ensteht, wenn eine Zuweisung von Literalen bei einer Klausel
- kein logisches wahre Aussage ergibt.
+ keine logische wahre Aussage ergibt.
  Das folgendes Beispiel soll diesen Fall zeigen:
 \end_layout
 
@@ -624,7 +648,6 @@ Die Klausel
 \end_inset
 
  verursacht.
- Diese wird auch als Konfliktklausel bezeichnet.
  In der Publikation von Marques-Silva und Sakallah 
 \begin_inset CommandInset citation
 LatexCommand citeyear
@@ -633,8 +656,19 @@ literal "false"
 
 \end_inset
 
- wird ein Implikationsgraph vorgeschlagen, um diesen Konflikt zu lösen.
- Für die Formel in 4.5 würde der Graph folgendermaßen aussehen:
+ wird die Verwendung eines Implikationsgraphen 
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Soll genauer auf Implikationsgraph gegangen werden? Also z.B.
+ die mathematische Definition mit Gerichteter azyklischer Graph mit G(V,E)...?
+\end_layout
+
+\end_inset
+
+vorgeschlagen, um diesen Konflikt zu lösen.
+ Für das Beispiel in Formel 4.5 würde der Graph folgendermaßen aussehen:
 \end_layout
 
 \begin_layout Standard
@@ -703,7 +737,185 @@ end{center}
 \end_layout
 
 \begin_layout Standard
-NICHT FERTIG
+Der Graph in Abbildung 4.1 ist gleichzeitig auch ein partieller Implikationsgraph
+, da dieser alle relevanten Entscheidungen und Literalbelegungen zum Konflikt
+ im zurzeitigen Entscheidungslevel zeigt.
+ Ein vollständiger Implikationsgraph dagegen zeigt alle aktuellen Entscheidungen
+ und Wahrheitsbelegungen eines SAT-Problemes an.
+ Um die Konfliktklausel zu lernen wird Resolution 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "kroening_decision_2016"
+literal "false"
+
+\end_inset
+
+ verwendet.
+ 
+\end_layout
+
+\begin_layout Standard
+Hierbei ist die Resolution folgende Regel:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{x_{1}\vee x_{...}\vee x_{n}\vee p\,\,\,\,\,\,\,\,\,\,\,y_{1}\vee y_{...}\vee y_{n}\vee-p}{x_{1}\vee x_{...}\vee x_{n}\vee y_{1}\vee y_{...}\vee y_{n}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Die Literale 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+ bis 
+\begin_inset Formula $p$
+\end_inset
+
+ stellen eine Klausel in der Formel dar, während 
+\begin_inset Formula $y_{1}$
+\end_inset
+
+ bis 
+\begin_inset Formula $-p$
+\end_inset
+
+ eine andere Klausel darstellt.
+ Diese Klauseln werden auch 
+\begin_inset Quotes gld
+\end_inset
+
+resolving clauses
+\begin_inset Quotes grd
+\end_inset
+
+ (RC) genannt.
+ Das Literal 
+\begin_inset Formula $p$
+\end_inset
+
+ ist hierbei eine 
+\begin_inset Quotes gld
+\end_inset
+
+resolution variable
+\begin_inset Quotes grd
+\end_inset
+
+, welche nach der Resolution ihre Literalbelegung verliert.
+ Die Klausel (
+\begin_inset Formula $x_{1}\vee x_{...}\vee x_{n}\vee y_{1}\vee y_{...}\vee y_{n}$
+\end_inset
+
+) wird als 
+\begin_inset Quotes gld
+\end_inset
+
+resolvent clause
+\begin_inset Quotes grd
+\end_inset
+
+ bezeichnet und kann als Klausel für die nächste Resolution verwendet werden
+ oder zur Formel als gelernte Konfliktklausel hinzugefügt werden.
+ Damit die Resolution angewendet werden kann, muss ein Literal 
+\begin_inset Formula $p$
+\end_inset
+
+ mit unterschiedlichen Vorzeichen in den RC existieren.
+\end_layout
+
+\begin_layout Standard
+Die Resolutionschritte gehen einen Implikationsgraphen, der von links nach
+ rechts entwickelt wird, von rechts nach links ab.
+ Dabei gibt es verschiedene Stopkriterien, die verwendet werden können,
+ um die Konfliktklausel zu lernen.
+ In dieser Arbeit wird 
+\begin_inset Quotes gld
+\end_inset
+
+First Unique Implication Point
+\begin_inset Quotes grd
+\end_inset
+
+ (1UIP) 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "kroening_decision_2016"
+literal "false"
+
+\end_inset
+
+ als Stopkriterium für die Konfliktanalyse verwendet.
+ 1UIP ist ein 
+\begin_inset Quotes gld
+\end_inset
+
+Unique Implication Point
+\begin_inset Quotes grd
+\end_inset
+
+ (UIP), der dem Konfliktknoten am nähesten ist.
+ Dies liegt daran, dass die Entscheidung an diesem Knotenpunkt einen Konflikt
+ augelöst hat.
+ Solange die Konfliktklausel nach dem 
+\begin_inset Quotes gld
+\end_inset
+
+Backjumping
+\begin_inset Quotes grd
+\end_inset
+
+ nur ein unbelegtes Literal besitzen, können die SAT-Solver in diesem Prozess
+ bis zum zweithöchsten Entscheidungslevel zurückspringen.
+ Dadurch werden alle Literalbelegungen vom höchsten bis zum zweithöchsten
+ + 1 gefundenen Level gelöscht.
+\end_layout
+
+\begin_layout Standard
+In der Abbildung 4.1 werden die Klauseln c_1 (
+\begin_inset Formula $c_{1})$
+\end_inset
+
+ und c_2 (
+\begin_inset Formula $c_{2}$
+\end_inset
+
+) für die Resolution verwendet, da die Klausel 
+\begin_inset Formula $c_{2}$
+\end_inset
+
+ den Konflikt verursacht hat und die Klausel 
+\begin_inset Formula $c_{1}$
+\end_inset
+
+ die Belegung für die Variable 
+\begin_inset Formula $2$
+\end_inset
+
+ verantwortlicht ist.
+ Als Ergebnis kommt die neue Klausel 
+\begin_inset Formula $(-1)$
+\end_inset
+
+ heraus und wird zur Formel 4.5 hinzugefügt.
+ Gleichzeitig werden alle Belegungen die auf dem Entscheidungslevel 1 getroffen
+ wurden gelöscht.
+ Nachdem dies geschehen ist, wird der BCP-Prozess fortgeführt und eine Lösung
+ mit den Belegungen 
+\begin_inset Formula $1=F$
+\end_inset
+
+ und 
+\begin_inset Formula $2=T$
+\end_inset
+
+ wird gefunden.
 \end_layout
 
 \end_body

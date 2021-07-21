@@ -724,6 +724,16 @@ c
  symbolisiert wie z.B.
  in Zeile 1 und 5 im Beispiel, während kleine p's die Spezifikationen des
  SAT-Problemes zeigen.
+ Das Wort nach dem p deutet in welcher Form ein Problem dargestellt ist.
+ Dies kann entwender cnf oder 
+\begin_inset Quotes gld
+\end_inset
+
+Disjunktive Normalform
+\begin_inset Quotes grd
+\end_inset
+
+ (dnf) sein.
  Der erste Integer in Zeile 3 steht für die Anzahl der Literale und der
  Zweite für die Anzahl der Klauseln.
  Wenn nach der p-Zeile ein Integer oder ein Minus die Zeile anführt, so
