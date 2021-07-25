@@ -250,6 +250,13 @@ name "subsec:Entscheidungsalgorithmus"
 
 \end_layout
 
+\begin_layout Standard
+Im Entscheidungsalgorithmus wird VSIDS verwendet.
+ Bei diesem Heuristik-Algorithmus werden alle negativen und positiven Literale
+ zusammengezählt.
+ Dadurch h
+\end_layout
+
 \begin_layout Subsection
 Unitpropagation
 \begin_inset CommandInset label
