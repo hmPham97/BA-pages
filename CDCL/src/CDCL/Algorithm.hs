@@ -53,8 +53,8 @@ startBoundary = 20
 cdcl :: [[Integer]] -> Bool -> Bool -> CDCLResult
 cdcl clist stats fullStats
     | checked = UNSAT
-    | null clist && fullStats = SAT_WITH_FULL_STATS [] Map.empty [] 0 0 0
-    | null clist && stats = SAT_WITH_STATS [] 0 0 0
+    | null clist && fullStats = SAT_WITH_FULL_STATS [] Map.empty [] 0 0 0 0
+    | null clist && stats = SAT_WITH_STATS [] 0 0 0 0
     | null clist = SAT []--[] Map.empty 0
     | otherwise = cdcl'
                   aMap
@@ -171,9 +171,9 @@ cdcl' aMap (Level lvl)  tlist mappedTL clistOG learnedClist learnedClauses confC
     -- Interpret retunred OK. Stop the algorithm.
     -- Returns everx statistics
     | interpreted == OK && fullStats = SAT_WITH_FULL_STATS (map fst tupleRes) updatedMap learnedClauses
-        (getDecisions updatedMap 0 0) (toInteger (length learnedClist - length clistOG)) restarts
+        (getDecisions updatedMap 0 0) (toInteger(length (Map.keys updatedMap))) (toInteger (length learnedClist - length clistOG)) restarts
     -- Returns some statistics
-    | interpreted == OK && stats = SAT_WITH_STATS (map fst tupleRes) (getDecisions updatedMap 0 0)  (toInteger (length learnedClauses)) restarts
+    | interpreted == OK && stats = SAT_WITH_STATS (map fst tupleRes) (getDecisions updatedMap 0 0) (toInteger(length (Map.keys updatedMap))) (toInteger (length learnedClauses)) restarts
     -- Returns no statistics
     | interpreted == OK = SAT (map fst tupleRes) 
     | otherwise = cdcl' halvedActivity
@@ -294,7 +294,7 @@ getMappedTupleListFromTriTuple (_, _, x) = x
 getLevelFromAnalyze :: (Level, Clause, MappedTupleList, ActivityMap) -> Level
 getLevelFromAnalyze (x, _, _, _) = x
 
--- | returns the new clauselist after analyzing the conflict
+-- | returns the new clause after analyzing the conflict
 getClauseFromAnalyze :: (Level, Clause, MappedTupleList, ActivityMap) -> Clause
 getClauseFromAnalyze (_, x, _, _) = x
 

@@ -77,7 +77,7 @@ addClause cl aMap
 --   empty clause with the reason. Also calls function to remove
 --   the Literal which causes the conflict
 unionClause :: Clause -> Clause -> Literal -> Clause
-unionClause cl1 cl2 v = let list =  cl1 `union` cl2 in
+unionClause cl1 cl2 v = let list = cl1 `union` cl2 in
     removeLiteral list v
 
 -- | remove the Literal which was the cause for the conflict from
