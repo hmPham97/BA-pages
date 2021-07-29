@@ -200,7 +200,7 @@ literal "false"
 .
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection*
 Funktionale Programmierung
 \end_layout
 
@@ -274,7 +274,7 @@ literal "false"
 .
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsubsection*
 Haskell
 \end_layout
 
@@ -368,8 +368,40 @@ newpage
 \end_layout
 
 \begin_layout Standard
-Im Folgenden werden Beispielfunktionen in Haskell gezeigt, welche die in
- Kapitel 2.3 vorgeführten Vorteile darstellt.
+Die Sprache Haskell wurde für diese Arbeit ausgewählt, damit die Implementierung
+ für die Vorlesung 
+\begin_inset Quotes gld
+\end_inset
+
+Theoretische Informatik 2
+\begin_inset Quotes grd
+\end_inset
+
+ an der Hochschule München verwendet werden kann.
+ 
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Kann man dies schreiben?
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Im Folgenden werden Beispielfunktionen in Haskell gezeigt, die die vorgeführten
+ Vorteile im Abschnitt 
+\begin_inset Quotes gld
+\end_inset
+
+Funktionalle Programmierung
+\begin_inset Quotes grd
+\end_inset
+
+ darstellt.
 \end_layout
 
 \begin_layout Standard

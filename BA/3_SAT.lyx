@@ -215,10 +215,63 @@ Formeln
 \end_layout
 
 \begin_layout Standard
-In dieser Arbeit ist ein Literal ein Zeichen, welches mit Wahr (T) oder
- Falsch (F) belegt werden kann und negiert (-) sein kann.
- Eine Klausel besteht aus einer Menge von disjunkten Literalen, während
- eine Formel eine Menge von konjunkten Klauseln ist.
+In dieser Arbeit ist ein Literal ein Zeichen, welches mit Wahr (
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+topV
+\end_layout
+
+\end_inset
+
+) oder Falsch (
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+botV
+\end_layout
+
+\end_inset
+
+) belegt werden kann und negiert (
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+negV
+\end_layout
+
+\end_inset
+
+) sein kann.
+ Die Belegung eines Literals kann folgendermaßen aussehen:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+x_{1}\equiv\top
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Eine Klausel besteht aus einer Menge von disjunkten Literalen, während eine
+ Formel eine Menge von konjunkten Klauseln ist.
  
 \end_layout
 
@@ -245,7 +298,7 @@ Folgende Beispiele zeigen Formeln, die in CNF oder nicht in CNF sind.
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-A\wedge(B\vee C)
+x_{1}\wedge(x_{2}\vee x_{3})
 \end{equation}
 
 \end_inset
@@ -256,7 +309,7 @@ A\wedge(B\vee C)
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-A\wedge-B
+x_{1}\wedge\neg x_{2}
 \end{equation}
 
 \end_inset
@@ -267,7 +320,7 @@ A\wedge-B
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-A\vee B
+x_{1}\vee x_{2}
 \end{equation}
 
 \end_inset
@@ -278,7 +331,7 @@ A\vee B
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-A\wedge(B\wedge-C)
+x_{1}\wedge(x_{2}\wedge\neg x_{3})
 \end{equation}
 
 \end_inset
@@ -289,7 +342,7 @@ A\wedge(B\wedge-C)
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-A\vee(B\wedge-C)
+x_{1}\vee(x_{2}\wedge\neg x_{3})
 \end{equation}
 
 \end_inset
@@ -298,16 +351,16 @@ A\vee(B\wedge-C)
 \end_layout
 
 \begin_layout Standard
-Die Beispiele 3.1, 3.2 und 3.3 sind in CNF Form, während 3.4 und 3.5 nicht in
+Die Beispiele 3.2, 3.3 und 3.4 sind in CNF Form, während 3.5 und 3.6 nicht in
  CNF sind.
  Der Grund hierfür liegt daran, dass die Literale innerhalb der Klausel
  verundet sind.
- Das Beispiel 3.2 ist in CNF, da die Literale 
-\begin_inset Formula $A$
+ Das Beispiel 3.3 ist in CNF, da die Literale 
+\begin_inset Formula $x_{1}$
 \end_inset
 
  und 
-\begin_inset Formula $B$
+\begin_inset Formula $x_{2}$
 \end_inset
 
  in disjunkter Form sind.
@@ -324,7 +377,23 @@ ble (UNSAT) evaluiert werden.
 Das SAT-Problem findet sich in vielen industriellen Bereichen wieder, die
  sich mit Informatik beschäftigen.
  Darunter zählen z.B.
- Bounded Model Checking, künstliche Intelligenz und Theorembeweise 
+ Bounded Model Checking
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "biere_chapter_2009"
+literal "false"
+
+\end_inset
+
+, künstliche Intelligenz 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "kautz_planning_1992"
+literal "false"
+
+\end_inset
+
+ und Theorembeweise 
 \begin_inset CommandInset citation
 LatexCommand citeyear
 key "satisfiability_application_and_theory_sat_ev_sat_nodate-1"
@@ -500,7 +569,17 @@ Boolean Constrainst Propagation
 \begin_inset Quotes grd
 \end_inset
 
--Algorithmus (BCP) mit 
+-Algorithmus (BCP, siehe 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Unitpropagation"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) mit 
 \begin_inset Quotes gld
 \end_inset
 
@@ -608,7 +687,17 @@ Dynamic Variable Ordering
 \begin_inset Quotes grd
 \end_inset
 
- (VSIDS) verwendet 
+ (VSIDS, siehe 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Entscheidungsalgorithmus"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) verwendet 
 \begin_inset CommandInset citation
 LatexCommand citeyear
 key "een_extensible_2003"

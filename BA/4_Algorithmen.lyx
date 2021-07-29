@@ -90,7 +90,36 @@ Algorithmen
 \begin_layout Paragraph
 In diesem Kapitel wird der DPLL-Algorithmus und CDCL-Algorithmus vorgestellt.
  Anhand einer Literaturarbeit werden die Erweiterung erläutert, die das
- CDCL-Verfahren performanter im Gegensatz zum DPLL machen.
+ CDCL-Verfahren performanter im Gegensatz zu DPLL machen.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Die in der Arbeit vorgestellten Algorithmen sind bewährte Methoden, um SAT-Probl
+eme zu lösen.
+ Die Regeln des DPLL-Algorithmus wurden sinngemäß aus den Publikation von
+ Davis, Putnam, Logemann und Loveland übernohmen 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "davis_computing_1960,davis_machine_1962"
+literal "false"
+
+\end_inset
+
+.
+ Die Definitionen, die im Kapitel 4.2 vorkommen, wurden sinngemäß aus dem
+ Buch von Kroening und Strichman 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "kroening_decision_2016"
+literal "false"
+
+\end_inset
+
+ übernommen.
 \end_layout
 
 \begin_layout Section
@@ -150,7 +179,7 @@ Existieren zwei atomare Klauseln mit gegenteiligen Literalen, wie z.B.
 \end_inset
 
  und
-\begin_inset Formula $\{-p\}$
+\begin_inset Formula $\{\neg p\}$
 \end_inset
 
 , so ist die Formel F UNSAT.
@@ -158,8 +187,16 @@ Existieren zwei atomare Klauseln mit gegenteiligen Literalen, wie z.B.
 
 \begin_layout Enumerate
 Existiert eine atomare Klausel mit nur einem positiven Literal p, so können
- alle Klauseln, die ein p beinhalten, gelöscht werden und alle negierten
- p's können aus den Klauseln entfernt werden.
+ alle Klauseln, die ein 
+\begin_inset Formula $p$
+\end_inset
+
+ beinhalten, gelöscht werden.
+ Negierte 
+\begin_inset Formula $p$
+\end_inset
+
+'s werden dahingegen aus allen Klauseln gelöscht.
  
 \begin_inset CommandInset label
 LatexCommand label
@@ -206,20 +243,20 @@ literal "false"
 \end_inset
 
  mit 
-\begin_inset Formula $T$
+\begin_inset Formula $\top$
 \end_inset
 
  belegt wird, so werden alle Klauseln mit einem positiven 
 \begin_inset Formula $p$
 \end_inset
 
- gelöscht, während alle negativen 
+ gelöscht, während alle negierten 
 \begin_inset Formula $p$
 \end_inset
 
- aus den Klauseln gelöscht werden.
- Dies geschieht auch umgekehrt mit einer Belegung von 
-\begin_inset Formula $F$
+'s aus den Klauseln gelöscht werden.
+ Dies geschieht auch umgekehrt mit einer Literalbelegung von 
+\begin_inset Formula $\bot$
 \end_inset
 
 .
@@ -239,7 +276,7 @@ literal "false"
 \begin_inset Formula $F$
 \end_inset
 
- in 
+ in die Form 
 \begin_inset Formula $(A\vee p)\wedge(B\vee-p)\wedge R$
 \end_inset
 
@@ -264,21 +301,21 @@ literal "false"
 \begin_inset Formula $B$
 \end_inset
 
- stellen hierbei andere Literale dar, während 
+ stellen hierbei eine Menge von anderen Literale dar, während 
 \begin_inset Formula $R$
 \end_inset
 
- andere Klauseln in 
+ eine Menge von anderen Klauseln in 
 \begin_inset Formula $F$
 \end_inset
 
- darstellen.
+ darstellet.
  
 \begin_inset Formula $F$
 \end_inset
 
  wird UNSAT, wenn für die Belegungen 
-\begin_inset Formula $p=F$
+\begin_inset Formula $p=\bot$
 \end_inset
 
  und 
@@ -286,7 +323,7 @@ literal "false"
 \end_inset
 
  und 
-\begin_inset Formula $p=T$
+\begin_inset Formula $p=\top$
 \end_inset
 
  und 
@@ -305,7 +342,7 @@ Ein Beispiel wie die Regeln 1 und 2 funktionieren, wird an folgendem Problem
 \paragraph_spacing onehalf
 \begin_inset Formula 
 \begin{equation}
-F\,=\,1\,\wedge\,(-1\vee-2)\,\wedge\,(1\vee2)\,\wedge\,(3\vee4)\,\wedge\,(4\vee5)
+F=x_{1}\wedge(\neg x_{1}\vee\neg x_{2})\wedge(x_{1}\vee x_{2})\wedge(x_{3}\vee x_{4})\wedge(x_{4}\vee x_{5})
 \end{equation}
 
 \end_inset
@@ -317,7 +354,7 @@ F\,=\,1\,\wedge\,(-1\vee-2)\,\wedge\,(1\vee2)\,\wedge\,(3\vee4)\,\wedge\,(4\vee5
 \paragraph_spacing onehalf
 \begin_inset Formula 
 \[
-Setze\,1=T
+Setze\,x_{1}\equiv\top
 \]
 
 \end_inset
@@ -329,7 +366,7 @@ Setze\,1=T
 \paragraph_spacing onehalf
 \begin_inset Formula 
 \begin{equation}
-\Leftrightarrow2\,\wedge\,(3\vee4)\,\wedge\,(4\vee5)
+\Leftrightarrow\neg x_{2}\wedge(x_{3}\vee x_{4})\wedge(x_{4}\vee x_{5})
 \end{equation}
 
 \end_inset
@@ -341,7 +378,7 @@ Setze\,1=T
 \paragraph_spacing onehalf
 \begin_inset Formula 
 \[
-Setze\,2=T
+Setze\,x_{2}\equiv\bot
 \]
 
 \end_inset
@@ -353,7 +390,7 @@ Setze\,2=T
 \paragraph_spacing onehalf
 \begin_inset Formula 
 \begin{equation}
-\Leftrightarrow(3\vee4)\,\wedge\,(4\vee5)
+\Leftrightarrow(x_{3}\vee x_{4})\wedge(x_{4}\vee x_{5})
 \end{equation}
 
 \end_inset
@@ -365,7 +402,7 @@ Setze\,2=T
 \paragraph_spacing onehalf
 \begin_inset Formula 
 \[
-Setze\,4=T
+Setze\,x_{4}\equiv\top
 \]
 
 \end_inset
@@ -387,40 +424,25 @@ Setze\,4=T
 
 \begin_layout Standard
 Die zweite Teilregel der ersten Regel wird im ersten Schritt angewendet.
- Diese löscht alle Klauseln, welche eine positive 1 besitzen, und alle negativen
- 1 in allen Klauseln.
+ Diese löscht alle Klauseln, die eine positive 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+ besitzen, und alle negierten 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+ aus allen Klauseln.
  Dadurch kommt die Formel 
-\begin_inset Formula $2\wedge(3\vee4)\wedge(4\vee5)$
+\begin_inset Formula $x_{2}\wedge(x_{3}\vee x_{4})\wedge(x_{4}\vee x_{5})$
 \end_inset
 
  im zweiten Schritt zustande.
  Nach der Anwendung der dritten Teilregel für das Literal 
-\family roman
-\series medium
-\shape up
-\size normal
-\emph off
-\bar no
-\strikeout off
-\xout off
-\uuline off
-\uwave off
-\noun off
-\color none
-(-2
-\family default
-\series default
-\shape default
-\size default
-\emph default
-\bar default
-\strikeout default
-\xout default
-\uuline default
-\uwave default
-\noun default
-\color inherit
-) kommt die Formel 
+\begin_inset Formula $x_{2}$
+\end_inset
+
+ kommt die Formel 
 \family roman
 \series medium
 \shape up
@@ -487,28 +509,12 @@ Die zweite Teilregel der ersten Regel wird im ersten Schritt angewendet.
 
 \begin_layout Standard
 Wenn die Formel F jedoch noch eine atomare Klausel 
-\begin_inset Formula $(-1)$
+\begin_inset Formula $(\neg x_{1})$
 \end_inset
 
  besitzen würde, würde die Formel F als UNSAT evaluiert werden, da die erste
  Teilregel von Regel 1 bei zwei atomaren Klauseln mit unterschiedlichen
  Vorzeichen und gleichen Literalen die Formel als UNSAT beurteilt.
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-newpage
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Section
@@ -517,8 +523,8 @@ CDCL-Algorithmus
 
 \begin_layout Standard
 CDCL SAT-Solver basieren auf den DPLL-Algorithmus und verwenden zusätzlich
- zu den Regeln mehrere Optimierungen und einen Algorithmus, welches dem
- CDCL seinem Namen verdankt.
+ zu den Regeln mehrere Optimierungen und einen Algorithmus, die dem CDCL
+ seinem Namen verdankt.
  CDCL wurde in Publikationen von Marques-Silva und Sakallah 1996 
 \begin_inset CommandInset citation
 LatexCommand citeyear
@@ -555,15 +561,7 @@ noprefix "false"
 
 \end_inset
 
-) und 
-\begin_inset Quotes gld
-\end_inset
-
-Boolean Constraint Propagation
-\begin_inset Quotes grd
-\end_inset
-
- (BCP, siehe 
+) und Boolean Constraint Propagation (BCP, siehe 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "subsec:Unitpropagation"
@@ -582,7 +580,7 @@ noprefix "false"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-F\,=\,(-1\vee-2)\wedge(-1\vee2)\wedge(1\vee2)
+F=(\neg x_{1}\vee\neg x_{2})\wedge(\neg x_{1}\vee x_{2})\wedge(x_{1}\vee x_{2})
 \end{equation}
 
 \end_inset
@@ -593,7 +591,7 @@ F\,=\,(-1\vee-2)\wedge(-1\vee2)\wedge(1\vee2)
 \begin_layout Standard
 \begin_inset Formula 
 \[
-Setze\,1=T\,(Entscheidung)
+Setze\,x_{1}\equiv\top\,(Entscheidung)
 \]
 
 \end_inset
@@ -604,7 +602,7 @@ Setze\,1=T\,(Entscheidung)
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\Leftrightarrow-2\wedge2
+\Leftrightarrow\neg x_{2}\wedge x_{2}
 \end{equation}
 
 \end_inset
@@ -615,7 +613,7 @@ Setze\,1=T\,(Entscheidung)
 \begin_layout Standard
 \begin_inset Formula 
 \[
-Setze\,2=F
+Setze\,x_{2}\equiv\bot
 \]
 
 \end_inset
@@ -626,7 +624,7 @@ Setze\,2=F
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\Rightarrow Konflikt\,bei\,Klausel\,(-1\vee2)
+\Rightarrow Konflikt\,bei\,Klausel\,(\neg x_{1}\vee x_{2})
 \]
 
 \end_inset
@@ -636,15 +634,15 @@ Setze\,2=F
 
 \begin_layout Standard
 Die Klausel 
-\begin_inset Formula $(-1\vee2)$
+\begin_inset Formula $(\neg x_{1}\vee x_{2})$
 \end_inset
 
  hat einen Konflikt für die Belegungen 
-\begin_inset Formula $1=T$
+\begin_inset Formula $1=\top$
 \end_inset
 
  und 
-\begin_inset Formula $2=F$
+\begin_inset Formula $2=\bot$
 \end_inset
 
  verursacht.
@@ -656,19 +654,36 @@ literal "false"
 
 \end_inset
 
- wird die Verwendung eines Implikationsgraphen 
-\begin_inset Foot
-status open
-
-\begin_layout Plain Layout
-Soll genauer auf Implikationsgraph gegangen werden? Also z.B.
- die mathematische Definition mit Gerichteter azyklischer Graph mit G(V,E)...?
-\end_layout
+ wird die Verwendung eines Implikationsgraphen vorgeschlagen, um diesen
+ Konflikt zu lösen.
+ Ein Implikationsgraph ist ein gerichteter, azyklischer Graph, der alle
+ derzeitigen Literalbelegungen eines SAT-Problemes darstellt.
+ Hierfür stellen die Wurzelknoten des Graphen die Entscheidungen dar, während
+ andere Knoten Literalbelegungen durch Unitpropagation (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Unitpropagation"
+plural "false"
+caps "false"
+noprefix "false"
 
 \end_inset
 
-vorgeschlagen, um diesen Konflikt zu lösen.
- Für das Beispiel in Formel 4.5 würde der Graph folgendermaßen aussehen:
+) abbilden.
+ Die Kanten stellen Klauseln dar, die zur Belegung von Literalen geführt
+ haben.
+ Des Weiteren geben die Knoten auch Informationen dar, zu welchem Entscheidungsl
+evel (Level) ein Literal belegt wurde oder ob ein Konflikt durch die Belegung
+ enstanden ist.
+ Beim Start des CDCL-Algorithmus fängt das Level mit dem Integer 0 an und
+ steigt immer um 1, wenn eine Entscheidung gefällt werden muss.
+ Konflikte werden im Graphen, wie die Belegungen, als Knoten dargestellt.
+ Sollte ein Konfliktknoten im Level 0 auftreten, so ist das SAT-Problem
+ UNSAT.
+\end_layout
+
+\begin_layout Standard
+Für das Beispiel in Formel 4.5 würde der Graph folgendermaßen aussehen:
 \end_layout
 
 \begin_layout Standard
@@ -712,7 +727,10 @@ begin{math}
 \backslash
 vee 
 \backslash
-end{math} dar} 
+end{math} dar.
+ Das F steht in dieser Abbildung für 
+\backslash
+botV} 
 \end_layout
 
 \end_inset
@@ -739,9 +757,7 @@ end{center}
 \begin_layout Standard
 Der Graph in Abbildung 4.1 ist gleichzeitig auch ein partieller Implikationsgraph
 , da dieser alle relevanten Entscheidungen und Literalbelegungen zum Konflikt
- im zurzeitigen Entscheidungslevel zeigt.
- Ein vollständiger Implikationsgraph dagegen zeigt alle aktuellen Entscheidungen
- und Wahrheitsbelegungen eines SAT-Problemes an.
+ im zurzeitigen Level zeigt.
  Um die Konfliktklausel zu lernen wird Resolution 
 \begin_inset CommandInset citation
 LatexCommand citeyear
@@ -770,64 +786,28 @@ Hierbei ist die Resolution folgende Regel:
 \end_layout
 
 \begin_layout Standard
-Die Literale 
-\begin_inset Formula $x_{1}$
-\end_inset
-
- bis 
-\begin_inset Formula $p$
-\end_inset
-
- stellen eine Klausel in der Formel dar, während 
-\begin_inset Formula $y_{1}$
-\end_inset
-
- bis 
-\begin_inset Formula $-p$
-\end_inset
-
- eine andere Klausel darstellt.
- Diese Klauseln werden auch 
-\begin_inset Quotes gld
-\end_inset
-
-resolving clauses
-\begin_inset Quotes grd
-\end_inset
-
- (RC) genannt.
+Die Resolution benötigt mindestens zwei Klauseln, die ein polarisierendes
+ Literal beinhalten.
+ In der Formel 4.7 wird dies durch die zwei Klauseln im Zähler dargestellt.
+ Durch die Anwendung der Regel wird das ausgewählte polarisierende Literale
+ aus den Klauseln gelöscht und die Klauseln werden zu der Klausel im Nenner
+ vereinigt.
+ Die Klauseln im Zähler werden auch resolving clauses (RC) genannt.
  Das Literal 
 \begin_inset Formula $p$
 \end_inset
 
- ist hierbei eine 
-\begin_inset Quotes gld
-\end_inset
-
-resolution variable
-\begin_inset Quotes grd
-\end_inset
-
-, welche nach der Resolution ihre Literalbelegung verliert.
- Die Klausel (
-\begin_inset Formula $x_{1}\vee x_{...}\vee x_{n}\vee y_{1}\vee y_{...}\vee y_{n}$
-\end_inset
-
-) wird als 
-\begin_inset Quotes gld
-\end_inset
-
-resolvent clause
-\begin_inset Quotes grd
-\end_inset
-
- bezeichnet und kann als Klausel für die nächste Resolution verwendet werden
- oder zur Formel als gelernte Konfliktklausel hinzugefügt werden.
- Damit die Resolution angewendet werden kann, muss ein Literal 
+ ist hierbei eine resolution variable, die nach der Resolution ihre Literalbeleg
+ung verliert.
+ Die resultierede Klausel im Nenner wird als resolvent clause bezeichnet
+ und kann als Klausel für die nächste Resolution verwendet werden oder zur
+ Formel als gelernte Konfliktklausel hinzugefügt werden.
+ Die Resolution kann nicht mehr angewendet werden, wenn keine Klauseln mehr
+ existierenden, die jeweils ein Literal 
 \begin_inset Formula $p$
 \end_inset
 
- mit unterschiedlichen Vorzeichen in den RC existieren.
+ mit polarisierenden Vorzeichen besitzen.
 \end_layout
 
 \begin_layout Standard
@@ -875,18 +855,81 @@ Backjumping
  bis zum zweithöchsten Entscheidungslevel zurückspringen.
  Dadurch werden alle Literalbelegungen vom höchsten bis zum zweithöchsten
  + 1 gefundenen Level gelöscht.
+ Dieser Prozess wird auch Backjumping genannt, da hierbei über mehrere Level
+ zurückgesprungen werden kann, während beim Backtracking immer nur ein Level
+ zurückgesprungen wird.
+ 
 \end_layout
 
 \begin_layout Standard
-In der Abbildung 4.1 werden die Klauseln c_1 (
-\begin_inset Formula $c_{1})$
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
 \end_inset
 
- und c_2 (
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename Abbildungen/ResolutionExample.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+captionof{figure}{Resolution}{Die Grafik illustriert den Ablauf der Resolution
+ für das Beispiel in der Abbildung 4.1}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In der Abbildung 4.2 werden die Klauseln 
+\begin_inset Formula $c_{1}$
+\end_inset
+
+ und 
 \begin_inset Formula $c_{2}$
 \end_inset
 
-) für die Resolution verwendet, da die Klausel 
+ für die Resolution verwendet, da die Klausel 
 \begin_inset Formula $c_{2}$
 \end_inset
 
@@ -894,28 +937,40 @@ In der Abbildung 4.1 werden die Klauseln c_1 (
 \begin_inset Formula $c_{1}$
 \end_inset
 
- die Belegung für die Variable 
-\begin_inset Formula $2$
+ für die Belegung der Variable 
+\begin_inset Formula $x_{2}$
 \end_inset
 
  verantwortlicht ist.
  Als Ergebnis kommt die neue Klausel 
-\begin_inset Formula $(-1)$
+\begin_inset Formula $(\neg x_{1})$
 \end_inset
 
  heraus und wird zur Formel 4.5 hinzugefügt.
- Gleichzeitig werden alle Belegungen die auf dem Entscheidungslevel 1 getroffen
- wurden gelöscht.
- Nachdem dies geschehen ist, wird der BCP-Prozess fortgeführt und eine Lösung
- mit den Belegungen 
-\begin_inset Formula $1=F$
+ Gleichzeitig werden alle Belegungen, die auf dem Entscheidungslevel 1 getroffen
+ wurden, gelöscht und das Level wird auf 0 zurückgesetzt.
+ Danach wird der BCP-Prozess fortgeführt und eine Lösung mit den Belegungen
+ 
+\begin_inset Formula $x_{1}\equiv\bot@0$
 \end_inset
 
  und 
-\begin_inset Formula $2=T$
+\begin_inset Formula $x_{2}\equiv\top@0$
 \end_inset
 
  wird gefunden.
+\end_layout
+
+\begin_layout Section
+Unterschied zwischen DPLL und CDCL (not done)
+\end_layout
+
+\begin_layout Standard
+Der Unterschied zwischen DPLL und CDCL ist das Konzept des Backjumpings
+ und das Lernen von Konfliktklauseln.
+ Während der DPLL-Algorithmus durch Backtracking Konflikte löst, verwendet
+ CDCL diese Konzepte, um schnellere Ergebnisse zu einem SAT-Problem zu finden.
+ 
 \end_layout
 
 \end_body

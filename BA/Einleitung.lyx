@@ -106,8 +106,25 @@ literal "false"
 \end_inset
 
 .
- Das SAT-Problem ist in der Praxis sehr wichtig, weshalb trotz NP-Vollständigkei
-t viel Forschung in diesem Bereich betrieben wurde.
+ Das SAT-Problem ist in der Praxis sehr wichtig, wie z.B.
+ in künstliche Intelligenz 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "kautz_planning_1992"
+literal "false"
+
+\end_inset
+
+ und Bounded Model Checking 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "biere_chapter_2009"
+literal "false"
+
+\end_inset
+
+, weshalb trotz NP-Vollständigkeit viel Forschung in diesem Bereich betrieben
+ wurde.
  Mitunter wurden mehrere SAT-Solver entwickelt, wie z.B.
  zChaff und MiniSAT.
  
@@ -119,7 +136,15 @@ t viel Forschung in diesem Bereich betrieben wurde.
 
 \begin_layout Standard
 Die Entwicklung von effizienten SAT-Solvern ist seit dem Jahr 2002 stetig
- angestiegen.
+ angestiegen 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "satisfiability_application_and_theory_sat_ev_sat_nodate"
+literal "false"
+
+\end_inset
+
+.
  Jedoch wird für die Programmierung dieser Solver hauptsächlich eine objektorien
 tierte Programmiersprachen verwendet.
  Im Gegensatz dazu ist der Anteil von SAT-Solvern, welche komplett in einer

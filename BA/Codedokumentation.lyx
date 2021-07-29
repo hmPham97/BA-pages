@@ -165,8 +165,12 @@ SAT TupleList
 \end_layout
 
 \begin_layout Itemize
-SAT_WITH_STATS TupleList MappedTupleList Integer [Clause] (Liste von Clause
- sind gelernte Klauseln)
+SAT_WITH_STATS TupleList Integer Integer Integer Integer
+\end_layout
+
+\begin_layout Itemize
+SAT_WITH_FULL_STATS TupleList MappedTupleList [Clause] Integer Integer Integer
+ Integer
 \end_layout
 
 \begin_layout Itemize
@@ -303,7 +307,7 @@ status open
 
 
 \backslash
-underline{Variable}
+underline{Literal}
 \end_layout
 
 \end_inset
@@ -313,7 +317,7 @@ underline{Variable}
 
 \begin_layout Standard
 \noindent
-Datentyp für Variable.
+Datentyp für Literal.
  Die Darstellung für diesen Datentyp ist 
 \begin_inset ERT
 status open
@@ -322,7 +326,7 @@ status open
 
 
 \backslash
-underline{Variable Integer}
+underline{Lit Integer}
 \end_layout
 
 \end_inset
@@ -477,7 +481,7 @@ underline{Clause}
 
 \begin_layout Standard
 \noindent
-Clause ist eine Liste bestehend aus Variable.
+Clause ist eine Liste bestehend aus Literal.
 \end_layout
 
 \begin_layout Standard
@@ -671,7 +675,7 @@ status open
 
 
 \backslash
-underline{VariableActivity}
+underline{LiteralActivity}
 \end_layout
 
 \end_inset
@@ -681,7 +685,7 @@ underline{VariableActivity}
 
 \begin_layout Standard
 \noindent
-Synonym für Tupel, die aus Variable und Activity bestehen.
+Synonym für Tupel, die aus Literal und Activity bestehen.
  
 \end_layout
 
