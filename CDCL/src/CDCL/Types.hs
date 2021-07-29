@@ -116,7 +116,7 @@ type ClauseList = [ReducedClauseAndOGClause]
 --   Integers in this case are only 0 or 1 valuewise.
 type Tuple = (Literal, BoolVal)
 
--- | List containing Tupels.
+-- | List containing Tupels. Only used to show the result.
 type TupleList = [Tuple]
 
 -- | A tuple of Tuple and Reason
