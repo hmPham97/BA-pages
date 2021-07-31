@@ -32,6 +32,8 @@ emphstyle = [2]\color{pl_ifelse}}
 \newcommand{\topV}{\begin{math}\top\end{math}}
 \newcommand{\botV}{\begin{math}\bot\end{math}}
 \newcommand{\negV}{\begin{math}\neg\end{math}}
+\newcommand{\mb} {\begin{math}}
+\newcommand{\me} {\end{math}}
 \end_preamble
 \options bibtotoc
 \use_default_options true

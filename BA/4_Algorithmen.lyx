@@ -728,7 +728,7 @@ begin{math}
 vee 
 \backslash
 end{math} dar.
- Das F steht in dieser Abbildung f
+ Das F steht in den Abbildung f
 \backslash
 
 \begin_inset Quotes grd
@@ -967,8 +967,24 @@ In der Abbildung 4.2 werden die Klauseln
  wird gefunden.
 \end_layout
 
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+newpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
-Unterschied zwischen DPLL und CDCL (not done)
+Unterschied zwischen DPLL und CDCL
 \end_layout
 
 \begin_layout Standard
@@ -976,8 +992,8 @@ Der Unterschied zwischen DPLL und CDCL ist das Konzept des Backjumpings
  und das Lernen von Konfliktklauseln.
  Während der DPLL-Algorithmus durch Backtracking Konflikte löst, verwendet
  CDCL diese Konzepte, um schnellere Ergebnisse zu einem SAT-Problem zu finden.
- Backjumping führt potentiell zu schnelleren Ergebnissen, da beim Backtracking
- folgendes Problem auftreten kann:
+ Die folgenden Grafiken sollen zeigen, was das Problem vom Backtracking
+ ist.
 \end_layout
 
 \begin_layout Standard
@@ -1014,15 +1030,7 @@ status open
 
 
 \backslash
-captionof{figure}{DPLL 1}{Der DPLL Algorithmus.
- Für die Entscheidungen wurden die Literale immer auf 
-\backslash
-botV gesetzt.
- Die Belegung von 
-\backslash
-begin{math} x_1 
-\backslash
-end{math} ist egal, da diese zu jeder Belegung einen Konflikt auslöst.}
+captionof{figure}{DPLL 1}
 \end_layout
 
 \end_inset
@@ -1048,20 +1056,7 @@ status open
 
 
 \backslash
-captionof{figure}{DPLL 2}{Der DPLL-Algorithmus hat das Literal 
-\backslash
-begin{math} x_3 
-\backslash
-equiv 
-\backslash
-top 
-\backslash
-end{math} gesetzt.
- Dies ändert jedoch nichts für die Belegung von 
-\backslash
-begin{math} x_4 
-\backslash
-end{math}}
+captionof{figure}{DPLL 2}
 \end_layout
 
 \end_inset
@@ -1087,59 +1082,7 @@ status open
 
 
 \backslash
-captionof{figure}{DPLL 3}{Der DPLL-Algorithmus ist zum Level 2 zurückgegangen
- und hat das Literal 
-\backslash
-begin{math} x_2 
-\backslash
-equiv 
-\backslash
-top 
-\backslash
-end{math} und 
-\backslash
-begin{math} x_3 
-\backslash
-equiv 
-\backslash
-bot 
-\backslash
-end{math} gesetzt.
- Dies ändert jedoch nichts für die Belegung von 
-\backslash
-begin{math} x_4 
-\backslash
-end{math} In den darauffolgendenen Schritten würde der Algorithmus 
-\backslash
-begin{math} x_3 
-\backslash
-equiv 
-\backslash
-top 
-\backslash
-end{math} setzen und wieder einen Konflikt herbeiführen.
- Danach würde der Algorithmus nach mehrmaligen Backtracking eine Lösung
- mit 
-\backslash
-begin{math} x_1 
-\backslash
-equiv 
-\backslash
-top, x_2 
-\backslash
-equiv 
-\backslash
-top, x_3 
-\backslash
-equiv 
-\backslash
-top und x_4 
-\backslash
-equiv 
-\backslash
-top 
-\backslash
-end{math} finden}
+captionof{figure}{DPLL 3}
 \end_layout
 
 \end_inset
@@ -1161,6 +1104,194 @@ end{center}
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Der DPLL Algorithmus findet in der Grafik 4.3 einen Konflikt für die Belegungen
+ von 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+mb x_1,x_2,x_3
+\backslash
+equiv
+\backslash
+bot
+\backslash
+me
+\end_layout
+
+\end_inset
+
+, wobei die Belegung von 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+mb x_4
+\backslash
+:
+\backslash
+me
+\end_layout
+
+\end_inset
+
+ irrelevant ist, da jede Belegung zu einem Konflikt führt.
+ Im nächsten Schritt würde der Algorithmus dann 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+mb x_3
+\backslash
+equiv
+\backslash
+top
+\backslash
+:
+\backslash
+me
+\end_layout
+
+\end_inset
+
+ setzen.
+ Diese Belegung ändert jedoch nichts am Ergebnis und führt zum nächsten
+ Backtracking-Schritt in der Grafik 4.5.
+ In diesem Schritt bleibt der Konflikt jedoch erhalten und es würde so lange
+ weitergehen, bis der Algorithmus eine Lösung mit der Belegung 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+mb x_1
+\backslash
+equiv
+\backslash
+top, x_2
+\backslash
+equiv
+\backslash
+top, x_3
+\backslash
+equiv
+\backslash
+top 
+\backslash
+me und 
+\backslash
+mb x_4
+\backslash
+equiv
+\backslash
+top
+\backslash
+:
+\backslash
+me
+\end_layout
+
+\end_inset
+
+ findet.
+ Der CDCL-Algorithmus würde dahingegen den Schritt in 4.5 überspringen, da
+ der Algorithmus dank der gelernten Klausel 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+mb (x_1
+\backslash
+vee x_3)
+\backslash
+:
+\backslash
+me
+\end_layout
+
+\end_inset
+
+ aus 4.3 und der Klausel 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+mb (x_1 
+\backslash
+vee 
+\backslash
+neg x_3 
+\backslash
+vee 
+\backslash
+neg x_4)
+\backslash
+:
+\backslash
+me
+\end_layout
+
+\end_inset
+
+ (bei einer Belegung 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+mb x_4
+\backslash
+equiv
+\backslash
+top
+\backslash
+me
+\end_layout
+
+\end_inset
+
+ ) aus 4.4 die Klausel 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+mb(x_1)
+\backslash
+:
+\backslash
+me
+\end_layout
+
+\end_inset
+
+ lernt und damit ein Backtracking zum Level 2 vermeiden kann.
+ Bei einem weitaus größerem Problem kann somit ein relativ großer Zeitaufwand
+ gespart werden.
 \end_layout
 
 \end_body
