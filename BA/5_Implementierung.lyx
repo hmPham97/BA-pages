@@ -893,7 +893,7 @@ Funktion für Konfliktanalyse
 \end_layout
 
 \begin_layout Subsection
-Neustarts
+Neustarts (NOT DONE)
 \end_layout
 
 \begin_layout Standard
@@ -922,9 +922,10 @@ n,\,n*2,\,n,\,n*2,\,n*4,\,n,\,n*2,\,n*4,\,n*8,...
 \begin_layout Standard
 Falls das Programm in einen Konflikt gerät, so wird ein Integer (conflictIterati
 on) hochgezählt.
- Wenn die conflictIteration den gesetzten Wert für eine Grenze erreicht,
- so wird der CDCL-Algorithmus neugestartet.
- Für diese Arbeit wurde 
+ Wenn conflictIteration den gesetzten Wert für eine Grenze erreicht, so
+ wird der CDCL-Algorithmus neugestartet, wobei conflictIteration auf 0 gesetzt
+ wird.
+ In der Implementierung wurde für 
 \begin_inset Formula $n=20$
 \end_inset
 

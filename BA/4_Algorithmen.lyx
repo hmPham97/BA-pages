@@ -728,7 +728,13 @@ begin{math}
 vee 
 \backslash
 end{math} dar.
- Das F steht in dieser Abbildung für 
+ Das F steht in dieser Abbildung f
+\backslash
+
+\begin_inset Quotes grd
+\end_inset
+
+ur 
 \backslash
 botV} 
 \end_layout
@@ -970,7 +976,191 @@ Der Unterschied zwischen DPLL und CDCL ist das Konzept des Backjumpings
  und das Lernen von Konfliktklauseln.
  Während der DPLL-Algorithmus durch Backtracking Konflikte löst, verwendet
  CDCL diese Konzepte, um schnellere Ergebnisse zu einem SAT-Problem zu finden.
- 
+ Backjumping führt potentiell zu schnelleren Ergebnissen, da beim Backtracking
+ folgendes Problem auftreten kann:
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename Abbildungen/DPLL_example.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+captionof{figure}{DPLL 1}{Der DPLL Algorithmus.
+ Für die Entscheidungen wurden die Literale immer auf 
+\backslash
+botV gesetzt.
+ Die Belegung von 
+\backslash
+begin{math} x_1 
+\backslash
+end{math} ist egal, da diese zu jeder Belegung einen Konflikt auslöst.}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename Abbildungen/DPLL_example2.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+captionof{figure}{DPLL 2}{Der DPLL-Algorithmus hat das Literal 
+\backslash
+begin{math} x_3 
+\backslash
+equiv 
+\backslash
+top 
+\backslash
+end{math} gesetzt.
+ Dies ändert jedoch nichts für die Belegung von 
+\backslash
+begin{math} x_4 
+\backslash
+end{math}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename Abbildungen/DPLL_example3.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+captionof{figure}{DPLL 3}{Der DPLL-Algorithmus ist zum Level 2 zurückgegangen
+ und hat das Literal 
+\backslash
+begin{math} x_2 
+\backslash
+equiv 
+\backslash
+top 
+\backslash
+end{math} und 
+\backslash
+begin{math} x_3 
+\backslash
+equiv 
+\backslash
+bot 
+\backslash
+end{math} gesetzt.
+ Dies ändert jedoch nichts für die Belegung von 
+\backslash
+begin{math} x_4 
+\backslash
+end{math} In den darauffolgendenen Schritten würde der Algorithmus 
+\backslash
+begin{math} x_3 
+\backslash
+equiv 
+\backslash
+top 
+\backslash
+end{math} setzen und wieder einen Konflikt herbeiführen.
+ Danach würde der Algorithmus nach mehrmaligen Backtracking eine Lösung
+ mit 
+\backslash
+begin{math} x_1 
+\backslash
+equiv 
+\backslash
+top, x_2 
+\backslash
+equiv 
+\backslash
+top, x_3 
+\backslash
+equiv 
+\backslash
+top und x_4 
+\backslash
+equiv 
+\backslash
+top 
+\backslash
+end{math} finden}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_body
