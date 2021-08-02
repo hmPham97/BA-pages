@@ -235,7 +235,14 @@ end{center}
 \end_layout
 
 \begin_layout Section
-Datenstrukturen (not done)
+Datenstrukturen (not done) 
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Datenstrukturen-(not-done)"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -411,16 +418,26 @@ Ein paar Datenstrukturen.
 \end_layout
 
 \begin_layout Standard
-Zum Zeitpunkt der Implementierung wurde entschieden keine 
-\begin_inset Quotes gld
-\end_inset
+Zum Zeitpunkt der Implementierung wurde entschieden keine Watched Literals
+ zu implementieren.
+ Watched Literals verwendet zwei Zeiger, die auf verschiedene Literale innerhalb
+ einer Klausel zeigen.
+ Wenn ein Literal mit einem Zeiger belegt wird, wird überprüft, ob die Belegung
+ die Klausel SAT macht.
+ Bei einem Ergebnis mit SAT bleibt der Zeiger auf dem Literal, während bei
+ einem UNSAT der Zeiger zum nächsten unbelegten Literal wandert.
+ Falls der Zeiger kein unbelegtes Literal findet, bleibt der Zeiger auf
+ seiner Position.
+\end_layout
 
-Watched Literals
-\begin_inset Quotes grd
-\end_inset
+\begin_layout Standard
+Das Konzept der Watched Literals ist eine komplexe Implementierung in Haskell,
+ da die Reihenfolge der Literale innerhalb der Klauseln geändert werden
+ muss.
+\end_layout
 
- zu implementieren, da die Permutation von Listen in Haskell komplex ist.
- Der Grund hierfür ist, das Haskell keine Kontrollstrukturen, wie z.B.
+\begin_layout Standard
+Der Grund hierfür ist, das Haskell keine Kontrollstrukturen, wie z.B.
  for-Schleifen, besitzt und nicht direkt auf die einzelnen Listenelemente
  zugreifen kann.
  Aus diesem Grund wird stattdessen ReducedClauseAndOGClause verwendet, wobei
@@ -893,19 +910,31 @@ Funktion für Konfliktanalyse
 \end_layout
 
 \begin_layout Subsection
-Neustarts (NOT DONE)
+Neustarts
 \end_layout
 
 \begin_layout Standard
-Neustarts sind hinsichtlich darin nützlich, damit der Algorithmus nicht
- zu lange in einem 
-\series bold
-NEED TO CHECK 
+Neustarts werden in CDCL SAT-Solver verwendet, um die Suche in Teilbäumen,
+ die zu keiner Lösung führen können, zu unterbrechnen 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "een_extensible_2003"
+literal "false"
+
+\end_inset
+
+.
+ Dabei werden alle aktuellen Belegungen und Heuristiken gelöscht.
+ Die gelernten Klauseln bleiben erhalten und die Heuristiken werden neu
+ berechnet.
+ Mit diesen Daten fängt der Algorithmus dann mit dem CDCL Prozess wieder
+ an.
 \end_layout
 
 \begin_layout Standard
-Für die Neustarts wird die Luby-Sequenz verwendet.
- Diese sieht folgendermaßen in der Implementierung aus:
+Für die Zeitplanung der Neustarts wird eine Sequenz verwendet, die auf die
+ Luby-Sequenz basiert.
+ Diese sieht folgendermaßen aus:
 \end_layout
 
 \begin_layout Standard
@@ -923,8 +952,8 @@ n,\,n*2,\,n,\,n*2,\,n*4,\,n,\,n*2,\,n*4,\,n*8,...
 Falls das Programm in einen Konflikt gerät, so wird ein Integer (conflictIterati
 on) hochgezählt.
  Wenn conflictIteration den gesetzten Wert für eine Grenze erreicht, so
- wird der CDCL-Algorithmus neugestartet, wobei conflictIteration auf 0 gesetzt
- wird.
+ wird der CDCL-Algorithmus neugestartet, wobei conflictIteration wieder
+ auf 0 gesetzt wird.
  In der Implementierung wurde für 
 \begin_inset Formula $n=20$
 \end_inset

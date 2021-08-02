@@ -138,8 +138,8 @@ Satz von Cook-Levin
 \end_inset
 
  genannt.
- Durch diesen Beweis wurde das SAT als allererstes Problem die NP-Vollständigkei
-t bewiesen.
+ Durch diesen Beweis wurde das SAT-Problem als allererstes Problem die NP-Vollst
+ändigkeit bewiesen.
 \end_layout
 
 \begin_layout Standard
@@ -587,7 +587,17 @@ Watched Literals
 \begin_inset Quotes grd
 \end_inset
 
- und 
+ (siehe 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Datenstrukturen-(not-done)"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) und 
 \begin_inset Quotes gld
 \end_inset
 
@@ -595,7 +605,17 @@ Variable State Independent Decaying Sum
 \begin_inset Quotes grd
 \end_inset
 
- (VSIDS) für die Entscheidungsheuristik.
+ (VSIDS, siehe 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Entscheidungsalgorithmus"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) für die Entscheidungsheuristik.
  Des Weiteren wendet zChaff 
 \begin_inset Quotes gld
 \end_inset
@@ -679,25 +699,7 @@ MiniSAT wurde von Niklas Eén und Niklas Sörensson an der Chalmers University
  of Technology entwickelt.
  Hintergrund für die Entwicklung des Solvers ist die Veröffentlichung eines
  zugänglichen, minimalistischen CDCL-SAT-Solvers, der Watched Literals und
- 
-\begin_inset Quotes gld
-\end_inset
-
-Dynamic Variable Ordering
-\begin_inset Quotes grd
-\end_inset
-
- (VSIDS, siehe 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "subsec:Entscheidungsalgorithmus"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-) verwendet 
+ Dynamic Variable Ordering (VSIDS) verwendet 
 \begin_inset CommandInset citation
 LatexCommand citeyear
 key "een_extensible_2003"
@@ -803,18 +805,21 @@ DIMACS Format
 
 \begin_layout Standard
 Kommentare werden mit einem kleinem 
-\begin_inset Quotes gld
-\end_inset
-
+\shape italic
 c
-\begin_inset Quotes grd
-\end_inset
-
+\shape default
  symbolisiert wie z.B.
- in Zeile 1 und 5 im Beispiel, während kleine p's die Spezifikationen des
- SAT-Problemes zeigen.
- Das Wort nach dem p deutet in welcher Form ein Problem dargestellt ist.
- Dies kann entwender cnf oder 
+ in Zeile 1 und 5 im Beispiel, während kleine 
+\shape italic
+p
+\shape default
+'s die Spezifikationen des SAT-Problemes zeigen.
+ Das Wort nach dem 
+\shape italic
+p
+\shape default
+ deutet in welcher Form ein Problem dargestellt ist.
+ Dies kann entwender CNF oder 
 \begin_inset Quotes gld
 \end_inset
 
@@ -822,12 +827,12 @@ Disjunktive Normalform
 \begin_inset Quotes grd
 \end_inset
 
- (dnf) sein.
+ (DNF) sein.
  Der erste Integer in Zeile 3 steht für die Anzahl der Literale und der
  Zweite für die Anzahl der Klauseln.
  Wenn nach der p-Zeile ein Integer oder ein Minus die Zeile anführt, so
  beginnt eine Klausel.
- Integer in diesen Zeilen können entweder positive oder negative Literale
+ Integer in diesen Zeilen können entweder positive oder negierte Literale
  darstellen.
  Wenn eine 0 eingelesen wird, ist die Klausel vollständig und es wird eine
  neue Zeile eingelesen.

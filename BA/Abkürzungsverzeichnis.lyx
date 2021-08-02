@@ -187,7 +187,19 @@ Falsch
 \begin_inset Text
 
 \begin_layout Plain Layout
-F
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+botV
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -327,7 +339,19 @@ Wahr
 \begin_inset Text
 
 \begin_layout Plain Layout
-T
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+topV
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_inset

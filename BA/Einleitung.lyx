@@ -88,8 +88,9 @@ Einleitung
 \end_layout
 
 \begin_layout Standard
-Das Boolean Satisfiability Problem (SAT), auf Deutsch Erfüllbarkeitsproblem
- der Aussagenlogik, ist das erste Problem, welches durch den 
+Das Boolean Satisfiability Problem (SAT-Problem, normalerweise nur SAT),
+ auf Deutsch Erfüllbarkeitsproblem der Aussagenlogik, ist das erste Problem,
+ welches durch den 
 \begin_inset Quotes gld
 \end_inset
 
@@ -192,8 +193,8 @@ Anhand einer Literaturarbeit werden bestehende Algorithmen untersucht, wofür
 \begin_layout Standard
 In dieser Arbeit werden zuerst die verschiedenen Programmierparadigmen und
  die verwendete Programmiersprache Haskell in Kapitel 2 erläutert.
- Daraufhin werden SAT und verschiedene SAT-Solver in Kapitel 3 vorgestellt,
- wobei auch ein Einblick in die SAT-Competitions gewährt wird.
+ Daraufhin werden SAT-Problem und verschiedene SAT-Solver in Kapitel 3 vorgestel
+lt, wobei auch ein Einblick in die SAT-Competitions gewährt wird.
  Danach wird der Unterschied zwischen dem CDCL-Algorithmus und dem Davis-Putnam-
 Logemann-Loveland-Algorithmus (DPLL) in Kapitel 4 erklärt.
  Das darauffolgenden Kapitel 5 beinhaltet eine Beschreibung für eine Umsetzung

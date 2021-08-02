@@ -119,7 +119,7 @@ In diesem Kapitel wird die Korrektheit der Implementierung des SAT-Solvers
 \end_layout
 
 \begin_layout Section
-Vergleich mit PicoSAT
+Vergleich der Korrektheit mit PicoSAT
 \end_layout
 
 \begin_layout Standard
@@ -296,13 +296,17 @@ literal "false"
 
 
 \begin_inset Foot
-status collapsed
+status open
 
 \begin_layout Plain Layout
 Link zur Benchmark: 
-\begin_inset CommandInset href
-LatexCommand href
-target "https://cadp.inria.fr/resources/vlsat/"
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://cadp.inria.fr/resources/vlsat/
+\end_layout
 
 \end_inset
 
@@ -317,7 +321,37 @@ target "https://cadp.inria.fr/resources/vlsat/"
 
 Construction and Analysis of Distributed Processes" (CADP) und generierte
  Benchmarks, die in der SAT-Competition genutzt wurden, verwendet.
- 
+ Des Weiteren werden auch einzelne Benchmarks getestet, die auf der SATLIB
+ Webseite
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Link zur Webseite:
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://www.cs.ubc.ca/~hoos/SATLIB/benchm.html
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ publiziert sind 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "hoos_satlib_2000"
+literal "false"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -2478,11 +2512,45 @@ clearpage
 \end_layout
 
 \begin_layout Standard
+Es wird ersichtlich, dass die Implementierung in der Performance schlechter
+ abschneidet als etablierte SAT-Solver.
+ Hierbei gibt es mehrere Gründe, die daran Schuld haben können.
+ 
+\end_layout
 
-\series bold
-Hier fängt dann Vergleich an.
- Wie kann die Implementierung verbessert werden in hinsicht der Performance
- etc....
+\begin_layout Standard
+Zum einem ist die Verwendung einer Datenstruktur, die nicht eine Watched
+ Literals ist, ein Grund.
+ Während bei der Watched Literals über die Referenzen geprüft werden kann,
+ ob eine Klausel SAT ist, ist dies nicht der Fall bei der Implementierung.
+ Dies trägt dazu bei, dass die Implementierung bei dieser Überprüfung länger
+ braucht.
+ Ein weiteres Problem der Datenstruktur ist die ständige Permutation der
+ Daten nach einer Entscheidung.
+ Durch die Betrachtung eines Profilings mit der Benchmark vlsat1_222_1275.cnf
+ wird ersichtlich, dass der Großteil der Zeit in 
+\shape italic
+calculateClauseList
+\shape default
+ verbracht wurde.
+ 
+\shape italic
+calculateClauseList
+\shape default
+ ist eine Hilfsfunktion, die Subsumption und Resolution nach einer Entscheidung
+ anwendet, um die Klauseln in der Formel zu verändern.
+ 
+\end_layout
+
+\begin_layout Standard
+Ein weiteres Problem ist die Implementierung des Entscheidungsalgorithmus
+ und der Konfliktanalyse.
+ Beim Austesten des Solvers mit einem Backjumping-Algorithmus wurde offentsichtl
+ich, das kein Backjumping in der Implementierung auftratt.
+ Die Konflikte entstehen bei dem Solver immer nur dann, wenn das zweithöchste
+ Level gleich dem höchsten Level - 1 ist.
+ Deshalb ist der Solver immer nur um ein Level zurückgegangen.
+ 
 \end_layout
 
 \end_body

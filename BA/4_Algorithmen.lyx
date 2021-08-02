@@ -1108,7 +1108,7 @@ end{center}
 
 \begin_layout Standard
 Der DPLL Algorithmus findet in der Grafik 4.3 einen Konflikt für die Belegungen
- von 
+ 
 \begin_inset ERT
 status open
 
@@ -1127,7 +1127,8 @@ me
 
 \end_inset
 
-, wobei die Belegung von 
+.
+ Die Belegung von 
 \begin_inset ERT
 status open
 
@@ -1144,8 +1145,8 @@ me
 
 \end_inset
 
- irrelevant ist, da jede Belegung zu einem Konflikt führt.
- Im nächsten Schritt würde der Algorithmus dann 
+ ist hierbei irrelevant, da jede beliebige Belegung zu einem Konflikt führt.
+ Im nächsten Schritt (Abbildung 4.4) würde der Algorithmus dann 
 \begin_inset ERT
 status open
 
@@ -1208,8 +1209,14 @@ me
 \end_inset
 
  findet.
- Der CDCL-Algorithmus würde dahingegen den Schritt in 4.5 überspringen, da
- der Algorithmus dank der gelernten Klausel 
+ 
+\end_layout
+
+\begin_layout Standard
+Der CDCL-Algorithmus überspringt dahingegen den Schritt in der Abbildung
+ 4.5.
+ Der Grund hierfür ist, dass der Algorithmus durch Resolution in der Abbildung
+ 4.3 die Klausel 
 \begin_inset ERT
 status open
 
@@ -1228,7 +1235,7 @@ me
 
 \end_inset
 
- aus 4.3 und der Klausel 
+ lernt und danach mit der leeren Klausel 
 \begin_inset ERT
 status open
 
@@ -1253,7 +1260,7 @@ me
 
 \end_inset
 
- (bei einer Belegung 
+ (bei einer Belegung mit 
 \begin_inset ERT
 status open
 
@@ -1261,7 +1268,15 @@ status open
 
 
 \backslash
-mb x_4
+mb x_3
+\backslash
+equiv
+\backslash
+top
+\backslash
+me und 
+\backslash
+mb x_3
 \backslash
 equiv
 \backslash
@@ -1272,7 +1287,7 @@ me
 
 \end_inset
 
- ) aus 4.4 die Klausel 
+ ) die Klausel 
 \begin_inset ERT
 status open
 
@@ -1280,7 +1295,7 @@ status open
 
 
 \backslash
-mb(x_1)
+mb (x_1)
 \backslash
 :
 \backslash
@@ -1289,7 +1304,9 @@ me
 
 \end_inset
 
- lernt und damit ein Backtracking zum Level 2 vermeiden kann.
+ lernt.
+ Dadurch springt der Algorithmus direkt zum Level 1 zurück und überspringt
+ damit die Schritte, die nach der Abbildung 4.5 passieren würden.
  Bei einem weitaus größerem Problem kann somit ein relativ großer Zeitaufwand
  gespart werden.
 \end_layout

@@ -272,8 +272,9 @@ literal "false"
 \end_inset
 
 .
- Diese können die Ergebnisse verfälschen, weshalb das explizierte Makieren
- von Seiteneffekten solche Fehler leichter ausschließen lassen kann.
+ Dadurch können Seiteneffekte Fehler in den Ergebnissen herbeiführen, weshalb
+ das explizierte Makieren von Seiteneffekten solche Fehler leichter ausschließen
+ lassen kann.
 \end_layout
 
 \begin_layout Subsubsection*
