@@ -355,8 +355,8 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-Die Ausführung der Solver wird gestoppt, wenn nach 5 Minuten keine Ergebnisse
- für die entsprechende Probleminstanz vorliegen.
+Die Ausführung der Solver wird gestoppt, wenn nach 5 Minuten Echtzeit keine
+ Ergebnisse für die entsprechende Probleminstanz vorliegen.
  Zum Vergleich werden zChaff 2007 .3.12 (64-bit)
 \begin_inset Foot
 status collapsed
@@ -481,7 +481,7 @@ MiniSAT
 \begin_inset Text
 
 \begin_layout Plain Layout
-Zeit in Sekunden
+Prozessorzeit
 \end_layout
 
 \end_inset
@@ -742,7 +742,7 @@ MiniSAT
 \begin_inset Text
 
 \begin_layout Plain Layout
-Zeit in Sekunden
+Prozessorzeit
 \end_layout
 
 \end_inset
@@ -1003,7 +1003,7 @@ MiniSAT
 \begin_inset Text
 
 \begin_layout Plain Layout
-Zeit in Sekunden
+Prozessorzeit
 \end_layout
 
 \end_inset
@@ -1264,7 +1264,7 @@ MiniSAT
 \begin_inset Text
 
 \begin_layout Plain Layout
-Zeit in Sekunden
+Prozessorzeit
 \end_layout
 
 \end_inset
@@ -1525,7 +1525,7 @@ MiniSAT
 \begin_inset Text
 
 \begin_layout Plain Layout
-Zeit in Sekunden
+Prozessorzeit
 \end_layout
 
 \end_inset
@@ -1786,7 +1786,7 @@ MiniSAT
 \begin_inset Text
 
 \begin_layout Plain Layout
-Zeit in Sekunden
+Prozessorzeit
 \end_layout
 
 \end_inset
@@ -2047,7 +2047,7 @@ MiniSAT
 \begin_inset Text
 
 \begin_layout Plain Layout
-Zeit in Sekunden
+Prozessorzeit
 \end_layout
 
 \end_inset
@@ -2308,7 +2308,7 @@ MiniSAT
 \begin_inset Text
 
 \begin_layout Plain Layout
-Zeit in Sekunden
+Prozessorzeit
 \end_layout
 
 \end_inset
