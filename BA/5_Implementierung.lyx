@@ -572,7 +572,7 @@ Algorithmen
 \end_layout
 
 \begin_layout Subsection
-Entscheidungsalgorithmus / Decision 
+Entscheidungsalgorithmus 
 \begin_inset CommandInset label
 LatexCommand label
 name "subsec:Entscheidungsalgorithmus"
@@ -794,7 +794,7 @@ Zunächst wird überprüft, ob die ClauseList Elemente besitzt.
 \begin_layout Standard
 Subsumption ist das Löschen einer ganzen Klausel, die durch die Belegung
  zu SAT evaluiert wird, während die Resolution das Löschen eines Literals
- ist, das zu einem logischen Falsch beurteilt wird(siehe 
+ ist, das zu einem logischen Falsch beurteilt wird (siehe Teilregel 1.
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "enu:Teilregel_1"
@@ -808,7 +808,7 @@ noprefix "false"
 \end_layout
 
 \begin_layout Subsection
-Konfliktanalyse / Conflict analysis
+Konfliktanalyse
 \end_layout
 
 \begin_layout Standard

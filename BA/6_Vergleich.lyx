@@ -260,6 +260,10 @@ Speicherort: Hard Disk Drive (HDD)
 Hauptspeicher 2048 MB
 \end_layout
 
+\begin_layout Itemize
+1 Prozessor
+\end_layout
+
 \begin_layout Standard
 Die VM läuft auf einem Laptop mit den folgenden Spezifikationen:
 \end_layout
@@ -405,6 +409,9 @@ Impl
  Anzahl der Neustarts, Entscheidungen und der gelernten Klauseln geprüft.
  Für die Messung der Laufzeit wird in Impl das Haskell-Packet timeit 2.0
  verwendet und alle Zeiten werden 2 Stellen nach dem Komma gerundet.
+ zChaff gibt keine Auskunft zur Anzahl der Neustarts.
+ Für die Statistik von MiniSAT wird angenohmen, dass die Anzahl der Konflikte
+ gleich der Anzahl der gelernten Klauseln ist.
 \end_layout
 
 \begin_layout Standard
@@ -428,6 +435,10 @@ begin{center}
 \end_inset
 
 
+\end_layout
+
+\begin_layout Plain Layout
+vlsat1_10_17.cnf
 \end_layout
 
 \begin_layout Plain Layout
@@ -546,7 +557,7 @@ Anzahl der Neustarts
 \begin_inset Text
 
 \begin_layout Plain Layout
-0
+1
 \end_layout
 
 \end_inset
@@ -692,6 +703,10 @@ begin{center}
 \end_layout
 
 \begin_layout Plain Layout
+vlsat1_54_270.cnf
+\end_layout
+
+\begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="5" columns="4">
 <features tabularvalignment="middle">
@@ -807,7 +822,7 @@ Anzahl der Neustarts
 \begin_inset Text
 
 \begin_layout Plain Layout
-0
+1
 \end_layout
 
 \end_inset
@@ -836,7 +851,7 @@ Entscheidungen
 \begin_inset Text
 
 \begin_layout Plain Layout
-3
+1
 \end_layout
 
 \end_inset
@@ -845,7 +860,7 @@ Entscheidungen
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+3
 \end_layout
 
 \end_inset
@@ -883,7 +898,7 @@ Anzahl der gelernten Klauseln
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0
 \end_layout
 
 \end_inset
@@ -953,6 +968,10 @@ begin{center}
 \end_layout
 
 \begin_layout Plain Layout
+vlsat1_210_1275.cnf
+\end_layout
+
+\begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="5" columns="4">
 <features tabularvalignment="middle">
@@ -1012,7 +1031,7 @@ Prozessorzeit
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+7.42
 \end_layout
 
 \end_inset
@@ -1021,7 +1040,7 @@ Prozessorzeit
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.00
 \end_layout
 
 \end_inset
@@ -1030,7 +1049,7 @@ Prozessorzeit
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.00
 \end_layout
 
 \end_inset
@@ -1050,7 +1069,7 @@ Anzahl der Neustarts
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+1
 \end_layout
 
 \end_inset
@@ -1068,7 +1087,7 @@ Anzahl der Neustarts
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+1
 \end_layout
 
 \end_inset
@@ -1088,7 +1107,7 @@ Entscheidungen
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+8
 \end_layout
 
 \end_inset
@@ -1097,7 +1116,7 @@ Entscheidungen
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+33
 \end_layout
 
 \end_inset
@@ -1106,7 +1125,7 @@ Entscheidungen
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+1
 \end_layout
 
 \end_inset
@@ -1126,7 +1145,7 @@ Anzahl der gelernten Klauseln
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+59
 \end_layout
 
 \end_inset
@@ -1135,7 +1154,7 @@ Anzahl der gelernten Klauseln
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0
 \end_layout
 
 \end_inset
@@ -1144,7 +1163,7 @@ Anzahl der gelernten Klauseln
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0
 \end_layout
 
 \end_inset
@@ -1214,6 +1233,10 @@ begin{center}
 \end_layout
 
 \begin_layout Plain Layout
+vlsat1_222_1477.cnf
+\end_layout
+
+\begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="5" columns="4">
 <features tabularvalignment="middle">
@@ -1273,7 +1296,7 @@ Prozessorzeit
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+50.53
 \end_layout
 
 \end_inset
@@ -1282,7 +1305,7 @@ Prozessorzeit
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.00
 \end_layout
 
 \end_inset
@@ -1291,7 +1314,7 @@ Prozessorzeit
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.00
 \end_layout
 
 \end_inset
@@ -1311,7 +1334,7 @@ Anzahl der Neustarts
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+7
 \end_layout
 
 \end_inset
@@ -1329,7 +1352,7 @@ Anzahl der Neustarts
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+1
 \end_layout
 
 \end_inset
@@ -1349,7 +1372,7 @@ Entscheidungen
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+6
 \end_layout
 
 \end_inset
@@ -1358,7 +1381,7 @@ Entscheidungen
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+20
 \end_layout
 
 \end_inset
@@ -1367,7 +1390,7 @@ Entscheidungen
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+20
 \end_layout
 
 \end_inset
@@ -1387,7 +1410,7 @@ Anzahl der gelernten Klauseln
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+321
 \end_layout
 
 \end_inset
@@ -1396,7 +1419,7 @@ Anzahl der gelernten Klauseln
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+2
 \end_layout
 
 \end_inset
@@ -1405,7 +1428,7 @@ Anzahl der gelernten Klauseln
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+1
 \end_layout
 
 \end_inset
@@ -1475,6 +1498,10 @@ begin{center}
 \end_layout
 
 \begin_layout Plain Layout
+vlsat1_228_3437.cnf
+\end_layout
+
+\begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="5" columns="4">
 <features tabularvalignment="middle">
@@ -1534,7 +1561,7 @@ Prozessorzeit
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+2.53
 \end_layout
 
 \end_inset
@@ -1543,7 +1570,7 @@ Prozessorzeit
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.00
 \end_layout
 
 \end_inset
@@ -1552,7 +1579,7 @@ Prozessorzeit
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.00
 \end_layout
 
 \end_inset
@@ -1572,7 +1599,7 @@ Anzahl der Neustarts
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0
 \end_layout
 
 \end_inset
@@ -1590,7 +1617,7 @@ Anzahl der Neustarts
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+1
 \end_layout
 
 \end_inset
@@ -1610,7 +1637,7 @@ Entscheidungen
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+2
 \end_layout
 
 \end_inset
@@ -1619,7 +1646,7 @@ Entscheidungen
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+5
 \end_layout
 
 \end_inset
@@ -1628,7 +1655,7 @@ Entscheidungen
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+4
 \end_layout
 
 \end_inset
@@ -1648,7 +1675,7 @@ Anzahl der gelernten Klauseln
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+8
 \end_layout
 
 \end_inset
@@ -1657,7 +1684,7 @@ Anzahl der gelernten Klauseln
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0
 \end_layout
 
 \end_inset
@@ -1666,7 +1693,7 @@ Anzahl der gelernten Klauseln
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0
 \end_layout
 
 \end_inset
@@ -1736,6 +1763,10 @@ begin{center}
 \end_layout
 
 \begin_layout Plain Layout
+flat100-1.cnf
+\end_layout
+
+\begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="5" columns="4">
 <features tabularvalignment="middle">
@@ -1795,7 +1826,7 @@ Prozessorzeit
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+84.30
 \end_layout
 
 \end_inset
@@ -1804,7 +1835,7 @@ Prozessorzeit
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.00
 \end_layout
 
 \end_inset
@@ -1813,7 +1844,7 @@ Prozessorzeit
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.00
 \end_layout
 
 \end_inset
@@ -1833,7 +1864,7 @@ Anzahl der Neustarts
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+12
 \end_layout
 
 \end_inset
@@ -1851,7 +1882,7 @@ Anzahl der Neustarts
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+1
 \end_layout
 
 \end_inset
@@ -1871,7 +1902,7 @@ Entscheidungen
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+18
 \end_layout
 
 \end_inset
@@ -1880,7 +1911,7 @@ Entscheidungen
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+63
 \end_layout
 
 \end_inset
@@ -1889,7 +1920,7 @@ Entscheidungen
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+52
 \end_layout
 
 \end_inset
@@ -1909,7 +1940,7 @@ Anzahl der gelernten Klauseln
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+645
 \end_layout
 
 \end_inset
@@ -1918,7 +1949,7 @@ Anzahl der gelernten Klauseln
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+22
 \end_layout
 
 \end_inset
@@ -1927,7 +1958,7 @@ Anzahl der gelernten Klauseln
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+30
 \end_layout
 
 \end_inset
@@ -1960,7 +1991,8 @@ end{center}
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-SATCOMPETITON
+SATLIB, Färbung eines Graphen mit 100 Vertexen und 239 Kanten.
+ Das Problem hat 300 verschiedene Literale und 1117 Klauseln.
 \end_layout
 
 \end_inset
@@ -1997,6 +2029,10 @@ begin{center}
 \end_layout
 
 \begin_layout Plain Layout
+flat100-100.cnf
+\end_layout
+
+\begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="5" columns="4">
 <features tabularvalignment="middle">
@@ -2056,7 +2092,7 @@ Prozessorzeit
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+9.76
 \end_layout
 
 \end_inset
@@ -2065,7 +2101,7 @@ Prozessorzeit
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.00
 \end_layout
 
 \end_inset
@@ -2074,7 +2110,7 @@ Prozessorzeit
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.00
 \end_layout
 
 \end_inset
@@ -2094,7 +2130,7 @@ Anzahl der Neustarts
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+3
 \end_layout
 
 \end_inset
@@ -2112,7 +2148,7 @@ Anzahl der Neustarts
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+1
 \end_layout
 
 \end_inset
@@ -2132,7 +2168,7 @@ Entscheidungen
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+16
 \end_layout
 
 \end_inset
@@ -2141,7 +2177,7 @@ Entscheidungen
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+71
 \end_layout
 
 \end_inset
@@ -2150,7 +2186,7 @@ Entscheidungen
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+34
 \end_layout
 
 \end_inset
@@ -2170,7 +2206,7 @@ Anzahl der gelernten Klauseln
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+99
 \end_layout
 
 \end_inset
@@ -2179,7 +2215,7 @@ Anzahl der gelernten Klauseln
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+33
 \end_layout
 
 \end_inset
@@ -2188,7 +2224,7 @@ Anzahl der gelernten Klauseln
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+6
 \end_layout
 
 \end_inset
@@ -2221,7 +2257,8 @@ end{center}
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-SATCOMPETITON
+SATLIB, Färbung eines Graphen mit 100 Vertexen und 239 Kanten.
+ Das Problem hat 300 verschiedene Literale und 1117 Klauseln.
 \end_layout
 
 \end_inset
@@ -2258,6 +2295,10 @@ begin{center}
 \end_layout
 
 \begin_layout Plain Layout
+flat125-70.cnf
+\end_layout
+
+\begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="5" columns="4">
 <features tabularvalignment="middle">
@@ -2317,7 +2358,7 @@ Prozessorzeit
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+-
 \end_layout
 
 \end_inset
@@ -2326,7 +2367,7 @@ Prozessorzeit
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.00
 \end_layout
 
 \end_inset
@@ -2335,7 +2376,7 @@ Prozessorzeit
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.00
 \end_layout
 
 \end_inset
@@ -2355,7 +2396,7 @@ Anzahl der Neustarts
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+-
 \end_layout
 
 \end_inset
@@ -2373,7 +2414,7 @@ Anzahl der Neustarts
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+1
 \end_layout
 
 \end_inset
@@ -2393,7 +2434,7 @@ Entscheidungen
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+-
 \end_layout
 
 \end_inset
@@ -2402,7 +2443,7 @@ Entscheidungen
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+62
 \end_layout
 
 \end_inset
@@ -2411,7 +2452,7 @@ Entscheidungen
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+58
 \end_layout
 
 \end_inset
@@ -2431,7 +2472,7 @@ Anzahl der gelernten Klauseln
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+-
 \end_layout
 
 \end_inset
@@ -2440,7 +2481,7 @@ Anzahl der gelernten Klauseln
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+13
 \end_layout
 
 \end_inset
@@ -2449,7 +2490,7 @@ Anzahl der gelernten Klauseln
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+37
 \end_layout
 
 \end_inset
@@ -2482,7 +2523,11 @@ end{center}
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-SATCOMPETITON
+SATLIB, Färbung eines Graphen mit 125 Vertexen und 301 Kanten.
+ Das Problem hat 375 verschiedene Literale und 1403 Klauseln.
+ Die Implementierung hat keine Lösung innerhalb der Vorgaben für die Echtzeit
+ gefunden.
+ 
 \end_layout
 
 \end_inset
