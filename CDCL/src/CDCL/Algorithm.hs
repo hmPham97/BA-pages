@@ -313,9 +313,10 @@ getActivityMapFromAnalyze (_, _, _, x) = x
 -- | Returns the amount of decisions taken.
 getDecisions :: MappedTupleList -> Integer -> Integer -> Integer
 getDecisions mtl int found
+    | null arr && int == 0 = getDecisions mtl (int + 1) found
     | null arr = found
     | snd (head arr) == Decision = getDecisions mtl (int + 1) (found + 1)
-    | otherwise = getDecisions mtl (int + 1) found
+    | snd (head arr) /= Decision && int == 0 = getDecisions mtl (int + 1) 0
     where arr = fromMaybe [] (Map.lookup (Level int) mtl)
 
 
