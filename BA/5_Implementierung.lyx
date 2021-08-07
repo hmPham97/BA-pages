@@ -235,10 +235,10 @@ end{center}
 \end_layout
 
 \begin_layout Section
-Datenstrukturen (not done) 
+Datenstrukturen
 \begin_inset CommandInset label
 LatexCommand label
-name "sec:Datenstrukturen-(not-done)"
+name "sec:Datenstrukturen"
 
 \end_inset
 
@@ -444,22 +444,37 @@ Der Grund hierfür ist, das Haskell keine Kontrollstrukturen, wie z.B.
  das erste Element eine veränderliche Klausel darstellt, während das zweite
  Element eine unveränderte Klausel ist.
  
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-newpage
-\end_layout
-
+\begin_inset Newline newline
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Für die Datenstruktur für die Heuristik und der Literalbelegung wurde das
+ Haskellpaket Map.Strict ausgewählt.
+ Der Grund für die Auswahl von Maps ist die Schnelligkeit, in der Dateneinträge
+ gefunden werden können.
+ Bei einer Map ist die Komplexität für so eine Operation 
+\begin_inset Formula $O(log\,n)$
+\end_inset
+
+, während bei einer Liste eine Komplexität von 
+\begin_inset Formula $O(n)$
+\end_inset
+
+ besteht.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Ein Implikationsgraph wird in der Implementierung nicht verwendet, da die
+ Resolution ohne diese auskommt.
+ Die Klauseln, die für die Resolution verwendet werden, kommen von der MappedTup
+leList.
 \end_layout
 
 \begin_layout Standard
@@ -676,6 +691,22 @@ noprefix "false"
 \end_layout
 
 \begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset listings
 inline false
 status open
@@ -693,11 +724,6 @@ unitPropagation clist tlist lvl mapped
 
 \begin_layout Plain Layout
 
-\end_layout
-
-\begin_layout Plain Layout
-
-    -- Case: no UnitClause found or no more clauses in ClauseList
 \end_layout
 
 \begin_layout Plain Layout

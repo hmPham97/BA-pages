@@ -1213,8 +1213,92 @@ me
 \end_layout
 
 \begin_layout Standard
-Der CDCL-Algorithmus überspringt dahingegen den Schritt in der Abbildung
- 4.5.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename Abbildungen/CDCL_1.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+captionof{figure}{CDCL 1}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename Abbildungen/CDCL_2.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+captionof{figure}{CDCL 2}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Der CDCL-Algorithmus überspringt dahingegen die Schritte in der Abbildung
+ 4.4 und 4.5.
  Der Grund hierfür ist, dass der Algorithmus durch Resolution in der Abbildung
  4.3 die Klausel 
 \begin_inset ERT
@@ -1235,78 +1319,37 @@ me
 
 \end_inset
 
- lernt und danach mit der leeren Klausel 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-mb (x_1 
-\backslash
-vee 
-\backslash
-neg x_3 
-\backslash
-vee 
-\backslash
-neg x_4)
-\backslash
-:
-\backslash
-me
-\end_layout
-
+ in der Abbildung 4.6 lernt.
+ Dadurch springt der Algorithmus zum Entscheidungslevel 1 zurück und belegt
+ das Literal 
+\begin_inset Formula $x_{3}\equiv\top$
 \end_inset
 
- (bei einer Belegung mit 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-mb x_3
-\backslash
-equiv
-\backslash
-top
-\backslash
-me und 
-\backslash
-mb x_3
-\backslash
-equiv
-\backslash
-top
-\backslash
-me
-\end_layout
-
+.
+ Die Belegung von
+\begin_inset Formula $x_{4}$
 \end_inset
 
- ) die Klausel 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-mb (x_1)
-\backslash
-:
-\backslash
-me
-\end_layout
-
+ führt jedoch in der Klausel 
+\begin_inset Formula $(x_{1}\vee\neg x_{3}\vee\neg x_{4})$
 \end_inset
 
- lernt.
- Dadurch springt der Algorithmus direkt zum Level 1 zurück und überspringt
- damit die Schritte, die nach der Abbildung 4.5 passieren würden.
+ zum nächsten Konflikt.
+ Durch Resolution mit den Klauseln 
+\begin_inset Formula $(x_{1}\vee\neg x_{3}\vee x_{4})$
+\end_inset
+
+ und 
+\begin_inset Formula $(x_{1}\vee x_{3})$
+\end_inset
+
+ wird die Klausel 
+\begin_inset Formula $(x_{1})$
+\end_inset
+
+ in der Abbildung 4.7 gelernt und der Algorithmus springt zum Level 0 zurück.
+ Es wird ersichtlich, dass der CDCL-Prozess relativ viele Schritte überspringt,
+ die der DPLL-Prozess berechnet hätte.
  Bei einem weitaus größerem Problem kann somit ein relativ großer Zeitaufwand
  gespart werden.
 \end_layout

@@ -85,25 +85,15 @@
 \begin_layout Chapter*
 \noindent
 Dokumentation für Code
-\begin_inset Foot
-status open
-
-\begin_layout Plain Layout
-soll ich den Anhang rausnehmen? Oder soll ich den Codeanhang auch im Verzeichnis
- haben?
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
 \noindent
 Für eine umfangreichere Dokumentation des Codes wird auf Haddock Dokumentation
- hingewiesen.
+ / auf den Sourcecode hingewiesen.
  Diese Dokumentation dient nur als grober Überblick für die hauptsächlichen
  Funktionen, die implementiert wurden.
+ Einfache Getter-Funktionen werden hier nicht dokumentiert.
 \end_layout
 
 \begin_layout Section*
@@ -261,7 +251,7 @@ underline{InterpretResult}
 \begin_layout Standard
 \noindent
 InterpretResult ist das Ergebnis von der Interpret Funktion.
- Ergebnisse können Folgende sein:
+ Ergebnisse können folgende sein:
 \end_layout
 
 \begin_layout Itemize
@@ -277,6 +267,10 @@ NOK Clause
 \begin_layout Itemize
 \noindent
 UNRESOLVED
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -332,6 +326,11 @@ underline{Lit Integer}
 \end_inset
 
 .
+ 
+\end_layout
+
+\begin_layout Standard
+Bsp: Lit 1
 \end_layout
 
 \begin_layout Standard
@@ -368,7 +367,11 @@ underline{Level Integer}
 \end_inset
 
 .
- 
+ Es zeigt an auf welcher Entscheidungsebene ein Literal belegt wurde.
+\end_layout
+
+\begin_layout Standard
+Bsp: Level 2
 \end_layout
 
 \begin_layout Standard
@@ -404,7 +407,12 @@ underline{Activity Integer}
 
 \end_inset
 
+.
+ Activity wird für die Aktivitätsheuristik der Literale verwendet.
+\end_layout
 
+\begin_layout Standard
+Bsp: Activity 9
 \end_layout
 
 \begin_layout Standard
@@ -438,6 +446,16 @@ status open
 underline{Period Integer}
 \end_layout
 
+\end_inset
+
+.
+ Wenn Period den Wert 0 hat, so wird die aktuelle Aktivitätsheuristik halbiert
+ und Period wird wieder auf ihren Startwert gesetzt.
+\end_layout
+
+\begin_layout Standard
+Bsp: Period 8
+\begin_inset Newline newline
 \end_inset
 
 
@@ -481,7 +499,8 @@ underline{Clause}
 
 \begin_layout Standard
 \noindent
-Clause ist eine Liste bestehend aus Literal.
+Clause ist eine Liste bestehend aus Literalen.
+ Bsp: [Lit 1, Lit 2]
 \end_layout
 
 \begin_layout Standard
@@ -506,7 +525,7 @@ underline{ReducedClauseAndOGClause}
 Synonym für Tupel, die aus zwei Clause bestehen.
  Die erste Clause wird durch Funktionen gekürzt, während die zweite Clause
  im Tupel in ihrem Originalzustand bleibt.
- 
+ Bsp: ([Lit 1, Lit 2], [Lit 1, Lit 2, Lit 3])
 \end_layout
 
 \begin_layout Standard
@@ -532,6 +551,11 @@ ClauseList ist eine Liste aus ReducedClauseAndOGClause.
 \end_layout
 
 \begin_layout Standard
+Bsp: [([Lit 1, Lit 2], [Lit 1, Lit 2, Lit 3]), ([Lit 1, Lit 2], [Lit 1,
+ Lit 2])
+\end_layout
+
+\begin_layout Standard
 \noindent
 \begin_inset ERT
 status open
@@ -550,8 +574,12 @@ underline{Tuple}
 
 \begin_layout Standard
 \noindent
-Synonym für Tupel, die aus Variable und BoolVal bestehen.
+Synonym für Tupel, die aus Literal und BoolVal bestehen.
  
+\end_layout
+
+\begin_layout Standard
+Bsp: (Lit 1, BFalse)
 \end_layout
 
 \begin_layout Standard
@@ -598,6 +626,10 @@ underline{TupleClause}
 \begin_layout Standard
 \noindent
 Synonym für Tupel, die aus Tuple und Reason bestehen.
+\end_layout
+
+\begin_layout Standard
+Bsp: ((Lit 1, BFalse), Decision)
 \end_layout
 
 \begin_layout Standard
@@ -690,6 +722,10 @@ Synonym für Tupel, die aus Literal und Activity bestehen.
 \end_layout
 
 \begin_layout Standard
+Bsp: (Lit 1, Activity 3)
+\end_layout
+
+\begin_layout Standard
 \noindent
 \begin_inset ERT
 status open
@@ -710,6 +746,7 @@ underline{TriTuple}
 \noindent
 Eine Tupel aus drei Elementen.
  Diese enthält ClauseList, TupleClauseList und MappedTupleList.
+ Dieser Typ wird nur im Unitpropagation-Modul verwendet.
 \end_layout
 
 \begin_layout Section*
@@ -736,15 +773,15 @@ underline{cdcl}
 
 \begin_layout Standard
 \noindent
-Funktion benötigt einen Parameter.
+Funktion benötigt drei Parameter.
  Der erwartete Parameter ist eine Liste aus Listen, welche mit Integern
  gefüllt ist.
+ Die beiden anderen Parameter sind Booleans.
+ Entsprechende Boolean Belegungen geben entweder mehr oder weniger Statistiken
+ zurück.
  Ruft die rekursive cdcl' Funktion auf.
-\end_layout
-
-\begin_layout Standard
-\noindent
-Als Ergebnis kommt dann ein CDCLResult zurück.
+ Diese cdcl' Funktion führt den Prozess ganzen Prozess eines CDCL SAT-Solvers
+ durch und gibt CDCLResult als Ergebnis zurück.
 \end_layout
 
 \begin_layout Standard
@@ -768,12 +805,7 @@ underline{calculateClauseList}
 \noindent
 Funktion benötigt ClauseList und TupleClauseList als Parameter.
  Diese Funktion wird aufgerufen, wenn eine Variable BoolVal durch eine Decision
- 
-\end_layout
-
-\begin_layout Standard
-\noindent
-erhält und berechnet ihr Ergebnis mithilfe von 
+ erhält und berechnet ihr Ergebnis mithilfe von 
 \begin_inset ERT
 status open
 
@@ -800,7 +832,7 @@ underline{unitResolution}
 \end_inset
 
 .
- Der Rückgabewert ist eine ClauseList.
+ Der Rückgabewert ist eine veränderte ClauseList.
 \end_layout
 
 \begin_layout Standard
@@ -1025,6 +1057,8 @@ underline{cdcl}
 \end_inset
 
  benutzt und erwartet eine ClauseList und ActivityMap als Paremeter.
+ Wenn der CDCL-Prozess neugestartet wird, so wird die Funktion nochmal aufgerufe
+n.
  Mithilfe von rekursiven Aufrufen von initialActivity und 
 \begin_inset ERT
 status open
@@ -1085,7 +1119,7 @@ underline{halveActivityMap}
 
 \begin_layout Standard
 \noindent
-Die Funktion halbiert alle Activity nach einer bestimmten Periode.
+Die Funktion halbiert alle Activity nach einer bestimmten Period.
  Als Parameter werden eine ActivityMap und eine Liste von allen Variablen
  benötigt.
 \end_layout
@@ -1140,6 +1174,30 @@ ity benötigt.
 \end_layout
 
 \begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{checkClauseForLiteral}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Bekommt eine Clause und LiteralActivity-Liste als Parameter.
+ Die Funktion überprüft ob ein Literal von der Liste in der Clause vorhanden
+ ist.
+ Gibt entsprechend ein Boolean als Ergebnis zurück.
+ 
+\end_layout
+
+\begin_layout Standard
 \noindent
 \begin_inset ERT
 status open
@@ -1148,7 +1206,7 @@ status open
 
 
 \backslash
-underline{setVariableViaActivity}
+underline{setLiteralViaActivity}
 \end_layout
 
 \end_inset
@@ -1158,9 +1216,11 @@ underline{setVariableViaActivity}
 
 \begin_layout Standard
 \noindent
-SetVariableViaActivity benötigt eine Clause und VariableActivity.
- Basierend auf der Variable in der Clause wird ein TupleClause als Ergebnis
+SetLiteralViaActivity benötigt eine Clause und LiteralActivity.
+ Basierend auf das Literal in der Clause wird ein TupleClause als Ergebnis
  zurückgegeben.
+ Ist das Literal negiert, so wird BTrue gesetzt.
+ Bei einem Literal ohne Vorzeichen wird das Literal mit BFalse belegt.
 \end_layout
 
 \begin_layout Section*
@@ -1214,21 +1274,9 @@ Die Funktion löscht das gegebenene Level aus einer gegebenen MappedTupleList
  und gibt diese zurück.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Section*
 \noindent
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-subsection{Conflict.hs}
-\end_layout
-
-\end_inset
-
-
+Conflict.hs
 \end_layout
 
 \begin_layout Standard
@@ -1340,7 +1388,8 @@ underline{readCdclFile}
 \end_layout
 
 \begin_layout Standard
-Die Funktion erwartet einen String Input und gibt eine IO Ausgabe zurück.
+Die Funktion erwartet einen String Input und zwei Booleans und gibt eine
+ IO Ausgabe zurück.
  Der String Input soll hierbei eine existierende cnf-Datei sein.
  Bei einem richtigen Input ruft die Funktion 
 \begin_inset ERT
@@ -1356,6 +1405,11 @@ underline{loopCheck}
 \end_inset
 
  auf und gibt ihr Ergebnis aus.
+ Beispiel für einen Aufruf in Windows:
+\end_layout
+
+\begin_layout Standard
+CDCL-exe.exe -i test.cnf 
 \end_layout
 
 \begin_layout Standard
@@ -1396,5 +1450,49 @@ underline{cdcl}
  Das Ergebnis wird dann als IO (Maybe CDCLResult) zurückgegeben.
 \end_layout
 
+\begin_layout Section*
+Main.hs
+\end_layout
+
+\begin_layout Standard
+Das Programm kann folgendermaßen gestartet werden.
+\end_layout
+
+\begin_layout Standard
+Zuerst muss ein 
+\series bold
+stack install
+\series default
+ durchgeführt werden.
+\end_layout
+
+\begin_layout Standard
+Windows:
+\end_layout
+
+\begin_layout Itemize
+CDCL-exe.exe -i test.cnf [-f | -s] (Option -f gibt alle Statistiken zurück.
+ -s gibt weniger Daten zurück)
+\end_layout
+
+\begin_layout Standard
+Linux:
+\end_layout
+
+\begin_layout Itemize
+PFAD_zur_exe/CDCL-exe -i test.cnf [-f | -s]
+\end_layout
+
+\begin_layout Itemize
+Oder: hinzufügen der exe zum bin.
+ Dann kann das Programm von überall folgendermaßen gestartet werden:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+CDCL-exe -i test.cnf [-f | -s]
+\end_layout
+
+\end_deeper
 \end_body
 \end_document

@@ -146,8 +146,8 @@ literal "false"
 \end_inset
 
 .
- Jedoch wird für die Programmierung dieser Solver hauptsächlich eine objektorien
-tierte Programmiersprachen verwendet.
+ Jedoch wird für die Programmierung dieser Solver hauptsächlich objektorientiert
+e Programmiersprachen verwendet.
  Im Gegensatz dazu ist der Anteil von SAT-Solvern, welche komplett in einer
  rein funktionalen Programmiersprache geschrieben wurden, sehr gering.
  

@@ -87,5 +87,50 @@
 Fazit
 \end_layout
 
+\begin_layout Standard
+Das Ziel dieser Bachelorarbeit war es, eine rein funktionelle Implementierung
+ eines CDCL SAT-Solvers zu erstellen.
+ Dafür wurden Literaturarbeiten betrachtet, die mit Haskell, SAT-Problemen
+ und CDCL in Verbindung stehen.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Die Ergebnisse der Arbeit zeigen, dass eine Entwicklung eines funktionierenden
+ CDCL SAT-Solvers in Haskell möglich ist.
+ Die meisten Konzepte, die für einen CDCL SAT-Solver notwendig sind, konnten
+ in der Arbeit umgesetzt werden.
+ Kleine Probleme kann die Implementierung ohne große Probleme lösen.
+ 
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Jedoch wurde im Performancevergleich mit etablierten SAT-Solvern offensichtlich,
+ dass die Implementierung noch viele Verbesserungen benötigt, damit sie
+ mit diesen konkurrieren kann.
+ Dabei sind Änderungen in der Datenstruktur, im Entscheidungsalgorithmus
+ und in der Konfliktanalyse notwendig.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Durch die Literaturarbeit wurde somit gezeigt, dass eine rein funktionelle
+ Implementierung eines CDCL SAT-Solvers möglich ist.
+ Um jedoch eine performanten Solver zu erstellen, werden Änderungen in der
+ Programmierung benötigt.
+ Es wird ersichtlich, wenn diese Änderungen implementiert sind, dass eine
+ rein funktionelle Implementierung von CDCL SAT-Solvern sinn machen kann.
+\end_layout
+
 \end_body
 \end_document

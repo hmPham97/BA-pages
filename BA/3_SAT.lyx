@@ -259,9 +259,16 @@ negV
 \end_layout
 
 \begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "3.1"
+
+\end_inset
+
+
 \begin_inset Formula 
 \begin{equation}
-x_{1}\equiv\top
+x_{1}\equiv\top,x_{2}\equiv\bot
 \end{equation}
 
 \end_inset
@@ -367,6 +374,43 @@ Die Beispiele 3.2, 3.3 und 3.4 sind in CNF Form, während 3.5 und 3.6 nicht in
  Diese Probleme können mit zwei Ergebnissen beurteilt werden.
  Als Ergebnis können die Probleme entweder mit Satisfiable (SAT) oder Unsatisfia
 ble (UNSAT) evaluiert werden.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\neg x_{1}\vee x_{2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+x_{1}\vee x_{2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Die Literalbelegung aus der Formel 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "3.1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ würde die Klausel in 3.7 zu UNSAT evaluieren.
+ Die Klausel in 3.8 dahingegen wird zu SAT evaluiert.
 \begin_inset Newline newline
 \end_inset
 
@@ -590,7 +634,7 @@ Watched Literals
  (siehe 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sec:Datenstrukturen-(not-done)"
+reference "sec:Datenstrukturen"
 plural "false"
 caps "false"
 noprefix "false"

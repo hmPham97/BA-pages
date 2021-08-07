@@ -1210,8 +1210,24 @@ VLSAT, die Benchmark hat 210 verschiedene Literale und 1275 Klauseln
 \end_layout
 
 \begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float table
-placement ph
+placement tph
 wide false
 sideways false
 status open
@@ -1476,7 +1492,7 @@ VLSAT, die Benchmark hat 222 verschiedene Literale und 1477 Klauseln
 
 \begin_layout Standard
 \begin_inset Float table
-placement ph
+placement tph
 wide false
 sideways false
 status open
@@ -1741,7 +1757,7 @@ VLSAT, die Benchmark hat 228 verschiedene Literale und 3437 Klauseln
 
 \begin_layout Standard
 \begin_inset Float table
-placement ph
+placement tph
 wide false
 sideways false
 status open
@@ -2007,7 +2023,7 @@ SATLIB, Färbung eines Graphen mit 100 Vertexen und 239 Kanten.
 
 \begin_layout Standard
 \begin_inset Float table
-placement ph
+placement H
 wide false
 sideways false
 status open
@@ -2273,7 +2289,7 @@ SATLIB, Färbung eines Graphen mit 100 Vertexen und 239 Kanten.
 
 \begin_layout Standard
 \begin_inset Float table
-placement ph
+placement H
 wide false
 sideways false
 status open
@@ -2541,25 +2557,10 @@ SATLIB, Färbung eines Graphen mit 125 Vertexen und 301 Kanten.
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-clearpage
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
 Es wird ersichtlich, dass die Implementierung in der Performance schlechter
  abschneidet als etablierte SAT-Solver.
- Hierbei gibt es mehrere Gründe, die daran Schuld haben können.
+ Hierbei gibt es mehrere Gründe, die diesen Unterschied in der Performance
+ erklären können.
  
 \end_layout
 
@@ -2572,7 +2573,7 @@ Zum einem ist die Verwendung einer Datenstruktur, die nicht eine Watched
  braucht.
  Ein weiteres Problem der Datenstruktur ist die ständige Permutation der
  Daten nach einer Entscheidung.
- Durch die Betrachtung eines Profilings mit der Benchmark vlsat1_222_1275.cnf
+ Durch die Betrachtung eines Profilings mit der Benchmark vlsat1_222_1477.cnf
  wird ersichtlich, dass der Großteil der Zeit in 
 \shape italic
 calculateClauseList

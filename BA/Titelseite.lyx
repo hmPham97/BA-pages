@@ -98,7 +98,51 @@ titlepage
 \end_layout
 
 \begin_layout Standard
-\begin_inset VSpace 5cm
+\begin_inset Wrap figure
+lines 0
+placement O
+overhang 0in
+width "30col%"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Abbildungen/Logo.jpg
+	scale 20
+	BoundingBox 0bp 0bp 1000bp 400bp
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Standard
+Thanh Nam Pham
+\end_layout
+
+\begin_layout Standard
+42707915
+\end_layout
+
+\begin_layout Standard
+Katharina-Mair-Straße 142
+\end_layout
+
+\begin_layout Standard
+85356 Freising
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace 4cm
 \end_inset
 
 
@@ -116,7 +160,7 @@ Rein funktionelle Implementierung eines CDCL SAT-Solvers
 \align center
 
 \series bold
-\size huge
+\size largest
 Purely functional implementation of a CDCL SAT solver
 \end_layout
 
@@ -143,19 +187,149 @@ Bachelorarbeit
 \end_layout
 
 \begin_layout Standard
-Thanh Nam Pham
+Betreuer: 
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+Prof.
+ Dr.
+ Matthias Güdemann
 \end_layout
 
 \begin_layout Standard
-Matrikelnummer
+\begin_inset VSpace 3cm
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-Katharina-Mair-Straße 142
+Freising, den 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rule{10ex}{0.1ex}
 \end_layout
 
-\begin_layout Standard
-85356 Freising
+\end_inset
+
+ (Abgabedatum)
 \end_layout
 
 \end_body
