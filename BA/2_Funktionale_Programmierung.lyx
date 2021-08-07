@@ -1,0 +1,537 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass scrbook
+\begin_preamble
+
+\end_preamble
+\use_default_options true
+\master Thesis_CDCL_SAT_Solver.lyx
+\maintain_unincluded_children false
+\language ngerman
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family rmdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command biber
+\index_command default
+\float_placement H
+\paperfontsize 12
+\spacing onehalf
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine biblatex
+\cite_engine_type authoryear
+\biblio_style plain
+\biblatex_bibstyle numeric
+\biblatex_citestyle numeric
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 4cm
+\topmargin 4cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 1
+\paragraph_separation indent
+\paragraph_indentation 0bp
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style german
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle headings
+\listings_params "mathescape=true"
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Chapter
+Funktionale Programmierung
+\end_layout
+
+\begin_layout Paragraph
+In diesem Abschnitt werden die zwei verschiedenen Programmierparadigmen
+ (imperative und deklarative Programmierung), funktionale Programmierung
+ und die Programmiersprache Haskell kurz vorgestellt.
+ 
+\end_layout
+
+\begin_layout Section
+Imperative Programmierung
+\end_layout
+
+\begin_layout Standard
+Folgende Definition von der Universität Passau für imperative Programmierung
+ wurde verwendet: 
+\begin_inset Quotes gld
+\end_inset
+
+Imperative Programme beschreiben Programmabläufe durch Operationen auf Zuständen
+\begin_inset Quotes grd
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "lengauer_was_nodate"
+literal "false"
+
+\end_inset
+
+.
+ Dies bedeutet dass der Ablauf des Programmes durch die Reihenfolge der
+ Befehle maßgeblich für das erwartete Ergebnis ist.
+ Sprachen, die zu diesem Paradigma gehören, sind z.B.
+ Java, C++ oder C.
+\end_layout
+
+\begin_layout Standard
+Die imperative Programmierung kann in weitere Paradigmen unterteilt werden,
+ wie z.B.
+ strukturierte Programmierung, objektoriertierte Programmierung, modulare
+ Programmierung 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "augsten_was_nodate"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Deklarative Programmierung
+\end_layout
+
+\begin_layout Standard
+Weiterführende Definition für deklarative Programmierung wurde von der Passauer
+ Universität übernommen: 
+\begin_inset Quotes gld
+\end_inset
+
+Deklarative Programme beschreiben Berechnungen durch eine Ein-/Ausgaberelation.
+ Der Kontrollfluß ist dem Programmierer nicht explizit zugänglich; der Ablauf
+ der Berechnung kann aber trotzdem durch den Programmaufbau beeinflußt werden.
+\begin_inset Quotes grd
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "lengauer_was_nodate"
+literal "false"
+
+\end_inset
+
+ Sinngemäß bedeutet dies, dass nicht der Weg zum Ergebnis das Entscheidende
+ ist, sondern die Spezifaktion des Problemes und der Ergebnisse selbst.
+\end_layout
+
+\begin_layout Standard
+Die deklarative Programmierung wird wie die imperative Programmierung auch
+ in verschiedene Unterkategorien eingeteilt.
+ Diese sind z.B.
+ logische Programmierung, Constraint Programmierung und funktionale Programmieru
+ng.
+ Prolog, Lisp und SQL sind beispielhafte Programmiersprachen, die zu diesem
+ Paradigma gehören.
+ 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "augsten_was_nodate"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection*
+Funktionale Programmierung
+\end_layout
+
+\begin_layout Standard
+Wie im vorherigen Abschnitt erwähnt wurde, ist die funktionale Programmierung
+ ein Teil von der deklarativen Programmierparadigmen.
+ Ein Programm in diesem Schema besteht hauptsächlich aus einer Zusammensetzung
+ von Funktionen 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "lengauer_was_nodate"
+literal "false"
+
+\end_inset
+
+, verwendet unveränderliche Daten und vermeidet Zustandsänderungen.
+\end_layout
+
+\begin_layout Standard
+Die Programmierung mit funktionalen Sprachen bringt mehrere Vorteile.
+ Beispiele für solche Vorteile sind 
+\begin_inset Quotes gld
+\end_inset
+
+Lazy Evaluation
+\begin_inset Quotes grd
+\end_inset
+
+ und das explizierte Markieren von Seiteneffekten 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "nita_functional_2019"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Folgende Beschreibung für Lazy Evaluation wurde von Bloss, Hudak und Young
+ sinngemäß übernommen: Lazy Evaluation beurteilt einen Ausdruck erst, wenn
+ der Wert absolut benötigt wird 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "bloss_code_1988"
+literal "false"
+
+\end_inset
+
+.
+ Dies bedeutet, dass eine Parameterübergabe an eine andere Funktion eine
+ Evaluierung nicht auslöst.
+ Der Wert muss explizit für die Berechnung eines neuen Wertes aufgerufen
+ werden, damit dieser evaluiert werden kann.
+\end_layout
+
+\begin_layout Standard
+Eine Definition für Seiteneffekte wurde von Nokie übernommen: Seiteneffekte
+ sind Änderungen im Programmzustand.
+ Diese können z.B.
+ durch Funktionsaufrufe oder der Veränderung einer globalen Variablen ausgelöst
+ werden 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "nokie_side_nodate"
+literal "false"
+
+\end_inset
+
+.
+ Dadurch können Seiteneffekte Fehler in den Ergebnissen herbeiführen, weshalb
+ das explizierte Makieren von Seiteneffekten solche Fehler leichter ausschließen
+ lassen kann.
+\end_layout
+
+\begin_layout Subsubsection*
+Haskell
+\end_layout
+
+\begin_layout Standard
+Haskell ist eine der weitverbreitesten funktionalen Sprachen, die 1988 ihren
+ Namen im 
+\begin_inset Quotes gld
+\end_inset
+
+Yale Meeting
+\begin_inset Quotes grd
+\end_inset
+
+ erhielt.
+ Der Name kam vom Mathematiker Haskell B.
+ Curry, wessen Arbeit einer der Anstöße zur Entwicklung von Haskell geführt
+ hat.
+ Im Jahr 1987 begann der Haskell Design Prozess in der 
+\begin_inset Quotes gld
+\end_inset
+
+Functional Programming and Computer Architecture Conference
+\begin_inset Quotes grd
+\end_inset
+
+ (FPCA) und am 01.
+ April 1990 wurde der 
+\begin_inset Quotes gld
+\end_inset
+
+Haskell version 1.0 report
+\begin_inset Quotes grd
+\end_inset
+
+ veröffentlicht.
+ Über die Jahre entwickelte sich die Sprache weiter und es wurde im Februar
+ 1999 der 
+\begin_inset Quotes gld
+\end_inset
+
+Haskell 98 Report
+\begin_inset Quotes grd
+\end_inset
+
+ veröffentlicht, wobei eine Revision im Dezember 2002 veröffentlicht wurde
+ 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "hudak_history_2007"
+literal "false"
+
+\end_inset
+
+.
+ Mit der Veröffentlichung des 
+\begin_inset Quotes gld
+\end_inset
+
+Haskell 2010 Language Report
+\begin_inset Quotes grd
+\end_inset
+
+ wurde eine wichtige Änderung für neue Revisionen beschlossen.
+ Jedes Jahr sollte mindenstens eine neue Revision veröffentlicht werden,
+ die eine kleine Anzahl an Änderungen und Erweiterungen beinhaltet 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "marlow_haskell_2021"
+literal "false"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+newpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Die Sprache Haskell wurde für diese Arbeit ausgewählt, damit die Implementierung
+ für die Vorlesung 
+\begin_inset Quotes gld
+\end_inset
+
+Theoretische Informatik 2
+\begin_inset Quotes grd
+\end_inset
+
+ an der Hochschule München verwendet werden kann.
+ 
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Kann man dies schreiben?
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Im Folgenden werden Beispielfunktionen in Haskell gezeigt, die die vorgeführten
+ Vorteile im Abschnitt 
+\begin_inset Quotes gld
+\end_inset
+
+Funktionalle Programmierung
+\begin_inset Quotes grd
+\end_inset
+
+ darstellt.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+main :: IO ()
+\end_layout
+
+\begin_layout Plain Layout
+
+make = putStrLn 
+\begin_inset Quotes gld
+\end_inset
+
+Hello World
+\begin_inset Quotes grd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Ein einfaches 
+\begin_inset Quotes gld
+\end_inset
+
+Hello World
+\begin_inset Quotes grd
+\end_inset
+
+-Programm 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wie in Zeile 1 im Programmbeispiel 2.1 gezeigt wird, werden Seiteneffekte
+ in Haskell immer durch IO markiert.
+ Wenn eine Funktiondeklaration keine IO beinhaltet, so ist die Funktion
+ Seiteneffektfrei.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+lazy :: Int -> Int -> Int
+\end_layout
+
+\begin_layout Plain Layout
+
+lazy x y = x
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+lazy2 :: Int -> Int -> Int
+\end_layout
+
+\begin_layout Plain Layout
+
+lazy2 x y = if x > 2 then y else x
+\end_layout
+
+\begin_layout Plain Layout
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Beispiele für Lazy Evaluation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Im Programmbeispiel 2.2 würde die 
+\begin_inset Quotes gld
+\end_inset
+
+Eager Evaluation
+\begin_inset Quotes grd
+\end_inset
+
+ (das Gegenteil von Lazy Evaluation) die Parameter x und y in Zeile 2 evaluieren.
+ Lazy Evaluation hingegen evaluiert nur den Parameter x, da y nicht weiter
+ verwendet wird in der Funktion.
+ In der Beispielsfunktion 
+\begin_inset Quotes gld
+\end_inset
+
+lazy2
+\begin_inset Quotes grd
+\end_inset
+
+ wird der Parameter y in Zeile 5 nur evaluiert, wenn x größer als 2 ist.
+\end_layout
+
+\end_body
+\end_document

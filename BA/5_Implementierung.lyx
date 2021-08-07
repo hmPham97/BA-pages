@@ -1,0 +1,992 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass scrbook
+\use_default_options true
+\master Thesis_CDCL_SAT_Solver.lyx
+\maintain_unincluded_children false
+\language ngerman
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family sfdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command biber
+\index_command default
+\paperfontsize 12
+\spacing onehalf
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine biblatex
+\cite_engine_type authoryear
+\biblatex_bibstyle numeric
+\biblatex_citestyle numeric
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 3.5cm
+\topmargin 2.5cm
+\rightmargin 2.5cm
+\bottommargin 2.5cm
+\secnumdepth 3
+\tocdepth 1
+\paragraph_separation indent
+\paragraph_indentation 0bp
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style german
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Chapter
+Implementierung des SAT-Solvers
+\end_layout
+
+\begin_layout Paragraph
+In diesem Kapitel wird die Implementierung des SAT-Solvers diskutiert.
+ Hierbei werden zunächsts die notwendigen Datenstrukturen beschrieben und
+ danach werden die Algorithmen und der Aufbau des Programmes dargestellt.
+ 
+\end_layout
+
+\begin_layout Standard
+\noindent
+Die wichtigsten Algorithmen in der Implementierung basieren auf Konzepte,
+ die von zChaff und MiniSAT verwendet werden.
+\end_layout
+
+\begin_layout Section
+Programmaufbau
+\end_layout
+
+\begin_layout Standard
+Die Implementierungen wurde in mehreren Modulen aufgeteilt.
+ Folgende Module wurden für das Programm erstellt:
+\end_layout
+
+\begin_layout Itemize
+Algorithm
+\end_layout
+
+\begin_layout Itemize
+Types
+\end_layout
+
+\begin_layout Itemize
+Unitpropagation
+\end_layout
+
+\begin_layout Itemize
+Decisionalalgorithm
+\end_layout
+
+\begin_layout Itemize
+Conflict
+\end_layout
+
+\begin_layout Itemize
+MapLogic
+\end_layout
+
+\begin_layout Itemize
+CDCLFilereader
+\end_layout
+
+\begin_layout Standard
+Im Algorithm-Modul befinden sich die Funktionen, die den Algorithmus starten,
+ die Funktionen in den anderen Modulen aufruft und die Interpretierung der
+ Formel basierend auf den Belegungen der Literale.
+ Im Types-Modul befinden sich die Definitionen der Datenstrukturen und Hilfsfunk
+tionen, die auf entsprechende Daten zugreifen.
+ Im Unitpropagation-Modul finden sich relevante Funktionen wieder, die für
+ das BCP verantwortlich sind.
+ Dazu zählen auch die Funktionen 
+\begin_inset Quotes gld
+\end_inset
+
+Unit Resolution
+\begin_inset Quotes grd
+\end_inset
+
+ und 
+\begin_inset Quotes gld
+\end_inset
+
+Unit Subsumption
+\begin_inset Quotes grd
+\end_inset
+
+.
+ Im Decisionalalgorithm-Modul ist die Implementierung der Heuristik und
+ die Auswahl der Literale, die belegt werden soll.
+ Das Conflict-Modul beinhaltet den Algorithmus zur Analyse eines Konflikts
+ und das Lernen neuer Klauseln.
+ Das MapLogic-Modul ist verantwortlicht für die Aufrechterhaltung der Map,
+ die die Daten für die Level und Literalbelegung enthält.
+ Das CDCLFilereader-Modul liest eine cnf-Datei ein und ruft die Startfunktion
+ im Algorith-Modul auf und druckt am Ende das Ergebnis in der Konsole aus.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename Abbildungen/Programmaufbau.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+captionof{figure}{Grober Programmaufbau}{Die Grafik zeigt den groben Programmauf
+bau.
+ In den Modulen Unitpropagation, Algorithm und Conflict werden Funktionen
+ aus MapLogic aufgerufen.}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Datenstrukturen
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Datenstrukturen"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In der Implementierung werden verschiedene Datenstrukturen verwendet.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- | Literal definiert als Integer
+\end_layout
+
+\begin_layout Plain Layout
+
+newtype Literal = Lit Integer
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- | Klausel definiert als eine Liste von Literal
+\end_layout
+
+\begin_layout Plain Layout
+
+type Clause = [Literal]
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- | Tuple aus zwei Klauseln
+\end_layout
+
+\begin_layout Plain Layout
+
+--   Erste Klausel wird reduziert durch Unitresolution
+\end_layout
+
+\begin_layout Plain Layout
+
+--   Zweite Klausel ist die originale Form der Klausel
+\end_layout
+
+\begin_layout Plain Layout
+
+type ReducedClauseAndOGClause = (Clause, Clause)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- | ClauseList definiert als Liste von ReducedClauseAndOGClause
+\end_layout
+
+\begin_layout Plain Layout
+
+type ClauseList = [ReducedClauseAndOGClause]
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+data Reason = Decision | -- Literal wurde durch Entscheidung belegt
+\end_layout
+
+\begin_layout Plain Layout
+
+			  Reason Clause -- Literal wurde durch Unitpropagation belegt
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+data BoolVal = BFalse | -- Literalbelegung mit Falsch
+\end_layout
+
+\begin_layout Plain Layout
+
+			   BTrue | -- Literalbelegung mit Wahr
+\end_layout
+
+\begin_layout Plain Layout
+
+			   BNothing -- keine Belegung des Literals
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- | Assoziert alle Literale eines Problems mit einer Aktivität
+\end_layout
+
+\begin_layout Plain Layout
+
+--   Notwendig für Heuristik
+\end_layout
+
+\begin_layout Plain Layout
+
+type ActivityMap = Map.Map Literal Activity
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- | Eine Map mit Level als Key und TupleClauseList als Value.
+\end_layout
+
+\begin_layout Plain Layout
+
+--   Assoziert alle Literalbelegungen in der Reihenfolge, in der sie
+\end_layout
+
+\begin_layout Plain Layout
+
+--   belegt wurden auf dem entsprechenden Level.
+ Notwendig für Konfliktanalyse
+\end_layout
+
+\begin_layout Plain Layout
+
+type MappedTupleList = Map.Map Level TupleClauseList
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Ein paar Datenstrukturen.
+ Siehe Anhang für mehr Strukturen
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Zum Zeitpunkt der Implementierung wurde entschieden keine Watched Literals
+ zu implementieren.
+ Watched Literals verwendet zwei Zeiger, die auf verschiedene Literale innerhalb
+ einer Klausel zeigen.
+ Wenn ein Literal mit einem Zeiger belegt wird, wird überprüft, ob die Belegung
+ die Klausel SAT macht.
+ Bei einem Ergebnis mit SAT bleibt der Zeiger auf dem Literal, während bei
+ einem UNSAT der Zeiger zum nächsten unbelegten Literal wandert.
+ Falls der Zeiger kein unbelegtes Literal findet, bleibt der Zeiger auf
+ seiner Position.
+\end_layout
+
+\begin_layout Standard
+Das Konzept der Watched Literals ist eine komplexe Implementierung in Haskell,
+ da die Reihenfolge der Literale innerhalb der Klauseln geändert werden
+ muss.
+\end_layout
+
+\begin_layout Standard
+Der Grund hierfür ist, das Haskell keine Kontrollstrukturen, wie z.B.
+ for-Schleifen, besitzt und nicht direkt auf die einzelnen Listenelemente
+ zugreifen kann.
+ Aus diesem Grund wird stattdessen ReducedClauseAndOGClause verwendet, wobei
+ das erste Element eine veränderliche Klausel darstellt, während das zweite
+ Element eine unveränderte Klausel ist.
+ 
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Für die Datenstruktur für die Heuristik und der Literalbelegung wurde das
+ Haskellpaket Map.Strict ausgewählt.
+ Der Grund für die Auswahl von Maps ist die Schnelligkeit, in der Dateneinträge
+ gefunden werden können.
+ Bei einer Map ist die Komplexität für so eine Operation 
+\begin_inset Formula $O(log\,n)$
+\end_inset
+
+, während bei einer Liste eine Komplexität von 
+\begin_inset Formula $O(n)$
+\end_inset
+
+ besteht.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Ein Implikationsgraph wird in der Implementierung nicht verwendet, da die
+ Resolution ohne diese auskommt.
+ Die Klauseln, die für die Resolution verwendet werden, kommen von der MappedTup
+leList.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- | Literal
+\end_layout
+
+\begin_layout Plain Layout
+
+Lit 1 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- | Clause
+\end_layout
+
+\begin_layout Plain Layout
+
+[Lit 1, Lit 2]
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- | ReducedClauseAndOGClause
+\end_layout
+
+\begin_layout Plain Layout
+
+([Lit 1], [Lit 1, Lit 2])
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- | ClauseList
+\end_layout
+
+\begin_layout Plain Layout
+
+[([Lit 1], [Lit 1, Lit 2]), ([Lit 1, Lit 3], [Lit 1, Lit 3])]
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- | ActivityList
+\end_layout
+
+\begin_layout Plain Layout
+
+Map.fromList [(Lit 1, Activity 1),(Lit 2, Activity 1),(Lit 3, Activity 2)]
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- | MappedTupleList.
+ Abstände wurden hier ein
+\end_layout
+
+\begin_layout Plain Layout
+
+Map.fromList [(Level 1, [ ((Literal 1, BFalse), Decision), ((Literal 2, BTRue),
+ Reason [Lit 1, Lit 2]) ])]
+\end_layout
+
+\begin_layout Plain Layout
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Beispiele der Datenstrukturen aus dem Programmlisting 5.1
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Algorithmen
+\end_layout
+
+\begin_layout Subsection
+Entscheidungsalgorithmus 
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Entscheidungsalgorithmus"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Im Entscheidungsalgorithmus wird VSIDS verwendet.
+ Bei diesem Heuristik-Algorithmus werden alle negativen und positiven Literale
+ zusammengezählt.
+ Diese berechneten Werte werden in der Implementierung als Activity bezeichnet
+ und werden in der ActivityMap zu den entsprechenden Literalen zugeordnet.
+ Über die Zeit wird der Wert der Activity durch einen konstanten Faktor
+ reduziert, wobei die Acitivity durch Konflikte um 1 erhöht werden kann.
+ Dabei werden nur die Acitivities erhöht, die in der gelernten Klausel vorkommen.
+ 
+\end_layout
+
+\begin_layout Standard
+Mit VSIDS haben somit Literale, die öfter in Konflikten vorkommen, einen
+ höheren Stellwert und werden eher zuerst belegt als Literale, die nicht
+ so oft vorkommen.
+ 
+\end_layout
+
+\begin_layout Standard
+In der Implementierung wird die erste höchste Activity gesucht.
+ Danach wird dann die erste Klausel mit dieser Activity gesucht und das
+ Literal wird so belegt, dass die Belegung insgesamt zu einem logischen
+ Falsch in der Klausel belegt wird.
+ Das folgende SAT-Problem illustriert dies in einem kurzem Beispiel.
+ 
+\begin_inset Formula 
+\begin{equation}
+F=(\neg x_{1}\vee x_{2})\wedge(\neg x_{1}\vee x_{3})
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Setze\,x_{1}\equiv\top
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\leftrightarrow x_{2}\wedge x_{3}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Bei einem Neustart des CDCL-Algorithmus wird die gesamte Heuristik neuberechnet.
+ 
+\end_layout
+
+\begin_layout Subsection
+Unitpropagation
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Unitpropagation"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Die Unitpropagation, oder auch BCP, ist einer der wichtigsten Algorithmen
+ für moderne SAT-Solver.
+ In der Unitpropagation werden Klauseln, die nur ein unbelegtes Literal
+ besitzen und noch nicht als SAT evaluiert sind, so belegt, dass Sie wahr
+ werden (siehe 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:DPLL-Algorithmus"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+unitPropagation :: ClauseList -> TupleClauseList -> Level -> MappedTupleList
+ -> TriTuple
+\end_layout
+
+\begin_layout Plain Layout
+
+unitPropagation clist tlist lvl mapped
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    | null clist || null fstElem = (clist, tlist, mapped)
+\end_layout
+
+\begin_layout Plain Layout
+
+    | otherwise = unitPropagation resolutionC 
+\end_layout
+
+\begin_layout Plain Layout
+
+		(tlist ++ [(calcTuple, ogClause)]) lvl updatedMap
+\end_layout
+
+\begin_layout Plain Layout
+
+    where 
+\end_layout
+
+\begin_layout Plain Layout
+
+          unitClause = getUnitClause clist
+\end_layout
+
+\begin_layout Plain Layout
+
+          fstElem = getClauseFromReducedClauseAndOGClause unitClause
+\end_layout
+
+\begin_layout Plain Layout
+
+          calcTuple = setVariable fstElem
+\end_layout
+
+\begin_layout Plain Layout
+
+          ogClause = Reason (getOGFromReducedClauseAndOGClause unitClause)
+\end_layout
+
+\begin_layout Plain Layout
+
+          updatedMap = pushToMappedTupleList mapped lvl calcTuple ogClause
+\end_layout
+
+\begin_layout Plain Layout
+
+          subsumptionC = unitSubsumption clist calcTuple
+\end_layout
+
+\begin_layout Plain Layout
+
+          resolutionC = unitResolution subsumptionC calcTuple
+\end_layout
+
+\begin_layout Plain Layout
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Funktion für Unitpropagation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Zunächst wird überprüft, ob die ClauseList Elemente besitzt.
+ Wenn dies der Fall ist, wird nach einer Klausel gesucht, die nur ein unbelegtes
+ Literal (Unit-Clause) besitzt.
+ Wenn jedoch keine Elemente mehr vorhanden sind oder keine Unit-Clause gefunden
+ wird, werden die übergebenen Daten zurückgegeben und der Algorithmus wird
+ beendet.
+ Ansonsten setzt der Algorithmus das Literal so, dass die Klausel wahr wird
+ und wendet Subsumption (unitSubsumption in Zeile 14 im Listing 5.3) auf
+ die ClauseList an.
+ Die neue ClauseList wird dann mit Resolution (unitResosultion in Zeile
+ 15 im Listing 5.3) verändert.
+ Gleichzeitig wird der Grund für die Entscheidung des Algorithmus in die
+ MappedTupleList aufgenommen.
+ Solange der erste Fall nicht eintritt, arbeitet der Algorithmus rekursiv
+ mit den bearbeiteten Daten weiter.
+\end_layout
+
+\begin_layout Standard
+Subsumption ist das Löschen einer ganzen Klausel, die durch die Belegung
+ zu SAT evaluiert wird, während die Resolution das Löschen eines Literals
+ ist, das zu einem logischen Falsch beurteilt wird (siehe Teilregel 1.
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:Teilregel_1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Subsection
+Konfliktanalyse
+\end_layout
+
+\begin_layout Standard
+Bei der Konfliktanalyse wird die leere Klauseln mithilfe der Literalbelegung
+ analysiert und es werden neue Klauseln gelernt, die die Belegung der Entscheidu
+ngsliterale zu einem bestimmten Wert erzwingt.
+ Wenn der Konflikt in Level 0 gefunden wurde (siehe Zeile 5 im Listing 5.4),
+ wird das Programm gestoppt.
+ Ansonsten berechnet 
+\begin_inset Quotes gld
+\end_inset
+
+analyzeConflict
+\begin_inset Quotes grd
+\end_inset
+
+ mithilfe der Funktion 
+\begin_inset Quotes gld
+\end_inset
+
+calcReason
+\begin_inset Quotes grd
+\end_inset
+
+ in Zeile 7 im Listing 5.4 die neue Klausel, wobei 1UIP als Stopkriterium
+ verwendet wird.
+ Dabei wird die Resolution verwendet, um die Klausel zu berechnen.
+ Danach werden die gelernte Klausel, die aktualisierte MappedTupleList,
+ ActivityMap und das neue Level als Ergebnis zurückgegeben.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+analyzeConflict :: Level -> Clause -> MappedTupleList -> ActivityMap ->
+ (Level, Clause, MappedTupleList, ActivityMap)
+\end_layout
+
+\begin_layout Plain Layout
+
+analyzeConflict lvl emptyClause mtl aMap
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    -- Case: Given Level is 0.
+ Return -1
+\end_layout
+
+\begin_layout Plain Layout
+
+    | getLevel lvl == 0 = (Level (-1), [], mtl, aMap)
+\end_layout
+
+\begin_layout Plain Layout
+
+    | otherwise = (decreaseLvl lvl, fst newCl, updatedMtl, snd newCl)
+\end_layout
+
+\begin_layout Plain Layout
+
+    where reason = calcReason lvl emptyClause mtl
+\end_layout
+
+\begin_layout Plain Layout
+
+          updatedMtl = deleteLvl lvl mtl
+\end_layout
+
+\begin_layout Plain Layout
+
+          newCl = addClause reason aMap
+\end_layout
+
+\begin_layout Plain Layout
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Funktion für Konfliktanalyse
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Neustarts
+\end_layout
+
+\begin_layout Standard
+Neustarts werden in CDCL SAT-Solver verwendet, um die Suche in Teilbäumen,
+ die zu keiner Lösung führen können, zu unterbrechnen 
+\begin_inset CommandInset citation
+LatexCommand citeyear
+key "een_extensible_2003"
+literal "false"
+
+\end_inset
+
+.
+ Dabei werden alle aktuellen Belegungen und Heuristiken gelöscht.
+ Die gelernten Klauseln bleiben erhalten und die Heuristiken werden neu
+ berechnet.
+ Mit diesen Daten fängt der Algorithmus dann mit dem CDCL Prozess wieder
+ an.
+\end_layout
+
+\begin_layout Standard
+Für die Zeitplanung der Neustarts wird eine Sequenz verwendet, die auf die
+ Luby-Sequenz basiert.
+ Diese sieht folgendermaßen aus:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+n,\,n*2,\,n,\,n*2,\,n*4,\,n,\,n*2,\,n*4,\,n*8,...
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Falls das Programm in einen Konflikt gerät, so wird ein Integer (conflictIterati
+on) hochgezählt.
+ Wenn conflictIteration den gesetzten Wert für eine Grenze erreicht, so
+ wird der CDCL-Algorithmus neugestartet, wobei conflictIteration wieder
+ auf 0 gesetzt wird.
+ In der Implementierung wurde für 
+\begin_inset Formula $n=20$
+\end_inset
+
+ ausgewählt.
+ 
+\end_layout
+
+\end_body
+\end_document

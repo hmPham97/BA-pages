@@ -1,0 +1,282 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"> <html style><!--
+ Page saved with SingleFile 
+ url: https://www.radford.edu/nokie/classes/320/Tour/side.effects.html 
+ saved date: Wed Jul 14 2021 16:40:26 GMT+0200 (Mitteleuropäische Sommerzeit)
+--><meta charset=utf-8>
+<title>Side Effects</title>
+<link type=image/x-icon rel="shortcut icon" href="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><link rel=canonical href=https://www.radford.edu/nokie/classes/320/Tour/side.effects.html></head>
+ <body bgcolor=#ffffff>
+ <h1 align=center>Side Effects</h1>
+ <br>
+ <hr> 
+ <hr> 
+<h3 align=center>Side Effects</h3>
+<ul>
+ <li>
+ Side effect: 
+ a change in the program's state caused by an expression or a 
+ function call, or modification of a global variable in a procedure or
+ function </li>
+ <ul>
+ <li> Program state: values of variables or status of I/O </li>
+ </ul>
+ <br> 
+ <li> Side effects can be unavoidable: </li>
+ <ul>
+ <li> Get(x); changes the state of the input </li>
+ <li> Put(x); changes the state of the output </li>
+ </ul>
+ <br> 
+ <li> Java Examples: </li>
+ <ul>
+ <li> Collection add(Object o) returns true if the collection changed </li>
+ <li> i = j++; </li>
+ <li> i = s.pop(); // pop and return top </li>
+ </ul>
+</ul>
+ <br>
+ <hr> 
+<h3 align=center>Why We Avoid Side Effects </h3>
+<ul>
+<li> Side effects make it harder to reason about program behavior:
+</li>
+<ul>
+ <li> harder to debug </li>
+ <li> harder to prove that the program is correct</li>
+ <br>
+ <li> What is the output: i=3; i = i++; S.o.p(i); </li>
+ <li> What is the output: i=3; i = ++i; S.o.p(i); </li>
+</ul>
+</ul>
+ <br>
+ <hr> 
+<h3 align=center>Side Effects and Ada Function Parameters [Changed in Ada 2012] </h3>
+<ul>
+<li>Ada [prior to Ada 2012] does not allow a function to introduce side effects through its parameters
+ (except via pointers). </li>
+<br> 
+<li> 
+For example, consider the following ILLEGAL [pre 2012] function definitino:
+ </li>
+<pre>    -- Will not compile [pre 2012] 
+    -- Is supposed to swap the parameters and return their sum
+    function sumAndPutInOrder(i, j: in out Integer) return Integer is
+    begin
+        if i &lt; j then 
+            swap(i, j);
+        end if;
+        return i + j;
+    end sumAndPutInOrder;
+
+   i: Integer := 3;
+   j: Integer := 2
+
+begin
+   put("Average is: ");
+   put( sumAndPutInOrder(i, j) / 2 );   // Change i here!
+   new_line;
+
+   put("Smallest is"); 
+   put(i);
+   new_line;
+end;
+</pre>
+ <li> Why the change: one reason is truth in advertising: functions could cause side effects via
+ globals or parameters that are pointers </li>
+</ul>
+ <br>
+ <hr> 
+ <h3 align=center>Side Effects and Global Variables</h3>
+<ul>
+ <li> Side effects also occur when a procedure or function changes a
+ global variable</li>
+ <ul>
+ <li> 
+ Global variable: A variable is global with respect to a section of code if it is visible in the
+ section, but not declared in that section.
+ </li>
+ </ul>
+ <br> 
+ <li> When no globals are used, all communication with a procedure must be
+ done using parameters (or return values for functions) </li>
+</ul>
+ <br>
+ <hr> 
+ <h3 align=center>Debugging, Side Effects, and Global Variables</h3>
+<ul>
+ <li> A side effect involving a global variable is hard to find 
+ because it's not possible to examine parameter lists to find which
+ procedure/function could have modified a variable. </li>
+ <br>
+ <li>When this can occur, it is necessary to search the
+ body of all called routines when looking for an error. 
+ <br>
+ <li> 
+ When there
+ are no side effects, then the body of a routine only needs to be
+ searched if it has an out parameter of interest.
+ </li>
+</ul>
+ <br>
+ <hr> 
+ <h3 align=center>Example: Debugging, Side Effects, and Global Variables</h3>
+<ul>
+ <li> Example1: </li>
+ <pre>    g: Integer := 1;  -- Global variable
+
+    procedure doSomething(p: out Integer) is
+    begin
+        p := 0; 
+    end doSomething;
+
+    procedure doSomethingElse(p: in Integer; q: out integer) is
+    begin
+        q := 2 * p; 
+    end doSomething;
+
+    procedure putHeader is
+    begin
+        put("Something");
+        g := 0; -- Whoops!
+    end putHeader;
+    ...
+    x, y: Integer;
+begin
+   put(g);    -- g is correct here
+   putHeader;
+   doSomething(x);
+   doSomethingElse(g, y);
+   put(g);    -- g is NOT correct here
+   --  What happened?  putHeader should NOT have changed it!
+end;
+    </pre>
+</ul>
+ <br>
+ <hr> 
+ <h3 align=center>Example Revised: Debugging, Side Effects, and Global Variables</h3>
+<ul>
+ <li> Example2: Remove the global and the code no longer compiles </li>
+ <pre>    procedure doSomething(p: out Integer) is
+    begin
+        p := 0; 
+    end doSomething;
+
+    procedure doSomethingElse(p: in Integer; q: out integer) is
+    begin
+        q := 2 * p; 
+    end doSomething;
+
+    procedure putHeader is
+    begin
+        put("Something");
+        g := 0; -- Whoops!   -- Won't compile
+    end putHeader;
+    ...
+    g: Integer := 1;  -- Not a Global variable
+    x, y: Integer;
+begin
+   put(g);    -- g is correct here
+   putHeader;
+   doSomethingElse(g, y);
+   doSomething(g);
+   put(g);    -- g is NOT correct here
+   --  What happened?  putHeader should NOT have changed it!
+end;
+    </pre>
+</ul>
+<h2 align=center> OLD NOTES ON SIDE EFFECTS </h2>
+<br> 
+<hr> 
+<h3 align=center> Java and C Can Ignore Expression Results </h3>
+ <ul>
+ <li> This is legal Java: </li>
+ <pre>        public class Func {
+            public static int calcPrintCube(int n){       // Non-void return type
+                System.out.println(n * n * n);   // Side effect: change state of output
+                return n * n * n;
+            }
+            public static void main(String[] args) {
+
+                calcPrintCube(10);              // function used as statement
+                int cube = calcPrintCube(20);   // return value ignored
+            }
+        } </pre>
+ <li> This is legal C: </li>
+ <pre>            int calcPrintCube(int n){       // Non-void return type
+                printf("%d", n * n * n);   // Side effect: change state of output
+                return n * n * n;
+            }
+            void main(String args[]) {
+
+                calcPrintCube(10);              // function used as statement
+                int cube = calcPrintCube(20);   // return value ignored
+            }
+       </pre>
+ <li> Even this is legal C: </li>
+ <pre>     x = 0;   // Do you
+     y - 0;   // See the error
+     z = 0;   // Error in this code?</pre>
+ <li> In C, results of expressions can be freely ignored </li>
+ </ul>
+<br> 
+<hr> 
+<h3 align=center> Side Effects </h3>
+ <ul>
+ <li> calcPrintCube above has a <b>side effect</b> </li>
+ <br> 
+ <li> A function that modifies state causes a <b> side effect</b> </li>
+ <br>
+ <li> Ada tries to avoid side effects </li>
+ <br>
+ <li> A procedure or function that modifies a global is also said to have a side effect </li>
+ <br>
+ <li> We will discuss side effects more later. Here are 
+ some notes on <a href=https://www.radford.edu/nokie/classes/320/Tour/Tour/side.effects.html>side effects</a>. </li>
+ </ul>
+<br> 
+<hr> 
+<h3 align=center> What is a Statement? </h3>
+ <ul>
+ <li> A statement modifies the program state: </li>
+ <br> 
+ <li> Program state: </li>
+ <ul>
+ <li> values of all variables</li>
+ <li> input marker</li>
+ <li> output so far </li>
+ <li> Open files </li>
+ <li> ... </li>
+ </ul>
+ <br>
+ <li> Examples: </li>
+ <ul>
+ <li> x := 3; </li>
+ <li> get(y); </li>
+ <li> put(x); </li>
+ <li> 
+ Open (File =&gt; f, Mode =&gt; In_File, Name =&gt; "my_file.txt");
+ </li>
+ </ul>
+ <br>
+ <li> Contrast: Statements modify state vs functions are values </li>
+ <br> 
+ <li> In Ada, never the twain shall meet! </li>
+ </ul>
+ <br>
+ <hr> 
+ <hr> 
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ 
+ 

@@ -1,0 +1,1498 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass scrbook
+\use_default_options true
+\master Thesis_CDCL_SAT_Solver.lyx
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family sfdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command bibtex
+\index_command default
+\paperfontsize 12
+\spacing onehalf
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style plainnat
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 4cm
+\topmargin 4cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 1
+\paragraph_separation indent
+\paragraph_indentation 0bp
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Chapter*
+\noindent
+Dokumentation für Code
+\end_layout
+
+\begin_layout Standard
+\noindent
+Für eine umfangreichere Dokumentation des Codes wird auf Haddock Dokumentation
+ / auf den Sourcecode hingewiesen.
+ Diese Dokumentation dient nur als grober Überblick für die hauptsächlichen
+ Funktionen, die implementiert wurden.
+ Einfache Getter-Funktionen werden hier nicht dokumentiert.
+\end_layout
+
+\begin_layout Section*
+\noindent
+Types.hs
+\end_layout
+
+\begin_layout Standard
+\noindent
+Die Datei enthält alle nötigen Datentypen, die für die Implementierung des
+ CDCL Programms notwendig sind.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+textbf{
+\backslash
+underline{data}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{CDCLResult}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Rückgabewert von CDCL Funktion.
+ Folgende Datentypen können hier zurückgegeben werden:
+\end_layout
+
+\begin_layout Itemize
+\noindent
+SAT TupleList
+\end_layout
+
+\begin_layout Itemize
+SAT_WITH_STATS TupleList Integer Integer Integer Integer
+\end_layout
+
+\begin_layout Itemize
+SAT_WITH_FULL_STATS TupleList MappedTupleList [Clause] Integer Integer Integer
+ Integer
+\end_layout
+
+\begin_layout Itemize
+\noindent
+UNSAT
+\end_layout
+
+\begin_layout Itemize
+UNSAT_WITH_STATS [Clause] [Clause] (Die erste Liste sind gelernte Klauseln,
+ während die zweite Klauseln sind, die Konflikte hervorgeführt haben)
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{Reason}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Reason zeigt an, aus welchem Grund eine Belegung für eine Variable entschieden
+ wurde.
+ Diese können folgende sein:
+\end_layout
+
+\begin_layout Itemize
+\noindent
+Decision
+\end_layout
+
+\begin_layout Itemize
+\noindent
+Reason Clause
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{BoolVal}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+BoolVal gibt den gesetzten Wert einer Variablen zurück.
+ Diese sind BTrue, BFalse or BNothing.
+ Equivalente Werte für diese sind 1, 0 und -1.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{InterpretResult}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+InterpretResult ist das Ergebnis von der Interpret Funktion.
+ Ergebnisse können folgende sein:
+\end_layout
+
+\begin_layout Itemize
+\noindent
+OK
+\end_layout
+
+\begin_layout Itemize
+\noindent
+NOK Clause
+\end_layout
+
+\begin_layout Itemize
+\noindent
+UNRESOLVED
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+textbf{
+\backslash
+underline{newtype}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{Literal}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Datentyp für Literal.
+ Die Darstellung für diesen Datentyp ist 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{Lit Integer}
+\end_layout
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Bsp: Lit 1
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{Level}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Datentyp für Level.
+ Die Darstellung für diesen Datentyp ist 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{Level Integer}
+\end_layout
+
+\end_inset
+
+.
+ Es zeigt an auf welcher Entscheidungsebene ein Literal belegt wurde.
+\end_layout
+
+\begin_layout Standard
+Bsp: Level 2
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{Activity}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Datentyp für Activity.
+ Die Darstellung für diesen Datentyp ist 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{Activity Integer}
+\end_layout
+
+\end_inset
+
+.
+ Activity wird für die Aktivitätsheuristik der Literale verwendet.
+\end_layout
+
+\begin_layout Standard
+Bsp: Activity 9
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{Period}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Datentyp für Period.
+ Die Darstellung für diesen Datentyp ist 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{Period Integer}
+\end_layout
+
+\end_inset
+
+.
+ Wenn Period den Wert 0 hat, so wird die aktuelle Aktivitätsheuristik halbiert
+ und Period wird wieder auf ihren Startwert gesetzt.
+\end_layout
+
+\begin_layout Standard
+Bsp: Period 8
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+textbf{
+\backslash
+underline{Type}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{Clause}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Clause ist eine Liste bestehend aus Literalen.
+ Bsp: [Lit 1, Lit 2]
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{ReducedClauseAndOGClause}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Synonym für Tupel, die aus zwei Clause bestehen.
+ Die erste Clause wird durch Funktionen gekürzt, während die zweite Clause
+ im Tupel in ihrem Originalzustand bleibt.
+ Bsp: ([Lit 1, Lit 2], [Lit 1, Lit 2, Lit 3])
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{ClauseList}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+ClauseList ist eine Liste aus ReducedClauseAndOGClause.
+\end_layout
+
+\begin_layout Standard
+Bsp: [([Lit 1, Lit 2], [Lit 1, Lit 2, Lit 3]), ([Lit 1, Lit 2], [Lit 1,
+ Lit 2])
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{Tuple}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Synonym für Tupel, die aus Literal und BoolVal bestehen.
+ 
+\end_layout
+
+\begin_layout Standard
+Bsp: (Lit 1, BFalse)
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{TupleList}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Liste aus Tuple.
+ Wird für den Datentyp CDCLResult verwendet.
+ 
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{TupleClause}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Synonym für Tupel, die aus Tuple und Reason bestehen.
+\end_layout
+
+\begin_layout Standard
+Bsp: ((Lit 1, BFalse), Decision)
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{TupleClauseList}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Liste aus TupleClause.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{MappedTupleList}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Eine Map, die Level als Key verwendet und TupleClauseList als Value besitzt.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{ActivityMap}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Variablen sind in dieser Map Keys, während Activity Values darstellen
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{LiteralActivity}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Synonym für Tupel, die aus Literal und Activity bestehen.
+ 
+\end_layout
+
+\begin_layout Standard
+Bsp: (Lit 1, Activity 3)
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{TriTuple}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Eine Tupel aus drei Elementen.
+ Diese enthält ClauseList, TupleClauseList und MappedTupleList.
+ Dieser Typ wird nur im Unitpropagation-Modul verwendet.
+\end_layout
+
+\begin_layout Section*
+\noindent
+Algorithm.hs
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{cdcl}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Funktion benötigt drei Parameter.
+ Der erwartete Parameter ist eine Liste aus Listen, welche mit Integern
+ gefüllt ist.
+ Die beiden anderen Parameter sind Booleans.
+ Entsprechende Boolean Belegungen geben entweder mehr oder weniger Statistiken
+ zurück.
+ Ruft die rekursive cdcl' Funktion auf.
+ Diese cdcl' Funktion führt den Prozess ganzen Prozess eines CDCL SAT-Solvers
+ durch und gibt CDCLResult als Ergebnis zurück.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{calculateClauseList}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Funktion benötigt ClauseList und TupleClauseList als Parameter.
+ Diese Funktion wird aufgerufen, wenn eine Variable BoolVal durch eine Decision
+ erhält und berechnet ihr Ergebnis mithilfe von 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{unitSubsumption}
+\end_layout
+
+\end_inset
+
+ und 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{unitResolution}
+\end_layout
+
+\end_inset
+
+.
+ Der Rückgabewert ist eine veränderte ClauseList.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{interpret}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Interpretiert eine gegebene ClauseList mithilfe einer übergebenen TupelClauseLis
+t.
+ Dabei wird rekursiv nach der Reihe eine Clause interpretiert, bis alle
+ Klauseln interpretiert sind oder eine Klausel nicht zu OK evaluiert wird.
+ 
+\end_layout
+
+\begin_layout Standard
+\noindent
+Rückgabewerte für diese Funktion sind InterpretResult.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{searchTupel}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Gibt den Wert eines Tupelpaares zurück basiered auf dem gegebenen Variablenwert
+ und der TupelList.
+ Dabei wird ein BoolVal zurückgegeben.
+\end_layout
+
+\begin_layout Section*
+\noindent
+Unitpropagation.hs
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{unitPropagation}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Führt das Unit-Propagation Verfahren durch.
+ Die Funktion erwartet ClauseList, TupelClauseList, Level und MappedTupleList
+ als Argumente.
+ Als Ergebnis wird ein TriTuple zurückgegeben.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{getUnitClause}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Gibt eine ReducedClauseAndOGClause durch das überprüfen einer ClauseList
+ zurück.
+ Dabei wird überprüft ob das erste Element im ReducedClauseAndOGClause die
+ Länge 1 besitzt.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{setVariable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Setz einen Wert von BFalse oder BTrue in einem Tuple und gibt dieses zurück.
+ 
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{unitSubsumption}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Löscht Klauseln aus ClauseList, wenn Klauseln 
+\lang ngerman
+gefunden
+\lang english
+ werden, die Variablen enthalten, welche bei einem eingesetzem Tupelwert
+ zu 1 evaluiert werden.
+ Die bearbeitete ClauseList wird dann zurückgegeben.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{unitResolution}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Löscht Variablen aus den Clauseln, die zu 0 evaluiert werden.
+ Als Ergebnis wird die bearbeitete ClauseList weitergegeben.
+\end_layout
+
+\begin_layout Section*
+\noindent
+Decisionalalgorithm.hs
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{initialActivity}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Die Funktion wird initial bei der Verwendung von 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{cdcl}
+\end_layout
+
+\end_inset
+
+ benutzt und erwartet eine ClauseList und ActivityMap als Paremeter.
+ Wenn der CDCL-Prozess neugestartet wird, so wird die Funktion nochmal aufgerufe
+n.
+ Mithilfe von rekursiven Aufrufen von initialActivity und 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{updateActivity}
+\end_layout
+
+\end_inset
+
+ wird dann eine ActivityMap berechnet und zurückgegeben.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{updateActivity}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+UpdateActivity benötigt eine Clause und ActivityMap als Parameter.
+ Durch Rekursion erhalten neue Variablen einen Eintrag in die ActivityMap,
+ während bestehende um eins aktualisiert werden.
+ 
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{halveActivityMap}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Die Funktion halbiert alle Activity nach einer bestimmten Period.
+ Als Parameter werden eine ActivityMap und eine Liste von allen Variablen
+ benötigt.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{getHighestActivity}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Erwartet ClauseList, ActivityMap und eine Liste von VariableActivity als
+ Parameter und gibt eine Liste von VariableActivity mit der höchsten Activity
+ als Ergebnis zurück.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{getShortestClauseViaActivity}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Beim Aufruf der Funktion werden zwei ClauseList und eine Liste von VariableActiv
+ity benötigt.
+ Die Funktion gibt eine ClauseList mit den kürzesten Clause zurück, die
+ die gegebenen VariableActivity enthalten.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{checkClauseForLiteral}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Bekommt eine Clause und LiteralActivity-Liste als Parameter.
+ Die Funktion überprüft ob ein Literal von der Liste in der Clause vorhanden
+ ist.
+ Gibt entsprechend ein Boolean als Ergebnis zurück.
+ 
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{setLiteralViaActivity}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+SetLiteralViaActivity benötigt eine Clause und LiteralActivity.
+ Basierend auf das Literal in der Clause wird ein TupleClause als Ergebnis
+ zurückgegeben.
+ Ist das Literal negiert, so wird BTrue gesetzt.
+ Bei einem Literal ohne Vorzeichen wird das Literal mit BFalse belegt.
+\end_layout
+
+\begin_layout Section*
+MapLogic.hs
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{pushToMappedTupleList}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Die Funktion erwartet MappedTupleList, Level, Tuple und ein Reason.
+ Anhand der übergebenen Parameter wird die MappedTupleList aktualisiert
+ und anschließend zurückgegeben.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{deleteLvl}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Die Funktion löscht das gegebenene Level aus einer gegebenen MappedTupleList
+ und gibt diese zurück.
+\end_layout
+
+\begin_layout Section*
+\noindent
+Conflict.hs
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{analyzeConflict}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Die Funktion erwartet folgende Argumente: Level, Clause, MappedTupleList,
+ ClauseList und ActivityMap.
+ Mithilfe von 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{calcReason}
+\end_layout
+
+\end_inset
+
+ wird eine neue Clause berechnet und durch 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{addClause}
+\end_layout
+
+\end_inset
+
+ zu der gegebenen ClauseList hinzugefügt.
+ Dabei wird durch 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{deleteLvl}
+\end_layout
+
+\end_inset
+
+ das letzte Level aus MappedTupleList gelöscht.
+ Level, ClauseList, MappedTupleList und ActivityMap wird am zurückgegeben.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{calcReason}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Berechnet mithilfe von Level, Clause und MappedTupleList eine 1UIP-Clause.
+ 
+\end_layout
+
+\begin_layout Section*
+CDCLFilereader.hs
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{readCdclFile}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Die Funktion erwartet einen String Input und zwei Booleans und gibt eine
+ IO Ausgabe zurück.
+ Der String Input soll hierbei eine existierende cnf-Datei sein.
+ Bei einem richtigen Input ruft die Funktion 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{loopCheck}
+\end_layout
+
+\end_inset
+
+ auf und gibt ihr Ergebnis aus.
+ Beispiel für einen Aufruf in Windows:
+\end_layout
+
+\begin_layout Standard
+CDCL-exe.exe -i test.cnf 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{loopCheck}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Die Funktion überprüft, ob eine Zeile mit einem Integer oder einem - anfängt.
+ Wenn dies der Fall ist, wird die gesamte Zeile in ein Integerliste hinzugefügt.
+ Diese Liste wird dann zu einer Liste von Integerlisten beigefügt.
+ Wenn die Funktion das Ende der Datei erreicht, wird die die Liste von Integerli
+sten der 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+underline{cdcl}
+\end_layout
+
+\end_inset
+
+-Funktion übergeben.
+ Das Ergebnis wird dann als IO (Maybe CDCLResult) zurückgegeben.
+\end_layout
+
+\begin_layout Section*
+Main.hs
+\end_layout
+
+\begin_layout Standard
+Das Programm kann folgendermaßen gestartet werden.
+\end_layout
+
+\begin_layout Standard
+Zuerst muss ein 
+\series bold
+stack install
+\series default
+ durchgeführt werden.
+\end_layout
+
+\begin_layout Standard
+Windows:
+\end_layout
+
+\begin_layout Itemize
+CDCL-exe.exe -i test.cnf [-f | -s] (Option -f gibt alle Statistiken zurück.
+ -s gibt weniger Daten zurück)
+\end_layout
+
+\begin_layout Standard
+Linux:
+\end_layout
+
+\begin_layout Itemize
+PFAD_zur_exe/CDCL-exe -i test.cnf [-f | -s]
+\end_layout
+
+\begin_layout Itemize
+Oder: hinzufügen der exe zum bin.
+ Dann kann das Programm von überall folgendermaßen gestartet werden:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+CDCL-exe -i test.cnf [-f | -s]
+\end_layout
+
+\end_deeper
+\end_body
+\end_document

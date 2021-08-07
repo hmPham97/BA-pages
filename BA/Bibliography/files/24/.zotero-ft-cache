@@ -1,0 +1,96 @@
+
+
+Logo Logo
+
+    Specials
+    Software-Entwicklung
+    App-Entwicklung
+    Solution Stack
+    Deployment
+    mehr...
+
+Login
+
+    Specials
+    Definitionen
+    Was ist ein Programmierparadigma?
+
+Definition „Programmierparadigmen“ Was ist ein Programmierparadigma?
+20.09.2019 Autor / Redakteur: chrissikraus / Stephan Augsten
+
+Programmierparadigmen sind verschiedene grundlegende Ansätze und Techniken für die Programmierung von Software. Darunter fallen z. B. auch objektorientierte oder funktionale Programmierung.
+
+Firma zum Thema
+20200122-PNG-confluent_logo-denim.png Confluent Germany GmbH
+Arbeitet eine Software nach und nach Anweisungen ab, wurde sie nach dem Paradigma der imperativen Programmierung erstellt. Arbeitet eine Software nach und nach Anweisungen ab, wurde sie nach dem Paradigma der imperativen Programmierung erstellt.
+(Bild gemeinfrei: kuszapro / Pixabay )
+
+Ein Programmierparadigma beschreibt den grundlegenden Stil, in dem ein Programm entworfen wird. Es gibt vor, welche Prinzipien angewandt und welche Herangehensweisen genutzt werden.
+
+Die meisten Programmiersprachen sind in der Lage, mit verschiedenen Programmierparadigmen parallel zu arbeiten. Es ist also nicht zwingend notwendig, dass sich Programmierer fest auf ein Programmierparadigma festlegen und im gesamten Code daran festhalten.
+
+Stattdessen kann im Einzelfall entschieden werden, welche Vorgehensweise akut die beste Option ist. Programmierparadigmen lassen sich den zunächst einmal zwei übergeordneten Gruppen zuordnen: imperative Programmierung und deklarative Programmierung.
+Imperative Programmierung
+
+Dieses Programmierparadigma gibt vor, dass ein Programm eine Folge von Anweisungen ist. Der Programmcode gibt also bei diesen Paradigmen eine Abfolge von Befehlen vor und teilt dem Rechner auf diese Weise mit, in welcher Reihenfolge welche Operationen abzulaufen haben, damit das erwartete Ergebnis erreicht wird.
+
+Dem Programmierer stehen verschiedenste Kontrollstrukturen (z. B. Schleife) zur Verfügung, um diese Befehle zu entwerfen. Die imperative Programmierung existiert schon seit den Anfängen der Programmierung und bildet z. B. auch die Grundlage für Ada, das klassische BASIC, COBOL oder Pascal. Auch C sowie viele objektorientierte Sprachen wie C++, C# und Java sind auf die imperative Programmierung ausgelegt.
+
+Wenn ein Programm z. B. alle ungeraden Zahlen aus einer Liste ausgeben soll, müsste der Programmierer hierfür genau angeben, dass in einer Schleife durch die Liste gegangen werden soll, um jeden einzelnen Eintrag zu prüfen und entsprechend zu verarbeiten.
+
+Beispiele für untergeordnete Programmierparadigmen:
+
+    strukturierte Programmierung
+
+    prozedurale Programmierung
+
+    objektorientierte Programmierung
+
+    modulare Programmierung
+
+Deklarative Programmierung
+
+Dieses übergeordnete Programmierparadigma ist in gewisser Weise der Gegenentwurf zur imperativen Programmierung. Statt einer Folge von Anweisungen, also dem Wie, wird bei der deklarativen Programmierung der Fokus auf das Was gelegt: Was ist das Problem bzw., was soll das Ergebnis sein?
+
+Der Lösungsweg an sich wird dabei nicht Schritt für Schritt vorgegeben. Ein Programm könnte z. B. eine Menge Daten untersuchen und alle Elemente ausgeben, die nicht dem vordefinierten Schema XY entsprechen. In dem Fall würde ein Programmierer das gewünschte Schema definieren, nicht aber den Vorgang des Prüfens exakt ausformulieren.
+
+Beispiele für Programmiersprachen, die auf deklarative Programmierung ausgelegt sind, sind Haskell, LISP und Prolog. Aber auch Datenbank -Abfragesprachen wie SQL oder auch Build -Werkzeuge wie make und Ant gehören dazu. SQL ist ein gutes Beispiel dafür, dass die Grenzen fließend sind, da sich hier beispielsweise auch objektorientierte Einflüsse finden.
+
+Beispiele für untergeordnete Programmierparadigmen:
+
+    logische Programmierung 
+
+    Constraint-Programmierung
+
+    funktionale Programmierung
+
+(ID:46132414)
+
+Kommentare
+
+Sie sind nicht angemeldet
+Anmelden und mitdiskutieren
+Please enable JavaScript to view comments
+         
+
+Weiterführende Inhalte
+Programmiersprachen und ihre Paradigmen sind vielfältig.
+
+Definition „Programming Language“
+
+Was ist eine Programmiersprache?
+Mit Python können sich Entwickler je nach Aufgabenstellung für ein passendes Programmierparadigma entscheiden.
+
+Definition „Python (Programmiersprache)“
+
+Was ist Python?
+Folgen Sie uns auf:
+
+Cookie-Manager AGB Hilfe Kundencenter Mediadaten Datenschutz Impressum & Kontakt
+Vogel Logo
+
+Copyright © 2021 Vogel Communications Group
+
+Diese Webseite ist eine Marke von Vogel Communications Group. Eine Übersicht von allen Produkten und Leistungen finden Sie unter www.vogel.de
+
+Tirza van Dijk - Unsplash.com; Christina Morillo; kuszapro; alipazani; KELLEPICS; PDPics; GFT Technologies SE; Tresmo; PublicDomainPictures; mjessier; Stark; monsitj - stock.adobe.com; Hyland; Gorodenkof - stock.adobe.com; flatpak-horizontal-white / flatpak.org / CC BY 3.0; npm; Cisco; bakhtiarzein - stock.adobe.com; Nmedia – stock.adobe.com; Imillian - stock.adobe.com; Oliver Dietze; BillionPhotos.com - stock.adobe.com; Vogel IT-Medien GmbH; Vogel IT-Medien

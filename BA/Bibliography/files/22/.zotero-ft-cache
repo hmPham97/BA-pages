@@ -1,0 +1,48 @@
+ [Uni-Passau] [FMI] [Infosun] [Lehrstuhl für Programmierung] [Lehrtätigkeit]
+Was ist funktionale Programmierung?
+Die Programmiersprachen kann man wie folgt einteilen. Sprachen für Spezialanwendungen, auch mit hohem Verbreitungsgrad (Datenbanken) sind darin nicht berücksichtigt.
+
+    imperative Sprachen (Fortran,C,C++,Java):
+    Imperative Programme beschreiben Programmabläufe durch Operationen auf Zuständen. Das Programm wird durch den Kontrollfluß gegliedert. Objektorientierung bewirkt eine Verbesserung durch Aufteilung des Zustandes und des Kontrollflusses auf die Objekte.
+    deklarative Sprachen:
+    Deklarative Programme beschreiben Berechnungen durch eine Ein-/Ausgaberelation. Der Kontrollfluß ist dem Programmierer nicht explizit zugänglich; der Ablauf der Berechnung kann aber trotzdem durch den Programmaufbau beeinflußt werden.
+        Logiksprachen (Prolog):
+        Sie bieten eine automatische Suche des Lösungsweges durch Unifikation und Backtracking.
+        funktionale Sprachen (LISP,ML,Haskell):
+        Ein funktionales Programm ist eine Komposition von Funktionen. Die funktionalen Sprachen unterscheiden sich sehr stark in ihren Eigenschaften und Möglichkeiten. 
+
+In der Vorlesung wird die funktionale Sprache Haskell verwendet, die folgende Eigenschaften hat:
+
+    Funktionen höherer Ordnung: Sie erlauben eine starke Wiederverwendung von Programmteilen.
+    Reinheit: Die Abwesenheit von Seiteneffekten erleichtert Beweise über Programmeigenschaften und optimierende Programmtransformationen.
+    Starkes Typsystem: Viele Fehler können bereits durch den Compiler erkannt werden.
+    Auswertung nach Bedarf (Laziness): Berechnungen werden nur dann durchgeführt, wenn ihr Ergebnis benötigt wird. 
+
+Güte einiger Programmiersprachen (subjektiv) Eigenschaft 	C 	Java 	Fortran 	Prolog 	LISP 	ML 	Haskell
+Codeeffizienz 	+ 	o 	+ 	- 	o 	- 	o
+Toolsupport 	+ 	+ 	o 	- 	- 	o 	+
+Programmentwicklung 	- 	+ 	o 	+ 	- 	o 	+
+Wartbarkeit 	- 	o 	- 	+ 	- 	+ 	+
+I/O-Flexibilität 	+ 	+ 	o 	- 	o 	o 	o
+Speicherkontrolle 	+ 	o 	+ 	- 	- 	- 	o
+Seiteneffektfreiheit 	- 	- 	- 	o 	- 	o 	+
+
+
+Ideale Anwendungsgebiete einiger Programmiersprachen: Sprache 	Anwendungsgebiete
+C 	Hardware-Treiber, Betriebssystemkern, Compiler-Zwischensprache
+Java 	Internet-Anwendungen, Graphische Benutzeroberflächen
+Fortran 	Lineare Algebra, Numerisches Lösen von DGl.Sys.
+Prolog 	Spracherkennung, Theorembeweiser
+LISP 	Skriptsprache, z.B. für Editoren, Computer-Algebra Systeme
+ML 	Theorembeweiser
+Haskell 	Rapid Prototyping, Compiler, Hardware-Simulation
+Warum funktional programmieren?
+siehe auch: Why Functional Programming Matters von John Hughes
+
+Die funktionale Programmierung ist am leistungsstärksten für den Entwurf und die Implementierung von Berechnungsaufgaben, insbesondere solcher symbolischer Natur. Die funktionale Programmierung ermöglicht es, ein Programm als Komposition von Funktionsblöcken zu konstruieren und relativ schnell eine ausführbare Implementierung zu bekommen. Man kann dann die Implementierung schrittweise an den Stellen verfeinern, die effizienzkritisch sind.
+
+Funktionale Programme galten lange Zeit als ineffizient und inflexibel. Die Situation hat sich inzwischen durch die Verfügbarkeit leistungsfähiger Compiler geändert. In Extremfällen kann auch eine Implementierung kleiner Programmteile in einer hardwarenahen Programmiersprache wie C in Erwägung gezogen werden. Die Verbindung zwischen Haskell und C läuft in solchen Fällen über ein Programmiersprachen-Interface.
+
+Besonders wichtig ist das Erlernen fortgeschrittener funktionaler Programmiertechniken. Die direkte Übertragung imperativen Programmierstils in die funktionale Programmierung führt zu ineffizienten und schwer lesbaren Programmen. In der modernen funktionalen Programmierung werden Rekursionen durch ausdrucksstarke Programmskelette ersetzt und es stehen effiziente Datenstrukturen zur Verfügung. Die Implementierung funktionaler Programmiersprachen ist allerdings noch lange nicht ausgereizt, deshalb muß man zur Zeit noch Effizienzeinschränkungen gegenüber hardwarenahen Implementierungen in C oder Fortran in Kauf nehmen. Der Vorteil der funktionalen Programmierung liegt aber in der wesentlich kürzeren Entwicklungszeit.
+
+(C)opyright by University of Passau
